@@ -6,7 +6,7 @@ int main(int argc, char **argv)
     game_s game;
     (void)argv;
     (void)argc;
-
+    ft_bzero(game, sizeof(game_s));
     // if (argc != 2)
     //     return (EXIT_FAILURE);
     game.mlx_ptr = mlx_init();

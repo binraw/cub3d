@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/14 10:42:02 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:23:09 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,17 @@ typedef struct game_s
     int     numb_line;
 } game_s;
 
+
+int init_value_texture_no(game_s *game, size_t y);
+int init_value_texture_so(game_s *game, size_t y);
+int init_value_texture_we(game_s *game, size_t y);
+int init_value_texture_ea(game_s *game, size_t y);
+int init_value_texture_f(game_s *game, size_t y);
+int init_value_texture_c(game_s *game, size_t y);
+int	count_line_maap(char *file);
+void	alloc_lign(char *file, game_s *game);
+void	read_maap(char *file, game_s *game);
+int control_texture_value(game_s *game);
+int init_all_texture(game_s *game);
 #endif
 
