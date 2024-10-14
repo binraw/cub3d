@@ -10,7 +10,8 @@ int process_create_map(game_s *game, char *file)
     y = init_all_texture(game);
     if (y == -1) // gerer ici les free etc ..
         exit(1);
-
+    if (isclosed(game, y) == 0) // gerer ici les free etc ..
+        exit(1);
     
     return (0);
 }
@@ -34,13 +35,15 @@ int check_map_close(game_s *game, size_t y)
 }
 // je pense check d'abord toutes les lignes 
 // et ensuite toutes les colonnes
-int isclosed(game_s *game, size_t y)
+int isclosed(game_s *game, size_t x)
 {
     size_t i;
+    size_t y;
     int value_x;
     int value_y;
 
     i = 0;
+    y = x;
     value_x = 0;
     value_y = 0;
     while (game->map[y])
@@ -56,11 +59,11 @@ int isclosed(game_s *game, size_t y)
             return (0);
         y++;
     }
-    y = 0;
+    y = x;
     i = 0;
     while (game->map[y][i])
     {
-        y = 0;
+        y = x;
         while(game->map[y][i] == ' ')
             y++;
         if (game->map[y][i] == '0')
@@ -74,6 +77,7 @@ int isclosed(game_s *game, size_t y)
             return (0);
         i++;
     }
+    return (1);
 }
 
 int check_last_value(game_s *game, size_t y, size_t i)
