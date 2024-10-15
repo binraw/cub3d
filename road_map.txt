@@ -8,4 +8,17 @@ to do list:
 
 - initilaliser les images
 
+- faire copy du fichier avec seulement la map car pour linstant j'utilise tout le fichier 
+dans game->map il y a tout le fichier
+
 - raycasting debut
+
+
+
+
+Lien:
+https://fr.wikipedia.org/wiki/Vecteur
+https://fr.wikipedia.org/wiki/Matrice_de_rotation
+https://fr.wikipedia.org/wiki/Cercle_trigonom%C3%A9trique
+http://mathildeboucher.free.fr/wp-content/fichiers/2009/08/Site-Chapitre-1-Les-vecteurs.pdf
+https://www.maths-cours.fr/cours/introduction-aux-matrices-spe

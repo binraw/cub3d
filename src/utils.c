@@ -2,7 +2,7 @@
 
 char	**dup_map(game_s *game)
 {
-	int		y;
+	size_t		y;
 	char	**duplicate;
 
 	y = 0;
