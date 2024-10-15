@@ -32,6 +32,8 @@ ft_tolower.c \
 ft_toupper.c \
 ft_itoa.c \
 ft_split.c \
+get_next_line.c\
+get_next_line_utils.c\
 
 
 
@@ -39,11 +41,11 @@ ft_split.c \
 
 CFLAGS = -Wall -Wextra -Werror
 LIB= libft.h
-OBJ = $(SOURCES:.c=.o)
+OBJ = $(SOURCES:%.c=%.o)
 OBJ_ALL = $(OBJ)
 NAME = libft.a
 
-%.o: %.c libft.h
+%.o: %.c *.h Makefile
 		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all: $(NAME)

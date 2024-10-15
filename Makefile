@@ -1,41 +1,44 @@
-NAME = cub3d
-NAME_BONUS = 
+NAME	= cub3d
+#NAME_BONUS = 
+RM		= rm -Rf
+MD		= mkdir -p
 
-SRCS_FILE = main.c get_next_line.c get_next_line_utils.c check_map.c init_map.c init_texture.c process_init.c utils.c
-SRCS_FILE_BONUS= 
+# ==== DIRECTORIES PATHS ==== # 
+MINILIBDIR	= ./minilibx-linux
+HDR_DIR		= headers/
+DIR_SRC		= src/
+DIR_OBJ		= .object/
+#DIR_BONUS = bonus/
+#DIR_OBJ_BONUS = .object_BONUS/
 
-MINILIBDIR = ./minilibx-linux
-CC = cc
-MD = mkdir -p
-CFLAGS = -Wall -Wextra -Werror -g
-MLX_FLAGS = -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+# ==== COMPILATION TOOLS ==== #
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -g
+MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+LIBFT		= ./libft/libft.a
 
-DIR_SRC = src/
-DIR_OBJ = .object/
-DIR_OBJ_BONUS = .object_BONUS/
-DIR_BONUS = bonus/
-LIBFT = ./libft/libft.a
+# SRC
+SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c \
+					process_init.c utils.c init_console.c
+#SRCS_FILE_BONUS	= 
 
 OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS_FILE})
 SRCS = $(addprefix ${DIR_SRC},${SRCS_FILE})
 
-
 $(shell mkdir -p ${DIR_OBJ})
-
-RM = rm -Rf
 
 all: ${LIBFT} ${NAME}
 
-bonus: ${LIBFT} ${NAME_BONUS}
+#bonus: ${LIBFT} ${NAME_BONUS}
 
 ${NAME}: ${OBJS} ${LIBFT}
 	$(MAKE) -C $(MINILIBDIR)
 	$(CC) $(OBJS) ${LIBFT} -L$(MINILIBDIR) ${MLX_FLAGS} $(MINILIBDIR)/libmlx.a -o $(NAME)
 
-${DIR_OBJ}%.o: ${DIR_SRC}%.c ${DIR_SRC}/get_next_line.h Makefile ${LIBFT}
+${DIR_OBJ}%.o: ${DIR_SRC}%.c ${HDR_DIR}*.h Makefile ${LIBFT}
 	$(MD) $(shell dirname $@)
 	@echo "Compiling $< to $@"
-	$(CC) ${CFLAGS} -c $< -o $@
+	$(CC) ${CFLAGS} -I$(HDR_DIR) -c $< -o $@
 
 ${LIBFT}: 
 	$(MAKE) -C ./libft all
