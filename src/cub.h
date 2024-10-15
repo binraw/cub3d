@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/15 08:54:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:27:46 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct game_s
     char    *text_ea;
     char    *text_f;
     char    *text_c;
-    int     numb_line;
+    size_t     numb_line;
 } game_s;
 
 
@@ -62,6 +62,7 @@ int process_create_map(game_s *game, char *file);
 int    control_value_player(player_s *player, char *str);
 int init_pos_player(game_s *game, int y);
 int isclosed(game_s *game, int x);
+int isclosed_column(game_s *game, int x);
 int check_last_value(game_s *game, int y, size_t i);
 #endif
 

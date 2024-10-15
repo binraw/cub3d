@@ -31,7 +31,7 @@ void	alloc_lign(char *file, game_s *game)
 
 void	read_maap(char *file, game_s *game)
 {
-	int	i;
+	size_t	i;
 	int	fd;
 
 	i = 0;
@@ -52,6 +52,8 @@ void	read_maap(char *file, game_s *game)
 		game->map[i] = get_next_line(fd);
 		i++;
 	}
+	printf(" valeur de la premiere ligne du fichier : \n %s\n", game->map[0]);
+	printf("fini de lire le fichier\n");
 	close(fd);
 }
 
@@ -62,25 +64,31 @@ int init_all_texture(game_s *game)
 
 	i = 0;
 	y = 0;
-	while (game->map[y])
+	game->text_c = NULL;
+	while (game->map[y] && !game->text_c) // maniere de tout init pas top a changer
 	{
-		while (game->map[y][i] != '\n')
-		{
-			if (init_value_texture_no(game, y) != -1 || init_value_texture_so(game, y) != -1
-			|| init_value_texture_we(game, y) != -1 || init_value_texture_ea(game, y) != -1
-			|| init_value_texture_f(game, y) != -1 || init_value_texture_c(game, y) != -1)
-				break ;
-			i++;
-		}
-		if (control_texture_value(game) == 0)
-			return (y);
+		if (ft_strchr(game->map[y], 'N') && ft_strchr(game->map[y], 'O'))
+			init_value_texture_no(game, y);
+		if (ft_strchr(game->map[y], 'S') && ft_strchr(game->map[y], 'O'))
+			init_value_texture_so(game, y);
+		if (ft_strchr(game->map[y], 'W') && ft_strchr(game->map[y], 'E'))
+			init_value_texture_we(game, y);
+		if (ft_strchr(game->map[y], 'E') && ft_strchr(game->map[y], 'A'))
+			init_value_texture_ea(game, y);
+		if (ft_strchr(game->map[y], 'F'))
+			init_value_texture_f(game, y);
+		if (ft_strchr(game->map[y], 'C'))
+			init_value_texture_c(game, y);
 		y++;
 	}
+	if (control_texture_value(game) == 0)
+			return (y);
 	return (-1);
 }
 
 int control_texture_value(game_s *game)
 {
+	// printf("les differentes values : %s\n %s\n %s\n %s\n %s\n %s\n", game->text_c, game->text_ea, game->text_f, game->text_no, game->text_so, game->text_we);
 	if (!game->text_c || !game->text_ea || !game->text_f
 	|| !game->text_no || !game->text_so || !game->text_we)
 		return (-1);

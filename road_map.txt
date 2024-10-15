@@ -1,0 +1,11 @@
+to do list:
+
+- faire fonctionner la fct qui permet de checker les colonnes si c'est bien 1 le dernier caractere
+
+- les valeurs des textures enlever les premieres lettres
+
+- ajouter des fichiers textures
+
+- initilaliser les images
+
+- raycasting debut
