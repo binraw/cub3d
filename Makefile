@@ -1,7 +1,7 @@
 NAME = cub3d
 NAME_BONUS = 
 
-SRCS_FILE = main.c get_next_line.c get_next_line_utils.c 
+SRCS_FILE = main.c get_next_line.c get_next_line_utils.c check_map.c init_map.c init_texture.c process_init.c utils.c
 SRCS_FILE_BONUS= 
 
 MINILIBDIR = ./minilibx-linux

@@ -8,6 +8,7 @@ int	check_extension_file(char **argv)
     int y;
 
 	i = 0;
+    y = 0;
 	while (argv[1][i])
     {
         if (argv[1][i] == '.')
@@ -15,8 +16,10 @@ int	check_extension_file(char **argv)
         i++;
     }
     if (y > 1)
+    {
         return (-1);
-	i--;
+    }
+    i--;
 	if (argv[1][i] != 'b' || argv[1][i -1] != 'u' ||
 	argv[1][i - 2] != 'c' || argv[1][i - 3] != '.')
 		return (-1);

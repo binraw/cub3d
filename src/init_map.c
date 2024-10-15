@@ -43,7 +43,7 @@ void	read_maap(char *file, game_s *game)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		error_game(game);
+		
 		return ;
 	}
 	game->numb_line = count_line_maap(file);
