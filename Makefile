@@ -13,13 +13,14 @@ DIR_OBJ		= .object/
 
 # ==== COMPILATION TOOLS ==== #
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -g # -Wall -Wextra -Werror
 MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBFT		= ./libft/libft.a
 
 # SRC
 SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c \
-					process_init.c utils.c init_console.c
+					process_init.c utils.c init_console.c free_memory.c \
+					raycaster.c
 #SRCS_FILE_BONUS	= 
 
 OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS_FILE})

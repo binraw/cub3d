@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/15 11:27:46 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:34:50 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,79 @@
     # include <stdlib.h>
     # include <stdio.h>
     # include <fcntl.h>
+    # include <math.h>
 
+    /* ==== MACROS ==== */
 	# define USAGE "Need a filepath as argument"
+	# define MLX_PTR	game->console.mlx_ptr
+	# define WIN_PTR	game->console.win_ptr
+	# define WIN_W		1200	// largeur de la fenetre
+	# define WIN_H		1200	// hauteur de la fenetre
+	# define A_NORTH	3*M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
+	# define A_SOUTH	M_PI_2	// angle south == PI / 2 
+	# define A_EAST		0		// angle east
+	# define A_WEST		M_PI	// angle west M_PI == macro de math.h == PI
+	# define A_FOV		60		// angle champ de vision player
+	# define TILE_S		game->map_data.tile_size
 
+    /* ==== STRUCTURES  */
     typedef struct console
     {
-        void    *mlx_ptr;
-        void    *win_ptr;
+		void	*mlx_ptr;
+		void	*win_ptr;
     } console_s;
+
+	typedef struct texture
+	{
+		char	*text_no;
+		char	*text_so;
+		char	*text_we;
+		char	*text_ea;
+		char	*text_f;
+		char	*text_c;
+		int		f_color;
+		int		c_color;
+	} texture_s ;
 
     typedef struct player
     {
-        bool player_no;
-        bool player_so;
-        bool player_we;
-        bool player_ea; 
+		int		pos_x;
+		int		pos_y;
+		double	angle_fov;	// angle du premier rayon -> PI/2 - A_FOV/2
+		double	orientation;// angle de vue initial du player -> 0 == east : PI == west : PI/2 == south : 3*(PI/2) == north
+		double	rot_speed;	// vitesse de rotation joueur (entre 0 et 1) 
+		double	mov_speed;	// vitesse de deplacement du joueur
+		bool	move_up;
+		bool	move_down;
+		bool	move_right;
+		bool	move_left;
+		bool	rotate_r;
+		bool	rotate_l;
     } player_s;
+
+	typedef struct map
+	{
+        char	**map;
+		size_t	width;
+		size_t	heigth;
+		int		tile_size; // == map_width 
+	} map_s;
 
     typedef struct game_s
     {
-        char    **map;
-        char    *text_no;
-        char    *text_so;
-        char    *text_we;
-        char    *text_ea;
-        char    *text_f;
-        char    *text_c;
-        size_t     numb_line;
 		console_s	console;
+		texture_s	texture;
+		map_s		map_data;
+		player_s	plyr_data;
     } game_s;
+
+
 
 	/* === init_console.c === */
 	int	init_console(game_s *game);
 
+	/* === free_memory.c === */
+	void	free_console(game_s *game);
 
 
     int     init_value_texture_no(game_s *game, size_t y);
