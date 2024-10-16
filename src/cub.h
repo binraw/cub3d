@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/15 11:27:46 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/16 09:29:13 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ typedef struct player
 
 typedef struct game_s
 {
-    void    *mlx_ptr;
-    void    *mlx_win;
-    char    **map;
-    char    *text_no;
-    char    *text_so;
-    char    *text_we;
-    char    *text_ea;
-    char    *text_f;
-    char    *text_c;
-    size_t     numb_line;
+    void		*mlx_ptr;
+    void		*mlx_win;
+    char		**map;
+    char		*text_no;
+    char		*text_so;
+    char		*text_we;
+    char		*text_ea;
+    char		*text_f;
+    char		*text_c;
+	player_s	*player;
+    size_t     	numb_line;
 } game_s;
 
 
