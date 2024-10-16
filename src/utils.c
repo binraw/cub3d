@@ -9,7 +9,7 @@ char	**dup_map_pixel(game_s *game, int y)
 	duplicate = (char **)malloc(sizeof(char *) * (game->num_line_map));
 	while (y < game->num_line_map)
 	{
-		duplicate[i] = ft_strdup_get(game->map[y]);
+		duplicate[i] = ft_strdup_get(game->file[y]);
 		printf("valeur de la map : %s\n", duplicate[i]);
 		i++;
 		y++;

@@ -49,7 +49,7 @@
         char    *text_ea;
         char    *text_f;
         char    *text_c;
-        size_t     numb_line;
+        int     numb_line;
         int     num_line_map;
 		console_s	console;
     } game_s;

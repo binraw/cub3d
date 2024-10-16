@@ -42,7 +42,7 @@ int init_pos_player(game_s *game, int x)
 {
     player_s player;
     //size_t i;
-    size_t y;
+    int y;
 
    // i = 0;
     y = x;
@@ -115,7 +115,7 @@ int    control_value_player(player_s *player, char *str)
 
 int isclosed(game_s *game)
 {
-    size_t i;
+    int i;
    	int  y;
     int value_x;
     //int value_y;
@@ -151,8 +151,8 @@ int isclosed(game_s *game)
 
 int isclosed_column(game_s *game)
 {
-    size_t i;
-    size_t y;
+    int i;
+    int y;
    // int value_x;
     int value_y;
 

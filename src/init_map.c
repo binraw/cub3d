@@ -31,7 +31,7 @@ void	alloc_lign(char *file, game_s *game)
 
 void	read_file(char *file, game_s *game)
 {
-	size_t	i;
+	int	i;
 	int	fd;
 
 	i = 0;
