@@ -15,8 +15,8 @@ int process_create_map(game_s *game, char *file)
     init_pixel_map(game, y);
     if (isclosed(game) == 0) // gerer ici les free etc ..
         exit(1);
-     //if (isclosed_column(game, y) == 0) // reussir a faire fonctionner la fct qui permet de check 
-       // exit(1);
+     if (isclosed_column(game) == 0) // reussir a faire fonctionner la fct qui 
+     	     exit(1);
     // en colonne si c'est bien 1 le dernier et pas un 0
     
     if (init_pos_player(game, y) == -1) // gerer ici les free etc ..
@@ -160,7 +160,7 @@ int isclosed_column(game_s *game)
     value_y = 1;
     while (game->map[y][i])
     {
-        y = 0;
+       
         while(game->map[y][i] && game->map[y][i] == '\n')
             y++;
         printf("value de la premiere lign a check : %s\n", game->map[y]);
@@ -168,7 +168,8 @@ int isclosed_column(game_s *game)
             y++;
         if (game->map[y][i] && game->map[y][i] == '0') // ici check premier de la colonne
             return (0);
-        while (game->map[y] && y < game->numb_line)
+	printf("valeur de la ligne : %s\n", game->map[y]);
+        while (game->map[y] && y < game->num_line_map)
         {
             printf("boucle \n");
             value_y = check_last_value(game, y, i); // ici garde la valeur du dernier de la colonne
@@ -181,7 +182,7 @@ int isclosed_column(game_s *game)
     return (1);
 }
 
-int check_last_value(game_s *game, int y, size_t i)
+int check_last_value(game_s *game, int y, int i)
 {
     if (game->map[y][i] == '1')
         return (1);

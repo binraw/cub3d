@@ -77,7 +77,7 @@
     int init_pos_player(game_s *game, int y);
     int isclosed(game_s *game);
     int isclosed_column(game_s *game);
-    int check_last_value(game_s *game, int y, size_t i);
+    int check_last_value(game_s *game, int y, int i);
 	int	ft_perror(char *msg);
 
 #endif
