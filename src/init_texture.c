@@ -17,11 +17,8 @@ int init_value_texture_no(game_s *game, size_t y)
                 return (-1);
         }
     i = 2;
-    while (game->file[y][i] != '\n')
-    {
-        game->text_no = ft_strjoin(game->text_no, game->file[y][i]);
-        i++;
-    }
+        game->text_no = ft_strjoin(game->text_no, game->file[y] + i);
+    printf("valeur de no : %s\n", game->text_no);
     if (!game->text_no)
         return (-1);
     return (0);
