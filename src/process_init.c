@@ -27,6 +27,9 @@ int process_create_map(game_s *game, char *file)
 
 int init_pixel_map(game_s *game, int y)
 {
+    printf("rentre bien dans init\n");
+    game->num_line_map = 0;
+    printf("%d\n", game->numb_line);
     game->num_line_map = game->numb_line - y;
     game->map = dup_map_pixel(game, y);
 	if (!game->map)
