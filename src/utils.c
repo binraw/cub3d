@@ -1,15 +1,16 @@
-#include "cub.h"
+#include "../headers/cub.h"
 
-char	**dup_map(game_s *game)
+char	**dup_map_pixel(game_s *game, int y)
 {
-	size_t		y;
 	char	**duplicate;
+	int i;
 
-	y = 0;
-	duplicate = (char **)malloc(sizeof(char *) * (game->numb_line));
-	while (y < game->numb_line)
+	i = 0;
+	duplicate = (char **)malloc(sizeof(char *) * (game->numb_line_map));
+	while (y < game->numb_line_map)
 	{
-		duplicate[y] = ft_strdup_get(game->map[y]);
+		duplicate[i] = ft_strdup_get(game->map[y]);
+		i++;
 		y++;
 	}
 	return (duplicate);

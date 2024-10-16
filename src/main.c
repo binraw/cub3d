@@ -1,12 +1,4 @@
-
-
-
-
-
-
-
-
-#include "cub.h"
+#include "../headers/cub.h"
 
 int	ft_perror(char *msg)
 {
@@ -23,7 +15,7 @@ int main(int argc, char **argv)
 		return (ft_perror(USAGE), EXIT_FAILURE);
 	if (init_console(&game))
 		return (EXIT_FAILURE);
-    game.map = NULL;
+    game.file = NULL;
 	process_create_map(&game, argv[1]);
     mlx_loop(game.console.mlx_ptr);
  

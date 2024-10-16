@@ -1,6 +1,4 @@
-#include "cub.h"
-
-
+#include "../headers/cub.h"
 
 int	check_extension_file(char **argv)
 {

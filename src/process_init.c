@@ -1,4 +1,4 @@
-#include "cub.h"
+#include "../headers/cub.h"
 
 
 int process_create_map(game_s *game, char *file)
@@ -7,11 +7,13 @@ int process_create_map(game_s *game, char *file)
     printf("rentre dans le create map\n");
     read_maap(file, game);
     y = init_all_texture(game);
+
     printf("valeur de y :%d\n", y);
     if (y == -1) // gerer ici les free etc ..
         exit(1);
     y++;
-    if (isclosed(game, y) == 0) // gerer ici les free etc ..
+    init_pixel_map(game, y);
+    if (isclosed(game) == 0) // gerer ici les free etc ..
         exit(1);
      //if (isclosed_column(game, y) == 0) // reussir a faire fonctionner la fct qui permet de check 
        // exit(1);
@@ -20,6 +22,15 @@ int process_create_map(game_s *game, char *file)
     if (init_pos_player(game, y) == -1) // gerer ici les free etc ..
         exit(1);
     printf("Map valide bravo \n");
+    return (0);
+}
+
+int init_pixel_map(game_s *game, int y)
+{
+    game->numb_line_map = game->numb_line - y;
+    game->map = dup_map_pixel(game, y);
+	if (!game->map)
+        return ;
     return (0);
 }
 
@@ -32,7 +43,6 @@ int init_pos_player(game_s *game, int x)
 
     i = 0;
     y = x;
-    // ft_bzero((void*)player, sizeof(player_s));
     while(game->map[y] && y < game->numb_line)
     {
         if (control_value_player(&player, game->map[y]) == -1)
@@ -65,7 +75,42 @@ int    control_value_player(player_s *player, char *str)
 
 // je pense check d'abord toutes les lignes 
 // et ensuite toutes les colonnes
-int isclosed(game_s *game, int x)
+// int isclosed(game_s *game, int x)
+// {
+//     size_t i;
+//     size_t y;
+//     int value_x;
+//     int value_y;
+
+//     i = 0;
+//     y = x;
+//     value_x = 1; //init a 1 pour eviter de return trop tot
+//     value_y = 1;
+//     while (game->map[y] && y < game->numb_line)
+//     {
+//         i = 0;
+//         while(game->map[y][i] && game->map[y][i] == '\n')
+//             y++;
+//         printf("value de la premiere lign a check : %s\n", game->map[y]);
+//         while(game->map[y][i] && game->map[y][i] == ' ') //ici un check que le premier n'est pas un 0
+//             i++;
+//         if (check_last_value(game, y, i) == 0)
+//             return (0);
+//         while (game->map[y][i])
+//         {
+//             value_x = check_last_value(game, y, i);//ici un check que le dernier n'est pas un 0
+//             printf("value de la premiere lign a check : %c\n", game->map[y][i]);
+//             i++;  
+//         }
+//         printf("fin de ligne \n");
+//         if (value_x == 0)
+//             return (0);
+//         y++;
+//     }
+//     return (1);
+// }
+
+int isclosed(game_s *game)
 {
     size_t i;
     size_t y;
@@ -73,10 +118,10 @@ int isclosed(game_s *game, int x)
     int value_y;
 
     i = 0;
-    y = x;
+    y = 0;
     value_x = 1; //init a 1 pour eviter de return trop tot
     value_y = 1;
-    while (game->map[y] && y < game->numb_line)
+    while (game->map[y] && y < game->numb_line_map)
     {
         i = 0;
         while(game->map[y][i] && game->map[y][i] == '\n')
@@ -100,7 +145,8 @@ int isclosed(game_s *game, int x)
     return (1);
 }
 
-int isclosed_column(game_s *game, int x)
+
+int isclosed_column(game_s *game)
 {
     size_t i;
     size_t y;
@@ -108,7 +154,7 @@ int isclosed_column(game_s *game, int x)
     int value_y;
 
     i = 0;
-    y = x;
+    y = 0;
     value_x = 1; //init a 1 pour eviter de return trop tot
     value_y = 1;
     while (game->map[y][i])
