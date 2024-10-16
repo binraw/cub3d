@@ -41,10 +41,8 @@ int init_pixel_map(game_s *game, int y)
 int init_pos_player(game_s *game, int x)
 {
     player_s player;
-    //size_t i;
     int y;
 
-   // i = 0;
     y = x;
     while(game->map[y] && y < game->numb_line)
     {

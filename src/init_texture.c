@@ -2,9 +2,7 @@
 
 int init_value_texture_no(game_s *game, size_t y)
 {
-
     size_t i;
-
 
     i = 0;
     if (game->file[y][i] == 'N')
@@ -18,10 +16,12 @@ int init_value_texture_no(game_s *game, size_t y)
             if (!game->text_no)
                 return (-1);
         }
-    i += 2;
-    
-    game->text_no = ft_strjoin(NULL, game->file[y]);
-
+    i = 2;
+    while (game->file[y][i] != '\n')
+    {
+        game->text_no = ft_strjoin(game->text_no, game->file[y][i]);
+        i++;
+    }
     if (!game->text_no)
         return (-1);
     return (0);
