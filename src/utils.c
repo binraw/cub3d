@@ -10,6 +10,7 @@ char	**dup_map_pixel(game_s *game, int y)
 	while (y < game->num_line_map)
 	{
 		duplicate[i] = ft_strdup_get(game->map[y]);
+		printf("valeur de la map : %s\n", duplicate[i]);
 		i++;
 		y++;
 	}
