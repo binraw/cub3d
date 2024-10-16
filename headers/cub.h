@@ -71,7 +71,7 @@
     int     control_texture_value(game_s *game);
     int     init_all_texture(game_s *game);
     int init_pixel_map(game_s *game, int y);
-
+	char **dup_map_pixel(game_s *game, int y);
     int process_create_map(game_s *game, char *file);
     int    control_value_player(player_s *player, char *str);
     int init_pos_player(game_s *game, int y);

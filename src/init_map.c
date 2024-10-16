@@ -56,10 +56,10 @@ void	read_file(char *file, game_s *game)
 
 int init_all_texture(game_s *game)
 {
-	size_t i;
+	//size_t i;
 	size_t y;
 
-	i = 0;
+//	i = 0;
 	y = 0;
 	game->text_c = NULL;
 	while (game->file[y] && !game->text_c) // maniere de tout init pas top a changer

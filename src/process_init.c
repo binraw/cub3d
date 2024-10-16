@@ -5,7 +5,7 @@ int process_create_map(game_s *game, char *file)
 {
     int y;
     printf("rentre dans le create map\n");
-    read_maap(file, game);
+    read_file(file, game);
     y = init_all_texture(game);
 
     printf("valeur de y :%d\n", y);
@@ -27,10 +27,10 @@ int process_create_map(game_s *game, char *file)
 
 int init_pixel_map(game_s *game, int y)
 {
-    game->numb_line_map = game->numb_line - y;
+    game->num_line_map = game->numb_line - y;
     game->map = dup_map_pixel(game, y);
 	if (!game->map)
-        return ;
+        return (-1);
     return (0);
 }
 
@@ -38,10 +38,10 @@ int init_pixel_map(game_s *game, int y)
 int init_pos_player(game_s *game, int x)
 {
     player_s player;
-    size_t i;
+    //size_t i;
     size_t y;
 
-    i = 0;
+   // i = 0;
     y = x;
     while(game->map[y] && y < game->numb_line)
     {
@@ -113,15 +113,15 @@ int    control_value_player(player_s *player, char *str)
 int isclosed(game_s *game)
 {
     size_t i;
-    size_t y;
+   	int  y;
     int value_x;
-    int value_y;
+    //int value_y;
 
     i = 0;
     y = 0;
     value_x = 1; //init a 1 pour eviter de return trop tot
-    value_y = 1;
-    while (game->map[y] && y < game->numb_line_map)
+    //value_y = 1;
+    while (game->map[y] && y < game->num_line_map)
     {
         i = 0;
         while(game->map[y][i] && game->map[y][i] == '\n')
@@ -150,16 +150,16 @@ int isclosed_column(game_s *game)
 {
     size_t i;
     size_t y;
-    int value_x;
+   // int value_x;
     int value_y;
 
     i = 0;
     y = 0;
-    value_x = 1; //init a 1 pour eviter de return trop tot
+   // value_x = 1; //init a 1 pour eviter de return trop tot
     value_y = 1;
     while (game->map[y][i])
     {
-        y = x;
+        y = 0;
         while(game->map[y][i] && game->map[y][i] == '\n')
             y++;
         printf("value de la premiere lign a check : %s\n", game->map[y]);
