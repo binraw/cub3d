@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 11:20:14 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:00:33 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@
 	# define ANGLE_E	0		// angle east
 	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
 	# define FOV		60		// angle champ de vision player
-	
+	# define NUM_RAYS   60		// nombre de rayon a tracer
+
 	# define ROT_SPEED	0.5
 	# define MOV_SPEED	2
-	# define TILE_S		game->map_data.tile_size
+	# define TILE_S		64
 
     /* ==== STRUCTURES  */
     typedef struct console
@@ -71,6 +72,8 @@
 		double	dir_y;
 		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
 		bool	move_up;
+		double orientation;
+		char	value_player;
 		bool	move_down;
 		bool	move_right;
 		bool	move_left;
@@ -88,10 +91,6 @@
 
     typedef struct game_s
     {
-        char    **file;
-        char    **map;
-        int     numb_line;
-        int     num_line_map;
 		console_s	console;
 		texture_s	texture;
 		map_s		map_data;
@@ -132,5 +131,6 @@
 	int init_value_player(game_s *game);
 	int init_pos_player(game_s *game, int x);
 	int no_player_in_wall(game_s *game);
+	int check_wall(double ray_x, double ray_y, game_s *game);
 #endif
 

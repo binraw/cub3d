@@ -3,17 +3,17 @@
 static int	loop_hook(game_s *game)
 {
 	if (game->plyr_data.move_down)
-        game->plyr_data.pos_y += game->plyr_data.mov_speed;
+        game->plyr_data.pos_y += MOV_SPEED;
 	if (game->plyr_data.move_up)
-        game->plyr_data.pos_y -= game->plyr_data.mov_speed;
+        game->plyr_data.pos_y -= MOV_SPEED;
 	if (game->plyr_data.move_left)
-        game->plyr_data.pos_x -= game->plyr_data.mov_speed;
+        game->plyr_data.pos_x -= MOV_SPEED;
 	if (game->plyr_data.move_right)
-        game->plyr_data.pos_x += game->plyr_data.mov_speed;
+        game->plyr_data.pos_x += MOV_SPEED;
     if (game->plyr_data.rotate_l)
-        game->plyr_data.orientation -= game->plyr_data.rot_speed;
+        game->plyr_data.orientation -= ROT_SPEED;
     if (game->plyr_data.rotate_r)
-        game->plyr_data.orientation += game->plyr_data.rot_speed;
+        game->plyr_data.orientation += ROT_SPEED;
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
     {
         game->plyr_data.pos_x = cos(game->plyr_data.orientation);

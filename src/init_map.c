@@ -45,10 +45,13 @@ void	read_file(char *file, game_s *game)
 	{
 		return ;
 	}
-	game->map_data.width = count_line_maap(file);
-	while (i < game->map_data.width)
+	game->map_data.heigth = count_line_maap(file);
+	game->map_data.width = 0;
+	while (i < game->map_data.heigth)
 	{
 		game->file[i] = get_next_line(fd);
+		if (ft_strlen(game->file[i]) > game->map_data.width)
+			game->map_data.width = ft_strlen(game->file[i]);
 		i++;
 	}
 	close(fd);
