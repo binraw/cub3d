@@ -1,9 +1,9 @@
 NAME	= cub3d
-#NAME_BONUS = 
+#NAME_BONUS =
 RM		= rm -Rf
 MD		= mkdir -p
 
-# ==== DIRECTORIES PATHS ==== # 
+# ==== DIRECTORIES PATHS ==== #
 MINILIBDIR	= ./minilibx-linux
 HDR_DIR		= headers/
 DIR_SRC		= src/
@@ -19,11 +19,11 @@ MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBFT		= ./libft/libft.a
 
 # SRC
-SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c parsing.c get_textures.c \
+SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c parsing.c \
 					init_console.c hook.c \
 					process_init.c utils.c free_memory.c \
 					raycaster.c
-#SRCS_FILE_BONUS	= 
+#SRCS_FILE_BONUS	=
 
 OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS_FILE})
 SRCS = $(addprefix ${DIR_SRC},${SRCS_FILE})
@@ -43,7 +43,7 @@ ${DIR_OBJ}%.o: ${DIR_SRC}%.c ${HDR_DIR}*.h Makefile ${LIBFT}
 	@echo "Compiling $< to $@"
 	$(CC) ${CFLAGS} -I$(HDR_DIR) -c $< -o $@
 
-${LIBFT}: 
+${LIBFT}:
 	$(MAKE) -C ./libft all
 
 clean:
