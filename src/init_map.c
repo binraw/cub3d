@@ -23,8 +23,8 @@ void	alloc_lign(char *file, game_s *game)
 	int		line_count;
 
 	line_count = 0;
-	line_count = count_line_maap(file);
-	game->file = malloc(sizeof(char *) * line_count + 1);
+	game->numb_line = count_line_maap(file);
+	game->file = malloc(sizeof(char *) * game->numb_line + 1);
 	if (!game->file)
         return ; // rajouter des free 
 }
@@ -56,13 +56,12 @@ void	read_file(char *file, game_s *game)
 
 int init_all_texture(game_s *game)
 {
-	//size_t i;
 	size_t y;
 
-//	i = 0;
+
 	y = 0;
-	game->text_c = NULL;
-	while (game->file[y] && !game->text_c) // maniere de tout init pas top a changer
+	game->texture.text_c = NULL;
+	while (game->file[y] && !game->texture.text_c) // maniere de tout init pas top a changer
 	{
 		if (ft_strchr(game->file[y], 'N') && ft_strchr(game->file[y], 'O'))
 			init_value_texture_no(game, y);
@@ -85,8 +84,8 @@ int init_all_texture(game_s *game)
 
 int control_texture_value(game_s *game)
 {
-	if (!game->text_c || !game->text_ea || !game->text_f
-	|| !game->text_no || !game->text_so || !game->text_we)
+	if (!game->texture.text_c || !game->texture.text_ea || !game->texture.text_f
+	|| !game->texture.text_no || !game->texture.text_so || !game->texture.text_we)
 		return (-1);
 	else
 		return (0);

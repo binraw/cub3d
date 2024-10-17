@@ -17,9 +17,9 @@ int init_value_texture_no(game_s *game, size_t y)
                 return (-1);
         }
     i = 2;
-        game->text_no = ft_strjoin(game->text_no, game->file[y] + i);
-    printf("valeur de no : %s\n", game->text_no);
-    if (!game->text_no)
+        game->texture.text_no = ft_strjoin(game->texture.text_no, game->file[y] + i);
+    printf("valeur de no : %s\n", game->texture.text_no);
+    if (!game->texture.text_no)
         return (-1);
     return (0);
 }
@@ -43,9 +43,9 @@ int init_value_texture_so(game_s *game, size_t y)
                 return (-1);
         }
     i = 2;
-    game->text_so = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de so : %s\n", game->text_so);
-    if (!game->text_so)
+    game->texture.text_so = ft_strjoin(NULL, game->file[y] + i);
+printf("valeur de so : %s\n", game->texture.text_so);
+    if (!game->texture.text_so)
         return (-1);
     return (0);
 }
@@ -68,9 +68,9 @@ int init_value_texture_we(game_s *game, size_t y)
                 return (-1);
         }
     i = 2;
-    game->text_we = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de we : %s\n", game->text_we);
-    if (!game->text_we)
+    game->texture.text_we = ft_strjoin(NULL, game->file[y] + i);
+printf("valeur de we : %s\n", game->texture.text_we);
+    if (!game->texture.text_we)
         return (-1);
     return (0);
 }
@@ -93,9 +93,9 @@ int init_value_texture_ea(game_s *game, size_t y)
                 return (-1);
         }
     i = 2;
-    game->text_ea = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de ea : %s\n", game->text_ea);
-    if (!game->text_ea)
+    game->texture.text_ea = ft_strjoin(NULL, game->file[y] + i);
+printf("valeur de ea : %s\n", game->texture.text_ea);
+    if (!game->texture.text_ea)
         return (-1);
     return (0);
 }
@@ -117,9 +117,9 @@ int init_value_texture_f(game_s *game, size_t y)
 			return (-1);
 	}
     i = 1;
-    game->text_f = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de f : %s\n", game->text_f);
-    if (!game->text_f)
+    game->texture.text_f = ft_strjoin(NULL, game->file[y] + i);
+printf("valeur de f : %s\n", game->texture.text_f);
+    if (!game->texture.text_f)
         return (-1);
     return (0);
 }
@@ -142,9 +142,9 @@ int init_value_texture_c(game_s *game, size_t y)
 			return (-1);
 	}
     i = 1;
-    game->text_c = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de c : %s\n", game->text_c);
-    if (!game->text_c)
+    game->texture.text_c = ft_strjoin(NULL, game->file[y] + i);
+printf("valeur de c : %s\n", game->texture.text_c);
+    if (!game->texture.text_c)
         return (-1);
     return (0);
 }

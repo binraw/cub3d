@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 09:58:13 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:23:01 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@
 		char	*text_ea;
 		char	*text_f;
 		char	*text_c;
-		int		f_color;
-		int		c_color;
+		int		f_color[3];
+		int		c_color[3];
+
 	} texture_s ;
 
     typedef struct player
     {
 		int		pos_x;
 		int		pos_y;
+		char	value_player;
 		double	angle_fov;	// angle du premier rayon -> PI/2 - A_FOV/2
 		double	orientation;// angle de vue initial du player -> 0 == east : PI == west : PI/2 == south : 3*(PI/2) == north
 		double	rot_speed;	// vitesse de rotation joueur (entre 0 et 1) 
@@ -84,12 +86,6 @@
     {
         char    **file;
         char    **map;
-        char    *text_no;
-        char    *text_so;
-        char    *text_we;
-        char    *text_ea;
-        char    *text_f;
-        char    *text_c;
         int     numb_line;
         int     num_line_map;
 		console_s	console;
@@ -128,6 +124,9 @@
     int isclosed_column(game_s *game);
     int check_last_value(game_s *game, int y, int i);
 	int	ft_perror(char *msg);
-
+	int value_player(game_s *game, char c);
+	int init_value_player(game_s *game);
+	int init_pos_player(game_s *game, int x);
+	int no_player_in_wall(game_s *game);
 #endif
 
