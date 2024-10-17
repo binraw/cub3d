@@ -21,7 +21,7 @@ LIBFT		= ./libft/libft.a
 # SRC
 SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c parsing.c \
 					init_console.c hook.c \
-					process_init.c utils.c free_memory.c \
+					process_init.c parsing_utils.c free_memory.c \
 					raycaster.c
 #SRCS_FILE_BONUS	=
 

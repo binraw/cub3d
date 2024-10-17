@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 17:17:11 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:14:00 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@
 	# define WIN_PTR	game->console.win_ptr
 
 	# define ANGLE_N	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	M_PI_2	// angle south == PI / 2 
+	# define ANGLE_S	M_PI_2	// angle south == PI / 2
 	# define ANGLE_E	0		// angle east
 	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
 	# define FOV		60		// angle champ de vision player
-	
+
 	# define ROT_SPEED	0.5
 	# define MOV_SPEED	2
 	# define TILE_S		game->map_data.tile_size
@@ -58,7 +58,7 @@
 		char	*text_ea;
 		int		f_color[3];
 		int		c_color[3];
-		bool	all_text;
+		int     all_text;
 	} texture_s ;
 
     typedef struct player
@@ -127,4 +127,3 @@
 	int	ft_perror(char *msg);
 
 #endif
-

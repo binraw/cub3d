@@ -7,13 +7,20 @@
 
 #include "cub.h"
 
-static bool	is_all_digit(char **buff)
+static bool	not_dup_is_digit(char **buff, int *colors)
 {
 	size_t	i;
 	size_t	y;
 
 	y = 0;
 	i = 0;
+    while (i < 3)
+    {
+        if (colors[i] != -1)
+            return (ft_perror("A color is duplicated in file\n"), false);
+        i++;
+    }
+    i = 0;
 	while (buff[i])
 	{
 		while (buff[i][y] && buff[i][y] != '\n')
@@ -39,7 +46,7 @@ static int	fill_colors(char *buffer, int *colors)
 	tmp = ft_split(&buffer[i], ',');
 	if (!tmp)
 		return (ft_perror("crash malloc in fill_color\n"));
-	if (is_all_digit(tmp) == false)
+	if (not_dup_is_digit(tmp, colors) == false)
 		return (free_ptrtab(tmp), 1);
 	i = -1;
 	while (tmp[++i] && i < 3 && tmp[i][0])
@@ -51,13 +58,13 @@ static int	fill_colors(char *buffer, int *colors)
 	}
 	while (tmp[i])
 		i++;
-	free_ptrtab(tmp);
+
 	if (i != 3)
-		return (ft_perror("Invalid color format in file\n"));
-	return (0);
+		return (free_ptrtab(tmp), ft_perror("Invalid color format in file\n"));
+	return (free_ptrtab(tmp), 0);
 }
 
-static int	fill_direction(char *buff_f, char **buff_t)
+static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 {
 	size_t	i;
 	int		fd;
@@ -65,30 +72,35 @@ static int	fill_direction(char *buff_f, char **buff_t)
 	i = 2;
 	while (buff_f[i] && buff_f[i] == ' ')
 		i++;
+    if (*buff_t != NULL)
+        return (ft_perror("One direction field is duplicated\n"));
 	*buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i + 1);
 	if (!*buff_t)
 		return (ft_perror("crash malloc in fill_direction\n"));
+    game->texture.all_text += 1;
 	return (0);
 }
 
 static int	line_analysis(game_s *game, char *buffer)
 {
-	if (buffer[0] != '\0' && buffer[0] == 'N' && buffer[1] == 'O')
-		return (fill_direction(buffer, &game->texture.text_no));
-	else if (buffer[0] != '\0' && buffer[0] == 'S' && buffer[1] == 'O')
-		return (fill_direction(buffer, &game->texture.text_so));
-	else if (buffer[0] != '\0' && buffer[0] == 'E' && buffer[1] == 'A')
-		return (fill_direction(buffer, &game->texture.text_ea));
-	else if (buffer[0] != '\0' && buffer[0] == 'W' && buffer[1] == 'E')
-		return (fill_direction(buffer, &game->texture.text_we));
+	if (buffer[0] == 'N' && buffer[1] == 'O')
+		return (fill_direction(buffer, &game->texture.text_no, game));
+	else if (buffer[0] == 'S' && buffer[1] == 'O')
+		return (fill_direction(buffer, &game->texture.text_so, game));
+	else if (buffer[0] == 'E' && buffer[1] == 'A')
+		return (fill_direction(buffer, &game->texture.text_ea, game));
+	else if (buffer[0] == 'W' && buffer[1] == 'E')
+		return (fill_direction(buffer, &game->texture.text_we, game));
 	else if (buffer[0] == 'F')
+    {
+        game->texture.all_text += 1;
 		return (fill_colors(buffer, game->texture.f_color));
+    }
 	else if (buffer[0] == 'C')
+    {
+        game->texture.all_text += 1;
 		return (fill_colors(buffer, game->texture.c_color));
-	if (game->texture.c_color[0] != -1 && game->texture.f_color[0] != -1 && \
-		game->texture.text_no != NULL && game->texture.text_so != NULL && \
-		game->texture.text_ea != NULL && game->texture.text_we != NULL)
-		game->texture.all_text = 1;
+    }
 	return (0);
 }
 
@@ -100,7 +112,7 @@ int	get_text_path(game_s *game, char *filepath)
 	if (fd < 0)
 		return (ft_perror("file can't be open\n"));
 	buffer = "buf";
-	while (buffer != NULL && game->texture.all_text == 0)
+	while (buffer != NULL && game->texture.all_text != 6)
 	{
 		buffer = get_next_line(fd);
 		if (!buffer)
@@ -111,8 +123,11 @@ int	get_text_path(game_s *game, char *filepath)
 			return (close(fd), free(buffer), 1);
 		free(buffer);
 	}
-	if (game->texture.all_text != 1)
+	if (game->texture.all_text != 6)
+    {
+        printf("%d\n", game->texture.all_text);
 		return (close(fd), ft_perror("Textures data are invalid\n"));
+    }
     if (close(fd) == -1)
         return (ft_perror("Fd closure failed in get_text_path\n"));
 	return (0);
