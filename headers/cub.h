@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/16 17:34:50 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:25:14 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@
     # include <math.h>
 
     /* ==== MACROS ==== */
-	# define USAGE "Need a filepath as argument"
+	# define USAGE		"Need a filepath as argument"
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 	# define WIN_W		1200	// largeur de la fenetre
 	# define WIN_H		1200	// hauteur de la fenetre
-	# define A_NORTH	3*M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
+	# define A_NORTH	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
 	# define A_SOUTH	M_PI_2	// angle south == PI / 2 
 	# define A_EAST		0		// angle east
 	# define A_WEST		M_PI	// angle west M_PI == macro de math.h == PI
@@ -77,7 +77,7 @@
         char	**map;
 		size_t	width;
 		size_t	heigth;
-		int		tile_size; // == map_width 
+		int		tile_size; // == WIN_WIDTH / map_width
 	} map_s;
 
     typedef struct game_s
@@ -90,8 +90,9 @@
 
 
 
-	/* === init_console.c === */
-	int	init_console(game_s *game);
+	/* === init === */
+	int		init_console(game_s *game);
+	void	hook_management(game_s *game);
 
 	/* === free_memory.c === */
 	void	free_console(game_s *game);

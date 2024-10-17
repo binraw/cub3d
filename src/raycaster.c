@@ -2,6 +2,9 @@
 
 
 
+
+
+
 #include "cub.h"
 
 const int	mid_heigth = WIN_H * 0.5;

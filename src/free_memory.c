@@ -1,6 +1,9 @@
 
 
 
+
+
+
 #include "cub.h"
 
 void	free_console(game_s *game)

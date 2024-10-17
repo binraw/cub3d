@@ -7,6 +7,7 @@ MD		= mkdir -p
 MINILIBDIR	= ./minilibx-linux
 HDR_DIR		= headers/
 DIR_SRC		= src/
+DIR_INIT	= $(DIR_SRC)init/
 DIR_OBJ		= .object/
 #DIR_BONUS = bonus/
 #DIR_OBJ_BONUS = .object_BONUS/
@@ -19,7 +20,8 @@ LIBFT		= ./libft/libft.a
 
 # SRC
 SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c \
-					process_init.c utils.c init_console.c free_memory.c \
+					init_console.c hook.c \
+					process_init.c utils.c free_memory.c \
 					raycaster.c
 #SRCS_FILE_BONUS	= 
 
