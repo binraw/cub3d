@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 10:23:01 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:20:14 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,21 @@
 
     /* ==== MACROS ==== */
 	# define USAGE		"Need a filepath as argument"
+
+	# define WIN_W		700	// largeur de la fenetre
+	# define WIN_H		700	// hauteur de la fenetre
+
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
-	# define WIN_W		1200	// largeur de la fenetre
-	# define WIN_H		1200	// hauteur de la fenetre
-	# define A_NORTH	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
-	# define A_SOUTH	M_PI_2	// angle south == PI / 2 
-	# define A_EAST		0		// angle east
-	# define A_WEST		M_PI	// angle west M_PI == macro de math.h == PI
-	# define A_FOV		60		// angle champ de vision player
+
+	# define ANGLE_N	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
+	# define ANGLE_S	M_PI_2	// angle south == PI / 2 
+	# define ANGLE_E	0		// angle east
+	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
+	# define FOV		60		// angle champ de vision player
+	
+	# define ROT_SPEED	0.5
+	# define MOV_SPEED	2
 	# define TILE_S		game->map_data.tile_size
 
     /* ==== STRUCTURES  */
@@ -59,13 +65,11 @@
 
     typedef struct player
     {
-		int		pos_x;
-		int		pos_y;
-		char	value_player;
-		double	angle_fov;	// angle du premier rayon -> PI/2 - A_FOV/2
-		double	orientation;// angle de vue initial du player -> 0 == east : PI == west : PI/2 == south : 3*(PI/2) == north
-		double	rot_speed;	// vitesse de rotation joueur (entre 0 et 1) 
-		double	mov_speed;	// vitesse de deplacement du joueur
+		double	pos_x;
+		double	pos_y;
+		double	dir_x;
+		double	dir_y;
+		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
 		bool	move_up;
 		bool	move_down;
 		bool	move_right;
