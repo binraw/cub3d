@@ -11,7 +11,7 @@ int init_value_texture_no(game_s *game, size_t y)
             i = 2;
             while (game->file[y][i] != '\n')
                 i++;
-            i -= 2;
+            i -= 1;
             game->texture.text_no = malloc(i * sizeof(char));
             if (!game->texture.text_no)
                 return (-1);

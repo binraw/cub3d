@@ -30,13 +30,15 @@ int	draw_horizon(game_s *game)
 		if (y > mid_heigth)
 		{
 			for (int x = 0; x < WIN_W; x+=2){
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.f_color);
+				// mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.f_color);
+				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 200);
 			}
 		}
 		else if (y < mid_heigth)
 		{
 			for (int x = 0; x < WIN_W; x+=2){
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.c_color);
+				// mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.c_color);
+				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 100);
 			}
 		}
 		else
