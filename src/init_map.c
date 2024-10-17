@@ -36,7 +36,7 @@ void	read_file(char *file, game_s *game)
 
 	i = 0;
 	fd = 0;
-	game->numb_line = 0;
+	game->map_data.width = 0;
 	alloc_lign(file, game);
 	if (!game->file)
 		return ;
@@ -45,8 +45,8 @@ void	read_file(char *file, game_s *game)
 	{
 		return ;
 	}
-	game->numb_line = count_line_maap(file);
-	while (i < game->numb_line)
+	game->map_data.width = count_line_maap(file);
+	while (i < game->map_data.width)
 	{
 		game->file[i] = get_next_line(fd);
 		i++;

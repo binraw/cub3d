@@ -46,7 +46,7 @@ int init_pos_player(game_s *game, int x)
     y = x;
     while(game->map[y] && y < game->numb_line)
     {
-        if (control_value_player(&player, game->map[y]) == -1)
+        if (control_value_player(&player, game->map_data.map[y]) == -1)
             return (-1);
         y++;
     }
@@ -55,20 +55,22 @@ int init_pos_player(game_s *game, int x)
 
 int    control_value_player(player_s *player, char *str)
 {
-    int result;
+    (void) player;
+    (void) str;
+    // int result;
 
-    result = 0;
-    if (ft_strchr(str, 'N') && ft_strchr(str, 'O'))
-        player->player_no = 1;
-    if (ft_strchr(str, 'S') && ft_strchr(str, 'O'))
-        player->player_so = 1;
-    if (ft_strchr(str, 'W') && ft_strchr(str, 'E'))
-        player->player_we = 1;
-    if (ft_strchr(str, 'E') && ft_strchr(str, 'A'))
-        player->player_ea = 1;
-    result += player->player_ea + player->player_no + player->player_so + player->player_we;
-    if (result > 1) //test pour voir si plusieur player sur la carte
-        return (-1);
+    // result = 0;
+    // if (ft_strchr(str, 'N') && ft_strchr(str, 'O'))
+    //     player->player_no = 1;
+    // if (ft_strchr(str, 'S') && ft_strchr(str, 'O'))
+    //     player->player_so = 1;
+    // if (ft_strchr(str, 'W') && ft_strchr(str, 'E'))
+    //     player->player_we = 1;
+    // if (ft_strchr(str, 'E') && ft_strchr(str, 'A'))
+    //     player->player_ea = 1;
+    // result += player->player_ea + player->player_no + player->player_so + player->player_we;
+    // if (result > 1) //test pour voir si plusieur player sur la carte
+    //     return (-1);
     return (0);
 }
 

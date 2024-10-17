@@ -7,19 +7,22 @@ MD		= mkdir -p
 MINILIBDIR	= ./minilibx-linux
 HDR_DIR		= headers/
 DIR_SRC		= src/
+DIR_INIT	= $(DIR_SRC)init/
 DIR_OBJ		= .object/
 #DIR_BONUS = bonus/
 #DIR_OBJ_BONUS = .object_BONUS/
 
 # ==== COMPILATION TOOLS ==== #
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -g # -Wall -Wextra -Werror
 MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBFT		= ./libft/libft.a
 
 # SRC
 SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c \
-					process_init.c utils.c init_console.c
+					init_console.c hook.c \
+					process_init.c utils.c free_memory.c \
+					raycaster.c
 #SRCS_FILE_BONUS	= 
 
 OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS_FILE})
