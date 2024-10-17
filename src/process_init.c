@@ -15,8 +15,8 @@ int process_create_map(game_s *game, char *file)
     init_pixel_map(game, y);
     if (isclosed(game) == 0) // gerer ici les free etc ..
         exit(1);
-     if (isclosed_column(game) == 0) // reussir a faire fonctionner la fct qui 
-     	     exit(1);
+    //if (isclosed_column(game) == 0) // reussir a faire fonctionner la fct qui 
+     //	     exit(1);
     // en colonne si c'est bien 1 le dernier et pas un 0
     
     if (init_pos_player(game, y) == -1) // gerer ici les free etc ..
@@ -74,20 +74,20 @@ int    control_value_player(player_s *player, char *str)
 
 
 
-// je pense check d'abord toutes les lignes 
-// et ensuite toutes les colonnes
-// int isclosed(game_s *game, int x)
+
+
+// int isclosed(game_s *game)
 // {
-//     size_t i;
-//     size_t y;
+//     int i;
+//    	int  y;
 //     int value_x;
-//     int value_y;
+//     //int value_y;
 
 //     i = 0;
-//     y = x;
+//     y = 0;
 //     value_x = 1; //init a 1 pour eviter de return trop tot
-//     value_y = 1;
-//     while (game->map[y] && y < game->numb_line)
+//     //value_y = 1;
+//     while (game->map[y] && y < game->num_line_map)
 //     {
 //         i = 0;
 //         while(game->map[y][i] && game->map[y][i] == '\n')
@@ -114,79 +114,104 @@ int    control_value_player(player_s *player, char *str)
 int isclosed(game_s *game)
 {
     int i;
-   	int  y;
-    int value_x;
-    //int value_y;
+    int y;
+    int result;
 
-    i = 0;
-    y = 0;
-    value_x = 1; //init a 1 pour eviter de return trop tot
-    //value_y = 1;
-    while (game->map[y] && y < game->num_line_map)
+    i = 1;
+    y = 1;
+    result = 0;
+    while(game->map[y + 1])
     {
-        i = 0;
-        while(game->map[y][i] && game->map[y][i] == '\n')
-            y++;
-        printf("value de la premiere lign a check : %s\n", game->map[y]);
-        while(game->map[y][i] && game->map[y][i] == ' ') //ici un check que le premier n'est pas un 0
-            i++;
-        if (check_last_value(game, y, i) == 0)
-            return (0);
-        while (game->map[y][i])
+        i = 1;
+        while(game->map[y][i] != '\n' && game->map[y][i + 1])
         {
-            value_x = check_last_value(game, y, i);//ici un check que le dernier n'est pas un 0
-            printf("value de la premiere lign a check : %c\n", game->map[y][i]);
-            i++;  
+            if (game->map[y][i] == '0')
+            {
+                result += check_last_value(game, y, i + 1);
+                result += check_last_value(game, y, i - 1);
+                result += check_last_value(game, y + 1, i);
+                result += check_last_value(game, y - 1, i);
+                if (result > 0)
+                    return (-1);
+            }
+            i++;
         }
-        printf("fin de ligne \n");
-        if (value_x == 0)
-            return (0);
-        y++;
+    y++;
     }
-    return (1);
 }
 
-
-int isclosed_column(game_s *game)
+int no_player_in_wall(game_s *game)
 {
     int i;
     int y;
-   // int value_x;
-    int value_y;
+    int result;
 
-    i = 0;
-    y = 0;
-   // value_x = 1; //init a 1 pour eviter de return trop tot
-    value_y = 1;
-    while (game->map[y][i])
+    i = 1;
+    y = 1;
+    result = 0;
+    while(game->map[y + 1])
     {
-       
-        while(game->map[y][i] && game->map[y][i] == '\n')
-            y++;
-        printf("value de la premiere lign a check : %s\n", game->map[y]);
-        while(game->map[y][i] && game->map[y][i] == ' ')
-            y++;
-        if (game->map[y][i] && game->map[y][i] == '0') // ici check premier de la colonne
-            return (0);
-	printf("valeur de la ligne : %s\n", game->map[y]);
-        while (game->map[y] && y < game->num_line_map)
+        i = 1;
+        while(game->map[y][i] != '\n' && game->map[y][i + 1])
         {
-            printf("boucle \n");
-            value_y = check_last_value(game, y, i); // ici garde la valeur du dernier de la colonne
-            y++;
+            if (game->map[y][i] == '0')  // mettre valeur du personnage
+            {
+                result += check_last_value(game, y, i + 1);
+                result += check_last_value(game, y, i - 1);
+                result += check_last_value(game, y + 1, i);
+                result += check_last_value(game, y - 1, i);
+                if (result > 0)
+                    return (-1);
+            }
+            i++;
         }
-        if (value_y == 0)
-            return (0);
-        i++;
+    y++;
     }
-    return (1);
 }
+
+
+
+// int isclosed_column(game_s *game)
+// {
+//     int i;
+//     int y;
+//    // int value_x;
+//     int value_y;
+
+//     i = 0;
+//     y = 0;
+//    // value_x = 1; //init a 1 pour eviter de return trop tot
+//     value_y = 1;
+//     while (game->map[y][i])
+//     {
+       
+//         while(game->map[y][i] && game->map[y][i] == '\n')
+//             y++;
+//         printf("value de la premiere lign a check : %s\n", game->map[y]);
+//         while(game->map[y][i] && game->map[y][i] == ' ')
+//             y++;
+//         if (game->map[y][i] && game->map[y][i] == '0') // ici check premier de la colonne
+//             return (0);
+// 	printf("valeur de la ligne : %s\n", game->map[y]);
+//         while (game->map[y] && y < game->num_line_map)
+//         {
+//             printf("boucle \n");
+//             value_y = check_last_value(game, y, i); // ici garde la valeur du dernier de la colonne
+//             y++;
+//         }
+//         if (value_y == 0)
+//             return (0);
+//         i++;
+//     }
+//     return (1);
+// }
 
 int check_last_value(game_s *game, int y, int i)
 {
-    if (game->map[y][i] == '1')
-        return (1);
-    else if (game->map[y][i] == '0')
+    if (game->map[y][i] == '0' || game->map[y][i] == '1')
+        return (0);
+    else if (game->map[y][i] == 'N' || game->map[y][i] == 'S'
+        || game->map[y][i] == 'W' || game->map[y][i] == 'E')
         return (0);
     else
         return (1);
