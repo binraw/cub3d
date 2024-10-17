@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 14:00:33 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:05:53 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 	# define ANGLE_E	0		// angle east
 	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
 	# define FOV		60		// angle champ de vision player
-	# define NUM_RAYS   60		// nombre de rayon a tracer
+	# define NUM_RAYS   WIN_W		// nombre de rayon a tracer
 
 	# define ROT_SPEED	0.5
 	# define MOV_SPEED	2
@@ -118,19 +118,22 @@
     void	read_file(char *file, game_s *game);
     int     control_texture_value(game_s *game);
     int     init_all_texture(game_s *game);
-    int init_pixel_map(game_s *game, int y);
-	char **dup_map_pixel(game_s *game, int y);
-    int process_create_map(game_s *game, char *file);
-    int    control_value_player(player_s *player, char *str);
-    int init_pos_player(game_s *game, int y);
-    int isclosed(game_s *game);
-    int isclosed_column(game_s *game);
-    int check_last_value(game_s *game, int y, int i);
-	int	ft_perror(char *msg);
-	int value_player(game_s *game, char c);
-	int init_value_player(game_s *game);
-	int init_pos_player(game_s *game, int x);
-	int no_player_in_wall(game_s *game);
+    int		init_pixel_map(game_s *game, int y);
+	char	**dup_map_pixel(game_s *game, int y);
+    int		process_create_map(game_s *game, char *file);
+    int		control_value_player(player_s *player, char *str);
+    int		init_pos_player(game_s *game, int y);
+    int		isclosed(game_s *game);
+    int		isclosed_column(game_s *game);
+    int		check_last_value(game_s *game, int y, int i);
+	int		ft_perror(char *msg);
+	int		value_player(game_s *game, char c);
+	int		init_value_player(game_s *game);
+	int		init_pos_player(game_s *game, int x);
+	int		no_player_in_wall(game_s *game);
+
+	int	raycaster(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
+	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
 #endif
 
