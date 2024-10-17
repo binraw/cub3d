@@ -36,10 +36,14 @@ void	init_player(game_s *game)
 // permet de faire le visuel actuel avec des ligne et deux zone differentes :
 int	draw_horizon(game_s *game)
 {
-	const int	mid_heigth = WIN_H * 0.5;
-	const int	mid_width = WIN_W * 0.5;
+	const int	mid_heigth;
+	const int	mid_width;
+	
+	mid_heigth = WIN_H * 0.5;
+	mid_width = WIN_W * 0.5;
 	// draw horizontale line
-	for (int y = 0; y < WIN_H; y+=2){
+	for (int y = 0; y < WIN_H; y+=2)
+	{
 		if (y > mid_heigth)
 		{
 			for (int x = 0; x < WIN_W; x+=2){
@@ -146,6 +150,25 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 		if (y >= 0 && y < WIN_H) 
 		{ // Vérification des limites de l'écran
             mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, wall_color);
+        }
+		y++;
+	}
+	// plafond :
+	y = 0; // represente le haut de l'ecran
+	while (y < wall_top)
+	{
+		if (y >= 0 && y < WIN_H)
+		{
+            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, game->texture.c_color);
+        }
+		y++;
+	}
+	y = wall_bottom;
+	while (y < WIN_H)
+	{
+		if (y >= 0 && y < WIN_H)
+		{
+            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, game->texture.f_color);
         }
 		y++;
 	}
