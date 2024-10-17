@@ -30,6 +30,7 @@ static int	loop_hook(game_s *game)
 
 int	init_console(game_s *game)
 {
+	ft_memset(game, 0, sizeof(game_s));
 	game->console.mlx_ptr = mlx_init();
 	if (!game->console.mlx_ptr)
 		return (ft_perror("mlx alloc failed\n"));

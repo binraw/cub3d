@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 10:08:40 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:17:11 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,9 @@
 		char	*text_so;
 		char	*text_we;
 		char	*text_ea;
-		char	*text_f;
-		char	*text_c;
-		int		f_color;
-		int		c_color;
+		int		f_color[3];
+		int		c_color[3];
+		bool	all_text;
 	} texture_s ;
 
     typedef struct player
@@ -101,7 +100,11 @@
 
 	/* === free_memory.c === */
 	void	free_console(game_s *game);
+	void	free_textures(game_s *game);
+	void	free_ptrtab(char **tab);
 
+	/* === parsing.c === */
+	int		parsing(game_s *game, char *filepath);
 
     int     init_value_texture_no(game_s *game, size_t y);
     int     init_value_texture_so(game_s *game, size_t y);
