@@ -12,7 +12,6 @@ static bool	not_dup_is_digit(char **buff, int *colors)
 	size_t	i;
 	size_t	y;
 
-	y = 0;
 	i = 0;
     while (i < 3)
     {
@@ -21,6 +20,7 @@ static bool	not_dup_is_digit(char **buff, int *colors)
         i++;
     }
     i = 0;
+	y = 0;
 	while (buff[i])
 	{
 		while (buff[i][y] && buff[i][y] != '\n')
@@ -104,13 +104,13 @@ static int	line_analysis(game_s *game, char *buffer)
 	return (0);
 }
 
-int	get_text_path(game_s *game, char *filepath)
+int	get_textures(game_s *game, char *filepath)
 {
 	char		*buffer;
     const int   fd = open(filepath, O_RDONLY);
 
 	if (fd < 0)
-		return (ft_perror("file can't be open\n"));
+		return (ft_perror("file can't be openin get_textures()\n"));
 	buffer = "buf";
 	while (buffer != NULL && game->texture.all_text != 6)
 	{
@@ -124,10 +124,7 @@ int	get_text_path(game_s *game, char *filepath)
 		free(buffer);
 	}
 	if (game->texture.all_text != 6)
-    {
-        printf("%d\n", game->texture.all_text);
 		return (close(fd), ft_perror("Textures data are invalid\n"));
-    }
     if (close(fd) == -1)
         return (ft_perror("Fd closure failed in get_text_path\n"));
 	return (0);

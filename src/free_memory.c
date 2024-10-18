@@ -33,6 +33,12 @@ void	free_textures(game_s *game)
 	return ;
 }
 
+void	free_map_data(game_s *game)
+{
+	free_textures(game);
+	free_ptrtab(game->map_data.map);
+}
+
 void	free_console(game_s *game)
 {
 	mlx_destroy_window(game->console.mlx_ptr, game->console.win_ptr);

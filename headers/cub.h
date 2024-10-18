@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 21:14:00 by florian          ###   ########.fr       */
+/*   Updated: 2024/10/18 11:05:59 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,13 @@
 	void	free_console(game_s *game);
 	void	free_textures(game_s *game);
 	void	free_ptrtab(char **tab);
+	void	free_map_data(game_s *game);
+
 
 	/* === parsing.c === */
 	int		parsing(game_s *game, char *filepath);
+	int		get_textures(game_s *game, char *filepath);
+
 
     int     init_value_texture_no(game_s *game, size_t y);
     int     init_value_texture_so(game_s *game, size_t y);

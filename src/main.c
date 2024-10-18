@@ -14,7 +14,7 @@ int	raycaster(game_s *game);
 int	ft_perror(char *msg)
 {
 	write(2, "Error\n", 7);
-	return (write(2, msg, ft_strlen(msg)));
+	return ((int) write(2, msg, ft_strlen(msg)));
 }
 
 int main(int argc, char **argv)
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 
     mlx_loop(game.console.mlx_ptr);
 	free_console(&game);
-	free_textures(&game);
+	free_map_data(&game);
 	return (0);
 }
 
