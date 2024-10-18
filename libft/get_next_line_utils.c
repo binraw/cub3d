@@ -3,112 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/30 15:46:52 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/14 07:55:01 by rtruvelo         ###   ########.fr       */
+/*   Created: 2023/12/14 16:18:30 by fberthou          #+#    #+#             */
+/*   Updated: 2024/01/04 15:09:19 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
-char	*ft_concate_str(char	*s1, char	*s2, char *dest);
-
-char	*ft_strchr_get(char *string, int searchedChar)
+void	clear_buffer(char *buffer, int index)
 {
-	size_t	i;
-	char	*p;
-	char	search;
-
-	i = 0;
-	p = (char *)string;
-	search = (char)searchedChar;
-	while (p[i] != '\0')
-	{
-		if (p[i] == search)
-		{
-			return (&p[i]);
-		}
-		i++;
-	}
-	if (p[i] == search)
-	{
-		return (&p[i]);
-	}
-	if (search == '\0')
-		return (NULL);
-	return (0);
+	while (index < BUFFER_SIZE)
+		buffer[index++] = '\0';
 }
 
-char	*ft_strjoin_get(char	*s1, char	*s2)
-{
-	char	*dest;
-
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup_get(s2));
-	if (!s2)
-		return (ft_strdup_get(s1));
-	dest = malloc(sizeof(char) * (ft_strlen_get(s1) + ft_strlen_get(s2) + 1));
-	if (!dest)
-	{
-		free(s1);
-		return (NULL);
-	}
-	return (ft_concate_str(s1, s2, dest));
-}
-
-char	*ft_concate_str(char	*s1, char	*s2, char *dest)
-{
-	size_t	y;
-	size_t	x;
-
-	x = 0;
-	y = 0;
-	while (s1[y] != '\0')
-		dest[x++] = s1[y++];
-	y = 0;
-	while (s2[y] != '\0')
-		dest[x++] = s2[y++];
-	dest[x] = '\0';
-	free(s1);
-	return (dest);
-}
-
-char	*ft_strdup_get(char	*source)
-{
-	size_t	i;
-	size_t	y;
-	char	*pointer;
-
-	if (!source)
-		return (NULL);
-	y = 0;
-	i = ft_strlen_get(source);
-	pointer = malloc((i + 1) * sizeof(char));
-	if (!pointer)
-		return (NULL);
-	while (y < i)
-	{
-		pointer[y] = source[y];
-		y++;
-	}
-	pointer[y] = '\0';
-	return (pointer);
-}
-
-size_t	ft_strlen_get(char *str)
+size_t	lenstr(char *s)
 {
 	size_t	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-	{
+	while (s[i])
 		i++;
-	}
 	return (i);
+}
+
+char	*ft_calloct(size_t nmemb, size_t size)
+{
+	char	*dst;
+	size_t	i;
+	size_t	result;
+
+	result = nmemb * size;
+	if (result == 0 || (result / nmemb != size))
+		return (NULL);
+	dst = malloc(result);
+	if (!dst)
+		return (NULL);
+	i = 0;
+	while (i < result)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
+}
+
+char	*cpy_substr(char *buffer)
+{
+	char	*dst;
+	size_t	len;
+	size_t	i;
+
+	len = lenstr(buffer);
+	dst = ft_calloct(sizeof(char), len + 1);
+	if (!dst)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		dst[i] = buffer[i];
+		i++;
+	}
+	return (dst);
+}
+
+char	*concate_buffer(char *buffer, char *tmp)
+{
+	size_t	i;
+	size_t	x;
+	char	*dst;
+
+	dst = ft_calloct(sizeof(char), (lenstr(tmp) + lenstr(buffer) + 1));
+	if (!dst)
+		return (free(tmp), NULL);
+	i = 0;
+	while (tmp[i])
+	{
+		dst[i] = tmp[i];
+		i++;
+	}
+	x = 0;
+	while (buffer[x])
+	{
+		dst[i + x] = buffer[x];
+		x++;
+	}
+	free(tmp);
+	return (dst);
 }

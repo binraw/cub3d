@@ -110,7 +110,7 @@ int	get_textures(game_s *game, char *filepath)
     const int   fd = open(filepath, O_RDONLY);
 
 	if (fd < 0)
-		return (ft_perror("file can't be openin get_textures()\n"));
+		return (ft_perror("File cannot be opened, check filepath\n"));
 	buffer = "buf";
 	while (buffer != NULL && game->texture.all_text != 6)
 	{

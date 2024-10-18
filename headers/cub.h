@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/18 11:05:59 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:48:36 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,18 @@
     # include <math.h>
 
     /* ==== MACROS ==== */
-	# define USAGE		"Need a filepath as argument"
 
-	# define WIN_W		700	// largeur de la fenetre
-	# define WIN_H		700	// hauteur de la fenetre
+    /* ** ERROR MESSAGES ** */
+	# define USAGE	        "Need a filepath as argument\n"
+    # define E_FILE_FORMAT	"A file format error is detected\n"
+    # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
+    # define E_INVALID_CHAR "Invalid char in the map\n"
+    # define E_EMPTYLINE    "Empty line in file is forbidden\n"
+
+
+    /* ** PROG CONSTANTES ** */
+	# define WIN_W	700	// largeur de la fenetre
+	# define WIN_H	700	// hauteur de la fenetre
 
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr

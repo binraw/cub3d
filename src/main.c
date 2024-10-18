@@ -27,19 +27,15 @@ int main(int argc, char **argv)
 		return (ft_perror(USAGE), EXIT_FAILURE);
 	if (parsing(&game, argv[1]))
 		return (1);
-	if (init_console(&game))
-		return (EXIT_FAILURE);
-	// process_create_map(&game, argv[1]);
+	// if (init_console(&game))
+	// 	return (EXIT_FAILURE);
+	// // process_create_map(&game, argv[1]);
 
 
-	// raycaster(&game);
+	// // raycaster(&game);
 
-    mlx_loop(game.console.mlx_ptr);
-	free_console(&game);
+    // mlx_loop(game.console.mlx_ptr);
+	// free_console(&game);
 	free_map_data(&game);
 	return (0);
 }
-
-
-
-
