@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:53:37 by rtruvelo          #+#    #+#             */
-/*   Updated: 2023/11/22 17:46:18 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/19 11:12:21 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_calloc(size_t num, size_t size)
 		return (NULL);
 	while (i < (num * size))
 	{
-		pointer[i] = 0;
+		pointer[i] = '\0';
 		i++;
 	}
 	return (pointer);

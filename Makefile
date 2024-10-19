@@ -30,7 +30,8 @@ SRCS = $(addprefix ${DIR_SRC},${SRCS_FILE})
 
 $(shell mkdir -p ${DIR_OBJ})
 
-all: ${LIBFT} ${NAME}
+default: all
+all: $(MINILIBDIR)/libmlx.a ${LIBFT} ${NAME}
 
 #bonus: ${LIBFT} ${NAME_BONUS}
 
@@ -43,8 +44,10 @@ ${DIR_OBJ}%.o: ${DIR_SRC}%.c ${HDR_DIR}*.h Makefile ${LIBFT}
 	@echo "Compiling $< to $@"
 	$(CC) ${CFLAGS} -I$(HDR_DIR) -c $< -o $@
 
-${LIBFT}:
+${LIBFT}:	FORCE
 	$(MAKE) -C ./libft all
+
+FORCE :
 
 clean:
 	$(MAKE) -C  ./libft clean
@@ -66,4 +69,4 @@ fclean_bonus: clean_bonus
 
 re_bonus: fclean_bonus bonus
 
-.PHONY: all clean fclean re clean_bonus fclean_bonus re_bonus
+.PHONY: all clean fclean re clean_bonus fclean_bonus re_bonus FORCE

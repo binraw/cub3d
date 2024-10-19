@@ -5,6 +5,7 @@
 
 
 #include "cub.h"
+
 bool    is_valid_char(char c);
 
 int process_create_map(game_s *game, char *file)
@@ -40,6 +41,7 @@ int	alloc_tab(game_s *game, bool first_alloc)
 		game->map_data.map = ft_calloc(10, sizeof(char *));
 		if (!game->map_data.map)
 			return (ft_perror("Crash malloc in get_map()\n"));
+		printf("in alloc : |%p|\n", game->map_data.map[0]);
 		game->map_data.heigth = 10;
 		return (0);
 	}
@@ -96,7 +98,7 @@ int	valid_file_content(char *buffer)
 }
 
 /*
-    . detect textures lines. return 1 if line is a texture
+    . return 1 if detect the line as data of the texture
 */
 int	skip_textures(char *buffer)
 {
@@ -127,6 +129,7 @@ static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
         return (ft_perror(E_EMPTYLINE));
     if (valid_file_content(buffer))
 		return (1);
+	printf("|%s|%p|", game->map_data.map[0], &game->map_data.map[0]);
 	game->map_data.map[*tab_size] = ft_strdup(buffer);
 	if (!game->map_data.map[*tab_size])
 		return (ft_perror("Crash malloc in line_analysis() in get_map()\n"));

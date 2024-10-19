@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/18 19:48:36 by florian          ###   ########.fr       */
+/*   Updated: 2024/10/19 11:31:26 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
 
-    # include "../libft/libft.h"
+    # include "../libft/hdr/libft.h"
     # include "../minilibx-linux/mlx.h"
     # include "../minilibx-linux/mlx_int.h"
-    # include "../libft/get_next_line.h"
+    # include "../libft/hdr/get_next_line.h"
     # include <sys/stat.h>
     # include <stdbool.h>
     # include <stdlib.h>
