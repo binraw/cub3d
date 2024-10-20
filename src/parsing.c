@@ -6,185 +6,195 @@
 
 #include "cub.h"
 
-bool    is_valid_char(char c);
-
-int process_create_map(game_s *game, char *file)
+static int	init_parsing(char *filepath, game_s *game, const int fd)
 {
-    // 1 -> recuperer orientation joueur et remplir la structure textures
-    //  . return -1 error
-    // int y;
-    // printf("rentre dans le create map\n");
-    // read_maap(file, game);
-    // y = init_all_texture(game);
-    // printf("valeur de y :%d\n", y);
-    // if (y == -1) // gerer ici les free etc ..
-    //     exit(1);
-    // y++;
-    // if (isclosed(game, y) == 0) // gerer ici les free etc ..
-    //     exit(1);
-    //  //if (isclosed_column(game, y) == 0) // reussir a faire fonctionner la fct qui permet de check
-    //    // exit(1);
-    // // en colonne si c'est bien 1 le dernier et pas un 0
+	int	i;
 
-    // if (init_pos_player(game, y) == -1) // gerer ici les free etc ..
-    //     exit(1);
-    // printf("Map valide bravo \n");
-    return (0);
+	i = 0;
+	if (fd < 3)
+		return (ft_perror("Cannot open file, check the path and the name\n"));
+	while (filepath[i])
+        i++;
+    if (i-- < 5)
+        return (close(fd), ft_perror("Invalid filename\n"));
+	if (filepath[i] != 'b' || filepath[i - 1] != 'u' || \
+		filepath[i - 2] != 'c' || filepath[i - 3] != '.')
+		return (close(fd), ft_perror("Bad file extension\n"));
+	ft_memset(game, 0, sizeof(game_s));
+	ft_memset(game->texture.c_color, -1, 3 * sizeof(int));
+	ft_memset(game->texture.f_color, -1, 3 * sizeof(int));
+	return (0);
 }
 
-int	alloc_tab(game_s *game, bool first_alloc)
-{
-	char	**tmp;
 
-	if (first_alloc == true)
+int	fill_player_data(game_s *game, char orientation, size_t x, size_t y)
+{
+	if (orientation == 'N')
 	{
-		game->map_data.map = ft_calloc(10, sizeof(char *));
-		if (!game->map_data.map)
-			return (ft_perror("Crash malloc in get_map()\n"));
-		printf("in alloc : |%p|\n", game->map_data.map[0]);
-		game->map_data.heigth = 10;
-		return (0);
+		game->plyr_data.angle = ANGLE_N;
+		game->plyr_data.dir_x = 0;
+		game->plyr_data.dir_y = -1;
+	}
+	else if (orientation == 'S')
+	{
+		game->plyr_data.dir_x = 0;
+		game->plyr_data.dir_y = 1;
+		game->plyr_data.angle = ANGLE_S;
+	}
+	else if (orientation == 'E')
+	{
+		game->plyr_data.dir_x = 1;
+		game->plyr_data.dir_y = 0;
+		game->plyr_data.angle = ANGLE_E;
 	}
 	else
 	{
-		tmp = ft_realloc(game->map_data.map, (game->map_data.heigth + 10) * \
-						sizeof(char*), game->map_data.heigth * sizeof(char*));
-		if (!tmp)
-			return (free_ptrtab(game->map_data.map), ft_perror("Crash realloc in get_map()\n"), 1);
-		game->map_data.map = tmp;
-		game->map_data.heigth += 10;
+		game->plyr_data.dir_x = -1;
+		game->plyr_data.dir_y = 0;
+		game->plyr_data.angle = ANGLE_W;
 	}
 	return (0);
 }
 
-bool    is_empty_line(char *buffer)
+int	get_plyr_pos(game_s *game)
 {
-    size_t  i;
+	size_t	x;
+	size_t	y;
 
-    i = 0;
-    while (buffer[i])
-    {
-        if (buffer[i] != 9 && buffer[i] != 32 && buffer[i] != '\n')
-            return (false);
-        i++;
-    }
-    return (true);
-}
-
-/*
-    . check if you got only one player in the map
-    . check if all characteres in file are allowed
-*/
-int	valid_file_content(char *buffer)
-{
-	static int	player;
-	size_t		i;
-
-	i = 0;
-	while (buffer[i])
+	x = 0;
+	y = 0;
+	while (game->map_data.map[y])
 	{
-		if (buffer[i] == 'N' || buffer[i] == 'S' || buffer[i] == 'E' || buffer[i] == 'W')
+		while (game->map_data.map[y][x])
 		{
-			if (!player)
-				player = 1;
-			else
-				return (ft_perror(E_MULTIPLAY));
+			if (is_player(game->map_data.map[y][x]))
+			{
+				game->plyr_data.pos_x = (float) x;
+				game->plyr_data.pos_y = (float) y;
+				return (fill_player_data(game, game->map_data.map[y][x], x, y));
+			}
+			x++;
 		}
-		if (is_valid_char(buffer[i]) == false)
-			return (ft_perror(E_INVALID_CHAR));
-		i++;
+		x = 0;
+		y++;
 	}
-    return (0);
-}
-
-/*
-    . return 1 if detect the line as data of the texture
-*/
-int	skip_textures(char *buffer)
-{
-	if (buffer[1] == 'O' || buffer[1] == 'A' || buffer[1] == 'E' ||\
-		buffer[0] == 'F' || buffer[0] == 'C')
-		return (1);
+	if (game->plyr_data.pos_x == -1)
+		return (ft_perror("No player position\n"));
 	return (0);
 }
 
-
-
-static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
+void	flood_fill(game_s *game, char **map, size_t x, size_t y)
 {
-	static int	nb_textures;
-    bool        empty;
-
-    if (buffer[0] == '\n' && nb_textures < 6)
-			return (0);
-    if (skip_textures(buffer) == 1)
-    {
-        nb_textures += 1;
-        return (0);
-    }
-    empty = is_empty_line(buffer);
-    if (empty == false && nb_textures < 6)
-        return (ft_perror(E_FILE_FORMAT));
-	else if (empty == true && game->map_data.map[0] != NULL)
-        return (ft_perror(E_EMPTYLINE));
-    if (valid_file_content(buffer))
-		return (1);
-	printf("|%s|%p|", game->map_data.map[0], &game->map_data.map[0]);
-	game->map_data.map[*tab_size] = ft_strdup(buffer);
-	if (!game->map_data.map[*tab_size])
-		return (ft_perror("Crash malloc in line_analysis() in get_map()\n"));
-	*tab_size += 1;
-	return (0);
-}
-
-int get_map(game_s *game, char *filepath)
-{
-	const int	fd = open(filepath, O_RDONLY);
-	char		*buffer;
-	size_t		tab_size;
-
-	if (fd < 0)
-		return (ft_perror("File cannot be opened in get_map()\n"));
-	if (alloc_tab(game, true))
-		return (close(fd), 1);
-	tab_size = 0;
-	buffer = "buff";
-	while (buffer != NULL)
+	if (y < game->map_data.heigth)
 	{
-		if (tab_size == game->map_data.heigth)
-			if (alloc_tab(game, false))
-				return (close(fd), free(buffer), 1);
-		buffer = get_next_line(fd);
-		if (!buffer)
-			break ;
-		if (line_analysis(game, &tab_size, buffer))
-			return (close(fd), free(buffer), 1);
-		free(buffer);
+		game->map_data.tmp = ft_strlen(map[y]);
+		if (game->map_data.tmp > game->map_data.width)
+			game->map_data.width = game->map_data.tmp;
 	}
-	game->map_data.heigth = tab_size;
-	return (close(fd));
+	else
+		return ;
+	if (x >= game->map_data.tmp)
+		return ;
+	if (map[y][x] == 'v' || map[y][x] == ' ' || map[y][x] == '\t')
+		return ;
+	else if ((y == 0 || x == 0 || x + 1 == ft_strlen(map[y]) && \
+			map[y][x] == '1'))
+		return ;
+	else if (map[y][x] == '1')
+		map[y][x] = '1';
+	else
+		map[y][x] = 'v';
+	// if (y < game->map_data.heigth)
+	flood_fill(game, map, x, (y + 1));
+	// if (y)
+	flood_fill(game, map, x, (y - 1));
+	// if (map[y] && map[y][x])
+	flood_fill(game, map, (x + 1), y);
+	// if (x != 0)
+	flood_fill(game, map, (x - 1), y);
 }
 
+int	check_first_last_line(char **tmp, size_t x, size_t y)
+{
+	while (tmp[0][x])
+	{
+		if (tmp[0][x] == 'v' || tmp[0][x] == '0')
+				return (ft_perror("Map is not closed\n"));
+		x++;
+	}
+	while (tmp[y])
+		y++;
+	y--;
+	x = 0;
+	while (tmp[y][x])
+	{
+		if (tmp[y][x] == 'v' || tmp[y][x] == '0')
+				return (ft_perror("Map is not closed\n"));
+		x++;
+	}
+	return (0);
+}
+
+bool	map_is_close(char **tmp, game_s *game)
+{
+	size_t	x;
+	size_t	y;
+
+	x = 0;
+	y = 0;
+	if (check_first_last_line(tmp, x, y))
+		return (false);
+
+	return (true);
+}
+
+int	check_map_validity(game_s *game)
+{
+	char	**tmp;
+
+	game->plyr_data.pos_x = -1;
+	game->plyr_data.pos_y = -1;
+	if (get_plyr_pos(game))
+		return (1);
+	tmp = duplicate_map(game->map_data.map, game->map_data.heigth);
+	if (!tmp)
+		return (1);
+	flood_fill(game, tmp, (size_t) game->plyr_data.pos_x, \
+						(size_t) game->plyr_data.pos_y);
+	// if (map_is_close(tmp, game) == false)
+	// 	return (free_ptrtab(tmp), 1);
+	for (int i = 0; i < game->map_data.heigth; i++){
+		printf("%s\n", tmp[i]);
+	}
+	free_ptrtab(tmp);
+	return (0);
+}
 
 
 int	parsing(game_s *game, char *filepath)
 {
-	ft_memset(game, 0, sizeof(game_s));
-	ft_memset(game->texture.c_color, -1, 3 * sizeof(int));
-	ft_memset(game->texture.f_color, -1, 3 * sizeof(int));
-	// if (get_textures(game, filepath))
-	// 	return (free_textures(game), 1);
-    if (get_map(game, filepath))
-        return (free_map_data(game), 1);
+	const int	fd = open(filepath, O_RDONLY);
 
-    // printf("%s\n", game->texture.text_no);
-	// printf("%s\n", game->texture.text_so);
-	// printf("%s\n", game->texture.text_ea);
-	// printf("%s\n", game->texture.text_we);
-	// printf("%d %d %d\n", game->texture.f_color[0], game->texture.f_color[1], game->texture.f_color[2]);
-	// printf("%d %d %d\n\n\n", game->texture.c_color[0], game->texture.c_color[1], game->texture.c_color[2]);
+	if (init_parsing(filepath, game, fd))
+		return (1);
+	if (get_textures(game, fd))
+		return (free_textures(game), close(fd), 1);
+    if (get_map(game, fd))
+        return (free_map_data(game), close(fd), 1);
+	if (check_map_validity(game))
+		return (free_map_data(game), close(fd), 1);
+
+
+    printf("%s\n", game->texture.text_no);
+	printf("%s\n", game->texture.text_so);
+	printf("%s\n", game->texture.text_ea);
+	printf("%s\n", game->texture.text_we);
+	printf("%d %d %d\n", game->texture.f_color[0], game->texture.f_color[1], game->texture.f_color[2]);
+	printf("%d %d %d\n\n\n", game->texture.c_color[0], game->texture.c_color[1], game->texture.c_color[2]);
 	int i = 0;
-	while(game->map_data.map[i])
-		printf("%s", game->map_data.map[i++]);
-	return (0);
+	// while(game->map_data.map[i])
+	// 	printf("%s\n", game->map_data.map[i++]);
+	printf("map size == %zu\n", game->map_data.heigth);
+	printf("player pos : x == %f : y == %f\n", game->plyr_data.pos_x, game->plyr_data.pos_y);
+	return (close(fd), 0);
 }

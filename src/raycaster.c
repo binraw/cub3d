@@ -7,33 +7,33 @@
 
 #include "cub.h"
 
-void	init_player(game_s *game)
-{
-	game->plyr_data.angle = ANGLE_N;
-	if (game->plyr_data.angle == ANGLE_N)
-	{
-		game->plyr_data.dir_x = 0;
-		game->plyr_data.dir_y = -1;
-	}
-	else if (game->plyr_data.angle == ANGLE_S)
-	{
-		game->plyr_data.dir_x = 0;
-		game->plyr_data.dir_y = 1;
-	}
-	else if (game->plyr_data.angle == ANGLE_E)
-	{
-		game->plyr_data.dir_x = 1;
-		game->plyr_data.dir_y = 0;
-	}
-	else
-	{
-		game->plyr_data.dir_x = -1;
-		game->plyr_data.dir_y = 0;
-	}
-	game->map_data.tile_size = round((double) WIN_W / game->map_data.width);
-	game->plyr_data.pos_x = 21 * TILE_S + TILE_S * 0.5;
-	game->plyr_data.pos_y = 3 * TILE_S + TILE_S * 0.5;
-}
+// void	init_player(game_s *game)
+// {
+// 	game->plyr_data.angle = ANGLE_N;
+// 	if (game->plyr_data.angle == ANGLE_N)
+// 	{
+// 		game->plyr_data.dir_x = 0;
+// 		game->plyr_data.dir_y = -1;
+// 	}
+// 	else if (game->plyr_data.angle == ANGLE_S)
+// 	{
+// 		game->plyr_data.dir_x = 0;
+// 		game->plyr_data.dir_y = 1;
+// 	}
+// 	else if (game->plyr_data.angle == ANGLE_E)
+// 	{
+// 		game->plyr_data.dir_x = 1;
+// 		game->plyr_data.dir_y = 0;
+// 	}
+// 	else
+// 	{
+// 		game->plyr_data.dir_x = -1;
+// 		game->plyr_data.dir_y = 0;
+// 	}
+// 	game->map_data.tile_size = round((double) WIN_W / game->map_data.width);
+// 	game->plyr_data.pos_x = 21 * TILE_S + TILE_S * 0.5;
+// 	game->plyr_data.pos_y = 3 * TILE_S + TILE_S * 0.5;
+// }
 
 int	draw_horizon(game_s *game)
 {
@@ -44,13 +44,13 @@ int	draw_horizon(game_s *game)
 		if (y > mid_heigth)
 		{
 			for (int x = 0; x < WIN_W; x+=2){
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.f_color);
+				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.f_color[1]);
 			}
 		}
 		else if (y < mid_heigth)
 		{
 			for (int x = 0; x < WIN_W; x+=2){
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.c_color);
+				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.c_color[1]);
 			}
 		}
 		else
@@ -72,11 +72,12 @@ int	compute_ray(game_s *game)
 {
 	double	x_start = game->plyr_data.pos_x;
 	double	y_start = game->plyr_data.pos_y;
+	return (0);
 }
 
 int	raycaster(game_s *game)
 {
-	init_player(game);
+	// init_player(game);
 	draw_horizon(game);
 	compute_ray(game);
 

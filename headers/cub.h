@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/19 11:31:26 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/20 14:07:56 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
     # define E_FILE_FORMAT	"A file format error is detected\n"
     # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
     # define E_INVALID_CHAR "Invalid char in the map\n"
-    # define E_EMPTYLINE    "Empty line in file is forbidden\n"
+    # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
 
 
     /* ** PROG CONSTANTES ** */
@@ -90,6 +90,7 @@
 		size_t	width;
 		size_t	heigth;
 		int		tile_size; // == WIN_WIDTH / map_width
+		size_t	tmp;
 	} map_s;
 
     typedef struct game_s
@@ -102,7 +103,7 @@
 
 
 
-	/* === init === */
+	/* === init_console.c === */
 	int		init_console(game_s *game);
 	void	hook_management(game_s *game);
 
@@ -112,25 +113,22 @@
 	void	free_ptrtab(char **tab);
 	void	free_map_data(game_s *game);
 
-
 	/* === parsing.c === */
 	int		parsing(game_s *game, char *filepath);
-	int		get_textures(game_s *game, char *filepath);
+	
+	/* === parsing_utils.c === */
+	bool	is_valid_char(char c);
+	bool	is_empty_line(char *buffer);
+	bool	is_player(char c);
+	char	**duplicate_map(char **src, size_t nb_ptr);
+	
+	/* === init_texture.c === */
+	int		get_textures(game_s *game, int fd);
+	
+	/* === init_map.c === */
+	int		get_map(game_s *game, int fd);
 
 
-    int     init_value_texture_no(game_s *game, size_t y);
-    int     init_value_texture_so(game_s *game, size_t y);
-    int     init_value_texture_we(game_s *game, size_t y);
-    int     init_value_texture_ea(game_s *game, size_t y);
-    int     init_value_texture_f(game_s *game, size_t y);
-    int     init_value_texture_c(game_s *game, size_t y);
-    int     count_line_maap(char *file);
-    void	alloc_lign(char *file, game_s *game);
-    void	read_maap(char *file, game_s *game);
-    int     control_texture_value(game_s *game);
-    int     init_all_texture(game_s *game);
-
-    int process_create_map(game_s *game, char *file);
     int    control_value_player(player_s *player, char *str);
     int init_pos_player(game_s *game, int y);
     int isclosed(game_s *game, int x);
