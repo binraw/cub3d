@@ -6,31 +6,6 @@
 
 #include "cub.h"
 
-static int	alloc_tab(game_s *game, bool first_alloc)
-{
-	char	**tmp;
-
-	if (first_alloc == true)
-	{
-		game->map_data.map = ft_calloc(10, sizeof(char *));
-		if (!game->map_data.map)
-			return (ft_perror("Crash malloc in get_map()\n"));
-		game->map_data.heigth = 10;
-		return (0);
-	}
-	else
-	{
-		tmp = ft_realloc(game->map_data.map, (game->map_data.heigth + 10) * \
-						sizeof(char*), game->map_data.heigth * sizeof(char*));
-		if (!tmp)
-			return (free_ptrtab(game->map_data.map), \
-					ft_perror("Crash realloc in get_map()\n"), 1);
-		game->map_data.map = tmp;
-		game->map_data.heigth += 10;
-	}
-	return (0);
-}
-
 /*
     . check if you got only one player in the map
     . check if all characteres in file are allowed
@@ -57,7 +32,7 @@ static int	valid_file_content(char *buffer)
     return (0);
 }
 
-static int	format_map(char **line)
+static int	format_line(char **line, size_t *length)
 {
 	size_t	i;
 
@@ -67,6 +42,38 @@ static int	format_map(char **line)
 		if (line[0][i] == '\n')
 			line[0][i] = '\0';
 		i++;
+	}
+	i -= 1;
+	if (i > *length)
+		*length = i;
+	return (0);
+}
+
+static int	format_map(game_s *game)
+{
+	char	*tmp;
+	char	*temp;
+	size_t	len;
+	size_t	y;
+
+	y = 0;
+	while (y < game->map_data.heigth)
+	{
+		len = ft_strlen(game->map_data.map[y]);
+		if (len < game->map_data.width)
+		{
+			tmp = ft_calloc(game->map_data.width - len + 1, sizeof(char));
+			if (!tmp)
+				return (ft_perror("Crash malloc in format_map()\n"));
+			ft_memset(tmp, ' ', game->map_data.width - len);
+			temp = ft_strjoin(game->map_data.map[y], tmp);
+			free(tmp);
+			if (!temp)
+				return (ft_perror("Crash ft_strjoin()\n"));
+			free(game->map_data.map[y]);
+			game->map_data.map[y] = temp;
+		}
+		y++;
 	}
 	return (0);
 }
@@ -88,7 +95,8 @@ static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
 	if (!game->map_data.map[*tab_size])
 		return (ft_perror("Crash malloc in line_analysis() in get_map()\n"));
 	*tab_size += 1;
-	return (format_map(&game->map_data.map[*tab_size - 1]));
+	format_line(&game->map_data.map[*tab_size - 1], &game->map_data.width);
+	return (0);
 }
 
 int get_map(game_s *game, const int fd)
@@ -117,5 +125,5 @@ int get_map(game_s *game, const int fd)
 	else if (tab_size < 3)
 		return (ft_perror("Invalid map description\n"));
 	game->map_data.heigth = tab_size;
-	return (0);
+	return (format_map(game));
 }

@@ -58,3 +58,27 @@ char	**duplicate_map(char **src, size_t nb_ptr)
 	return (tmp);
 }
 
+int	alloc_tab(game_s *game, bool first_alloc)
+{
+	char	**tmp;
+
+	if (first_alloc == true)
+	{
+		game->map_data.map = ft_calloc(10, sizeof(char *));
+		if (!game->map_data.map)
+			return (ft_perror("Crash malloc in get_map()\n"));
+		game->map_data.heigth = 10;
+		return (0);
+	}
+	else
+	{
+		tmp = ft_realloc(game->map_data.map, (game->map_data.heigth + 10) * \
+						sizeof(char*), game->map_data.heigth * sizeof(char*));
+		if (!tmp)
+			return (free_ptrtab(game->map_data.map), \
+					ft_perror("Crash realloc in get_map()\n"), 1);
+		game->map_data.map = tmp;
+		game->map_data.heigth += 10;
+	}
+	return (0);
+}

@@ -83,90 +83,116 @@ int	get_plyr_pos(game_s *game)
 	return (0);
 }
 
-void	flood_fill(game_s *game, char **map, size_t x, size_t y)
-{
-	if (y < game->map_data.heigth)
-	{
-		game->map_data.tmp = ft_strlen(map[y]);
-		if (game->map_data.tmp > game->map_data.width)
-			game->map_data.width = game->map_data.tmp;
-	}
-	else
-		return ;
-	if (x >= game->map_data.tmp)
-		return ;
-	if (map[y][x] == 'v' || map[y][x] == ' ' || map[y][x] == '\t')
-		return ;
-	else if ((y == 0 || x == 0 || x + 1 == ft_strlen(map[y]) && \
-			map[y][x] == '1'))
-		return ;
-	else if (map[y][x] == '1')
-		map[y][x] = '1';
-	else
-		map[y][x] = 'v';
-	// if (y < game->map_data.heigth)
-	flood_fill(game, map, x, (y + 1));
-	// if (y)
-	flood_fill(game, map, x, (y - 1));
-	// if (map[y] && map[y][x])
-	flood_fill(game, map, (x + 1), y);
-	// if (x != 0)
-	flood_fill(game, map, (x - 1), y);
-}
-
-int	check_first_last_line(char **tmp, size_t x, size_t y)
-{
-	while (tmp[0][x])
-	{
-		if (tmp[0][x] == 'v' || tmp[0][x] == '0')
-				return (ft_perror("Map is not closed\n"));
-		x++;
-	}
-	while (tmp[y])
-		y++;
-	y--;
-	x = 0;
-	while (tmp[y][x])
-	{
-		if (tmp[y][x] == 'v' || tmp[y][x] == '0')
-				return (ft_perror("Map is not closed\n"));
-		x++;
-	}
-	return (0);
-}
-
-bool	map_is_close(char **tmp, game_s *game)
+int	check_lines(char **map, size_t heigth)
 {
 	size_t	x;
 	size_t	y;
 
-	x = 0;
 	y = 0;
-	if (check_first_last_line(tmp, x, y))
-		return (false);
+	x = 0;
+	while (map[y])
+	{
+		while(map[y][x] == ' ')
+			x++;
+		if (map[y][x] != '1')
+		{
+			printf("HERE y = %zu : x = %zu\n", y, x);
+			return (1);
+		}
+		x = ft_strlen(map[y]) - 1;
+		while (x != 0 && map[y][x] == ' ')
+		{
+			if (y > 0 && map[y - 1][x] == '0')
+			{
+				printf("HEERE\n");
+				return (1);
+			}
+			if (y < heigth - 1 && map[y + 1][x] == '0')
+			{
+				printf("HEEERE\n");
+				return (1);
+			}
+			x--;
+		}
+		if (map[y][x] == '0')
+		{
+			printf("HEEEERE\n");
+			return (1);
+		}
+		x = 0;
+		y++; 
+	}
+	return (0);
+}
 
-	return (true);
+int	check_columns(char **map, size_t heigth, size_t width)
+{
+	size_t	x;
+	size_t	y;
+
+	y = 0;
+	x = 0;
+	while (y < heigth && map[y][x])
+	{
+		while (y < heigth && map[y][x] == ' ')
+		{
+			if (x != 0 && map[y][x - 1] == '0')
+			{
+				printf("HERE\n");
+				return (1);
+			}
+			if (x < width && map[y][x + 1] == '0')
+			{
+				printf("HEERE\n");
+				return (1);
+			}
+			y++;
+		}
+		if (map[y][x] != '1')
+		{
+			printf("HEEERE y = %zu : x == %zu\n", y, x);
+			return (1);
+		}
+		y = heigth - 1;
+		while (y != 0 && map[y][x] == ' ')
+		{
+			if (x > 0 && map[y][x - 1] == '0')
+			{
+				printf("HEEEERE\n");
+				return (1);
+			}
+			if (x < width && map[y][x + 1] == '0')
+			{
+				printf("HEEEEERE\n");
+				return (1);
+			}
+			y--;
+		}
+		y = 0;
+		x++;
+	}
 }
 
 int	check_map_validity(game_s *game)
 {
-	char	**tmp;
+	// char	**tmp;
 
-	game->plyr_data.pos_x = -1;
-	game->plyr_data.pos_y = -1;
-	if (get_plyr_pos(game))
-		return (1);
-	tmp = duplicate_map(game->map_data.map, game->map_data.heigth);
-	if (!tmp)
-		return (1);
-	flood_fill(game, tmp, (size_t) game->plyr_data.pos_x, \
-						(size_t) game->plyr_data.pos_y);
-	// if (map_is_close(tmp, game) == false)
-	// 	return (free_ptrtab(tmp), 1);
-	for (int i = 0; i < game->map_data.heigth; i++){
-		printf("%s\n", tmp[i]);
-	}
-	free_ptrtab(tmp);
+	// game->plyr_data.pos_x = -1;
+	// game->plyr_data.pos_y = -1;
+	// if (get_plyr_pos(game))
+	// 	return (1);
+	// tmp = duplicate_map(game->map_data.map, game->map_data.heigth);
+	// if (!tmp)
+	// 	return (1);
+	// flood_fill(game, tmp, (int) game->plyr_data.pos_x, \
+	// 					(int) game->plyr_data.pos_y);
+	
+	
+	if (check_lines(game->map_data.map, game->map_data.heigth))
+		return (ft_perror("Map is not close in lines\n"));
+	if (check_columns(game->map_data.map, game->map_data.heigth, game->map_data.width))
+		return (ft_perror("Map is not close in columns\n"));
+	
 	return (0);
 }
 
@@ -181,8 +207,10 @@ int	parsing(game_s *game, char *filepath)
 		return (free_textures(game), close(fd), 1);
     if (get_map(game, fd))
         return (free_map_data(game), close(fd), 1);
+	close (fd);
 	if (check_map_validity(game))
-		return (free_map_data(game), close(fd), 1);
+		return (free_map_data(game), 1);
+
 
 
     printf("%s\n", game->texture.text_no);
@@ -196,5 +224,8 @@ int	parsing(game_s *game, char *filepath)
 	// 	printf("%s\n", game->map_data.map[i++]);
 	printf("map size == %zu\n", game->map_data.heigth);
 	printf("player pos : x == %f : y == %f\n", game->plyr_data.pos_x, game->plyr_data.pos_y);
+
+
+
 	return (close(fd), 0);
 }

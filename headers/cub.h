@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/20 14:07:56 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:58:18 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@
 	bool	is_empty_line(char *buffer);
 	bool	is_player(char c);
 	char	**duplicate_map(char **src, size_t nb_ptr);
+	int		alloc_tab(game_s *game, bool first_alloc);
 	
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
