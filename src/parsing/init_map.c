@@ -1,8 +1,20 @@
-#include "../headers/cub.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
+/*   Updated: 2024/10/21 12:09:29 by fberthou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub.h"
 
 /*
-    . check if you got only one player in the map
-    . check if all characteres in file are allowed
+	. check if you got only one player in the map
+	. check if all characteres in file are allowed
 */
 static int	valid_file_content(char *buffer)
 {
@@ -12,7 +24,8 @@ static int	valid_file_content(char *buffer)
 	i = 0;
 	while (buffer[i])
 	{
-		if (buffer[i] == 'N' || buffer[i] == 'S' || buffer[i] == 'E' || buffer[i] == 'W')
+		if (buffer[i] == 'N' || buffer[i] == 'S' || \
+			buffer[i] == 'E' || buffer[i] == 'W')
 		{
 			if (!player)
 				player = 1;
@@ -23,7 +36,7 @@ static int	valid_file_content(char *buffer)
 			return (ft_perror(E_INVALID_CHAR));
 		i++;
 	}
-    return (0);
+	return (0);
 }
 
 static int	format_line(char **line, size_t *length)
@@ -78,12 +91,12 @@ static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
 	const bool	empty = is_empty_line(buffer);
 
 	if (empty == true && game->map_data.map[0] != NULL && flag == 0)
-        flag = 1;
+		flag = 1;
 	else if (empty == false && flag == 1)
 		return (ft_perror(E_EMPTYLINE));
 	if (empty == true)
-        return (0);
-    if (valid_file_content(buffer))
+		return (0);
+	if (valid_file_content(buffer))
 		return (1);
 	game->map_data.map[*tab_size] = ft_strdup(buffer);
 	if (!game->map_data.map[*tab_size])
@@ -93,7 +106,7 @@ static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
 	return (0);
 }
 
-int get_map(game_s *game, const int fd)
+int	get_map(game_s *game, const int fd)
 {
 	char		*buffer;
 	size_t		tab_size;

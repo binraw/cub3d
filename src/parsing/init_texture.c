@@ -1,4 +1,16 @@
-#include "../headers/cub.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_texture.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
+/*   Updated: 2024/10/21 12:09:13 by fberthou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub.h"
 
 static bool	not_dup_is_digit(char **buff, int *colors)
 {
@@ -6,13 +18,13 @@ static bool	not_dup_is_digit(char **buff, int *colors)
 	size_t	y;
 
 	i = 0;
-    while (i < 3)
-    {
-        if (colors[i] != -1)
-            return (ft_perror("A color is duplicated in file\n"), false);
-        i++;
-    }
-    i = 0;
+	while (i < 3)
+	{
+		if (colors[i] != -1)
+			return (ft_perror("A color is duplicated in file\n"), false);
+		i++;
+	}
+	i = 0;
 	y = 0;
 	while (buff[i])
 	{
@@ -34,7 +46,7 @@ static int	fill_colors(char *buffer, int *colors)
 	int		i;
 
 	i = 1;
-	while(buffer[i] && buffer[i] == ' ')
+	while (buffer[i] && buffer[i] == ' ')
 		i++;
 	tmp = ft_split(&buffer[i], ',');
 	if (!tmp)
@@ -47,7 +59,7 @@ static int	fill_colors(char *buffer, int *colors)
 		colors[i] = ft_atoi(tmp[i]);
 		if (colors[i] < 0 || colors[i] > 255)
 			return (free_ptrtab(tmp), \
-                    ft_perror("Invalid colors value in file\n"));
+					ft_perror("Invalid colors value in file\n"));
 	}
 	while (tmp[i])
 		i++;
@@ -62,14 +74,14 @@ static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 	int		fd;
 
 	i = 2;
-    if (*buff_t != NULL)
-        return (ft_perror("One direction field is duplicated\n"));
+	if (*buff_t != NULL)
+		return (ft_perror("One direction field is duplicated\n"));
 	while (buff_f[i] && (buff_f[i] == ' ' || buff_f[i] == '\t'))
 		i++;
 	*buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i + 1);
 	if (!*buff_t)
 		return (ft_perror("crash malloc in fill_direction\n"));
-    game->texture.all_text += 1;
+	game->texture.all_text += 1;
 	return (0);
 }
 
@@ -84,22 +96,22 @@ static int	line_analysis(game_s *game, char *buffer)
 	else if (buffer[0] == 'W' && buffer[1] == 'E')
 		return (fill_direction(buffer, &game->texture.text_we, game));
 	else if (buffer[0] == 'F')
-    {
-        game->texture.all_text += 1;
+	{
+		game->texture.all_text += 1;
 		return (fill_colors(buffer, game->texture.f_color));
-    }
+	}
 	else if (buffer[0] == 'C')
-    {
-        game->texture.all_text += 1;
+	{
+		game->texture.all_text += 1;
 		return (fill_colors(buffer, game->texture.c_color));
-    }
+	}
 	return (0);
 }
 
 int	get_textures(game_s *game, const int fd)
 {
 	char	*buffer;
-	
+
 	buffer = "buf";
 	while (buffer != NULL && game->texture.all_text != 6)
 	{

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/21 14:03:45 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:11:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@
 		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
 		bool	move_up;
 		double orientation;
-		char	value_player;
 		bool	move_down;
 		bool	move_right;
 		bool	move_left;
@@ -107,6 +106,8 @@
     } game_s;
 
 
+	/* === main.c === */
+	int		ft_perror(char *msg);
 
 	/* === init_console.c === */
 	int		init_console(game_s *game);
@@ -134,31 +135,15 @@
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
 
+	/* === valid_map.c === */
+	int	check_map_validity(game_s *game);
 
-    // int     init_value_texture_no(game_s *game, size_t y);
-    // int     init_value_texture_so(game_s *game, size_t y);
-    // int     init_value_texture_we(game_s *game, size_t y);
-    // int     init_value_texture_ea(game_s *game, size_t y);
-    // int     init_value_texture_f(game_s *game, size_t y);
-    // int     init_value_texture_c(game_s *game, size_t y);
-    // int     count_line_maap(char *file);
-    // void	alloc_lign(char *file, game_s *game);
-    // void	read_file(char *file, game_s *game);
-    // int     control_texture_value(game_s *game);
-    // int     init_all_texture(game_s *game);
+	
+
     int		init_pixel_map(game_s *game, int y);
 	char	**dup_map_pixel(game_s *game, int y);
-    int		process_create_map(game_s *game, char *file);
     // int		control_value_player(player_s *player, char *str);
-    // int		init_pos_player(game_s *game, int y);
-    int		isclosed(game_s *game);
-    // int		isclosed_column(game_s *game);
-    int		check_last_value(game_s *game, int y, int i);
-	int		ft_perror(char *msg);
 	int		value_player(game_s *game, char c);
-	int		init_value_player(game_s *game);
-	// int		init_pos_player(game_s *game, int x);
-	int		no_player_in_wall(game_s *game);
 
 	int	raycaster(game_s *game);
 	int	rotate(game_s *game);

@@ -1,70 +1,82 @@
-NAME	= cub3d
-#NAME_BONUS =
+# ==== PROG/LIB NAME ==== #
+NAME	= cub3d						# prog name
+LIBFT	= $(DIR_LIBFT)libft.a		# path to archive librairie libft
+MLX		= $(DIR_MLX)libmlx_Linux.a	# path to archive librairie mlx
+
+# ==== SHELL COMANDS ==== #
 RM		= rm -Rf
-MD		= mkdir -p
+MD		= @mkdir -p
 
 # ==== DIRECTORIES PATHS ==== #
-MINILIBDIR	= ./minilibx-linux
+### *** LIBRAIRIES PATH *** ###
+DIR_MLX		= ./minilibx-linux/
+DIR_LIBFT	= ./libft/
+### *** HEADER PATH *** ###
 HDR_DIR		= headers/
+###	# *** SOURCES PATH *** ###
 DIR_SRC		= src/
+DIR_MAIN	= $(DIR_SRC)main/
 DIR_INIT	= $(DIR_SRC)init/
+DIR_PARS	= $(DIR_SRC)parsing/
+DIR_RAY		= $(DIR_SRC)raycasting/
 DIR_OBJ		= .object/
-#DIR_BONUS = bonus/
-#DIR_OBJ_BONUS = .object_BONUS/
 
 # ==== COMPILATION TOOLS ==== #
-CC			= cc
-CFLAGS		= -g # -Wall -Wextra -Werror
+LIB_FLAG	= -I$(DIR_LIBFT)hdr -I$(DIR_MLX)
 MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
-LIBFT		= ./libft/libft.a
+CFLAGS		= -g -I$(HDR_DIR) $(LIB_FLAG) # -Wall -Wextra -Werror
 
-# SRC
-SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c parsing.c \
-					init_console.c hook.c \
-					process_init.c parsing_utils.c free_memory.c \
-					raycaster.c utils_raycaster.c
-#SRCS_FILE_BONUS	=
+### === SOURCES FILE === ###
+SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c \
+					\
+					$(DIR_INIT)init_console.c $(DIR_INIT)hook.c \
+					\
+					$(DIR_PARS)parsing.c $(DIR_PARS)parsing_utils.c \
+					$(DIR_PARS)init_map.c $(DIR_PARS)init_texture.c $(DIR_PARS)valid_map.c \
+					\
+					$(DIR_RAY)raycaster.c $(DIR_RAY)utils_raycaster.c
+OBJS	= $(SRCS_FILE:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
+# OBJS = $(patsubst %.c, $(DIR_OBJ)%.o, $(SRCS_FILE))
+# SRCS = $(addprefix $(DIR_SRC),$(SRCS_FILE))
 
-OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS_FILE})
-SRCS = $(addprefix ${DIR_SRC},${SRCS_FILE})
-
-$(shell mkdir -p ${DIR_OBJ})
+# $(shell $(MD) $(DIR_OBJ))
 
 default: all
-all: $(MINILIBDIR)/libmlx.a ${LIBFT} ${NAME}
+all: $(MLX) $(LIBFT) $(NAME)
 
-#bonus: ${LIBFT} ${NAME_BONUS}
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) -L$(DIR_MLX) $(MLX_FLAGS) $^ -o $@
+	@echo "**** CUBD3D READY ****"
 
-${NAME}: ${OBJS} ${LIBFT}
-	$(MAKE) -C $(MINILIBDIR)
-	$(CC) $(OBJS) ${LIBFT} -L$(MINILIBDIR) ${MLX_FLAGS} $(MINILIBDIR)/libmlx.a -o $(NAME)
-
-${DIR_OBJ}%.o: ${DIR_SRC}%.c ${HDR_DIR}*.h Makefile ${LIBFT}
-	$(MD) $(shell dirname $@)
+$(DIR_OBJ)%.o: $(DIR_SRC)%.c $(HDR_DIR)*.h Makefile $(LIBFT)
+	$(MD) $(dir $@)
 	@echo "Compiling $< to $@"
-	$(CC) ${CFLAGS} -I$(HDR_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
-${LIBFT}:	FORCE
+$(MLX): FORCE
+	$(MAKE) -C $(DIR_MLX) all
+
+$(LIBFT): FORCE
 	$(MAKE) -C ./libft all
 
 FORCE :
 
 clean:
 	$(MAKE) -C  ./libft clean
-	$(RM) ${DIR_OBJ}
+	$(RM) $(DIR_OBJ)
 
 fclean: clean
 	$(MAKE) -C  ./libft fclean
-	$(RM) ${NAME}
+	$(RM) $(NAME)
 
 re: fclean all
 
 clean_bonus:
-	$(RM) ${DIR_OBJ_BONUS}
+	$(RM) $(DIR_OBJ_BONUS)
 	$(MAKE) -C ./libft clean
 
 fclean_bonus: clean_bonus
-	@rm -f ${NAME_BONUS}
+	@rm -f $(NAME_BONUS)
 	$(MAKE) -C ./libft fclean
 
 re_bonus: fclean_bonus bonus
