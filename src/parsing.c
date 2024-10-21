@@ -179,8 +179,8 @@ int	check_map_validity(game_s *game)
 
 	// game->plyr_data.pos_x = -1;
 	// game->plyr_data.pos_y = -1;
-	// if (get_plyr_pos(game))
-	// 	return (1);
+	if (get_plyr_pos(game))
+		return (1);
 	// tmp = duplicate_map(game->map_data.map, game->map_data.heigth);
 	// if (!tmp)
 	// 	return (1);
