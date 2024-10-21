@@ -19,9 +19,9 @@ MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBFT		= ./libft/libft.a
 
 # SRC
-SRCS_FILE		=	main.c check_map.c init_map.c init_texture.c parsing.c \
+SRCS_FILE		=	main.c free_memory.c parsing.c parsing_utils.c \
+					init_map.c init_texture.c valid_map.c \
 					init_console.c hook.c \
-					process_init.c parsing_utils.c free_memory.c \
 					raycaster.c utils_raycaster.c
 #SRCS_FILE_BONUS	=
 
