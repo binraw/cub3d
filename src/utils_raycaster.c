@@ -13,6 +13,7 @@ int	rotate(game_s *game)
     // }
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
     {
+        printf("rentre dans rota\n");
         if (game->plyr_data.rotate_l)
             game->plyr_data.angle -= ROT_SPEED; // Tourner à gauche
         if (game->plyr_data.rotate_r)
