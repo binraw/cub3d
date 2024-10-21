@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/21 07:05:08 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/21 07:42:21 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@
 		char	*text_ea;
 		char	*text_f;
 		char	*text_c;
-		int		f_color[3];
-		int		c_color[3];
-
 		int		f_color[3];
 		int		c_color[3];
 		int     all_text;
@@ -138,39 +135,43 @@
 	int		get_map(game_s *game, int fd);
 
 
-    int     init_value_texture_no(game_s *game, size_t y);
-    int     init_value_texture_so(game_s *game, size_t y);
-    int     init_value_texture_we(game_s *game, size_t y);
-    int     init_value_texture_ea(game_s *game, size_t y);
-    int     init_value_texture_f(game_s *game, size_t y);
-    int     init_value_texture_c(game_s *game, size_t y);
-    int     count_line_maap(char *file);
-    void	alloc_lign(char *file, game_s *game);
-    void	read_file(char *file, game_s *game);
-    int     control_texture_value(game_s *game);
-    int     init_all_texture(game_s *game);
+    // int     init_value_texture_no(game_s *game, size_t y);
+    // int     init_value_texture_so(game_s *game, size_t y);
+    // int     init_value_texture_we(game_s *game, size_t y);
+    // int     init_value_texture_ea(game_s *game, size_t y);
+    // int     init_value_texture_f(game_s *game, size_t y);
+    // int     init_value_texture_c(game_s *game, size_t y);
+    // int     count_line_maap(char *file);
+    // void	alloc_lign(char *file, game_s *game);
+    // void	read_file(char *file, game_s *game);
+    // int     control_texture_value(game_s *game);
+    // int     init_all_texture(game_s *game);
     int		init_pixel_map(game_s *game, int y);
 	char	**dup_map_pixel(game_s *game, int y);
     int		process_create_map(game_s *game, char *file);
-    int		control_value_player(player_s *player, char *str);
-    int		init_pos_player(game_s *game, int y);
+    // int		control_value_player(player_s *player, char *str);
+    // int		init_pos_player(game_s *game, int y);
     int		isclosed(game_s *game);
-    int		isclosed_column(game_s *game);
+    // int		isclosed_column(game_s *game);
     int		check_last_value(game_s *game, int y, int i);
 	int		ft_perror(char *msg);
 	int		value_player(game_s *game, char c);
 	int		init_value_player(game_s *game);
-	int		init_pos_player(game_s *game, int x);
+	// int		init_pos_player(game_s *game, int x);
 	int		no_player_in_wall(game_s *game);
 
 	int	raycaster(game_s *game);
+	int	rotate(game_s *game);
+	int	move(game_s *game , double move_x, double move_y);
+	int loop_hook(game_s *game);
+	void update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
 	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
     int    control_value_player(player_s *player, char *str);
-    int init_pos_player(game_s *game, int y);
-    int isclosed(game_s *game, int x);
-    int isclosed_column(game_s *game, int x);
-    int check_last_value(game_s *game, int y, size_t i);
+    // int init_pos_player(game_s *game, int y);
+    // int isclosed(game_s *game, int x);
+    // int isclosed_column(game_s *game, int x);
+    // int check_last_value(game_s *game, int y, size_t i);
 	int	ft_perror(char *msg);
 
 #endif
