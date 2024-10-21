@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 #include "cub.h"
 
 static int	close_win(game_s *game, int key_code)

@@ -19,9 +19,9 @@ int	move(game_s *game , double move_x, double move_y)
 
 	new_pos_x = game->plyr_data.pos_x + move_x  * MOV_SPEED;
 	new_pos_y = game->plyr_data.pos_y + move_y * MOV_SPEED;
-	if (new_pos_x < 0 || new_pos_x >= game->map_data.width || \
-		new_pos_y < 0 || new_pos_y >= game->map_data.heigth || \
-		game->map_data.map[(int)new_pos_y][(int)new_pos_x] == 0)
+	if (new_pos_x < 0 || new_pos_x >= game->map_data.width || 
+		new_pos_y < 0 || new_pos_y >= game->map_data.heigth || 
+		game->map_data.map[(int)new_pos_y][(int)new_pos_x] == '1')
 	{
 		return (1);
 	}
@@ -58,12 +58,12 @@ void update_movement(game_s *game)
         move_x += sin(game->plyr_data.angle);
         move_y -= cos(game->plyr_data.angle);
     }
-    double length = sqrt(move_x * move_x + move_y * move_y); //ralenti si le deplacement va trop vite
-    if (length > 1)
-    {
-        move_x /= length;
-        move_y /= length;
-    }
+    // double length = sqrt(move_x * move_x + move_y * move_y); //ralenti si le deplacement va trop vite
+    // if (length > 1)
+    // {
+    //     move_x /= length;
+    //     move_y /= length;
+    // }
     move(game, move_x, move_y);
 }
 

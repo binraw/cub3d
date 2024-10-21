@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 #include "cub.h"
 
 bool	is_player(char c)

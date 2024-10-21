@@ -140,7 +140,7 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 	int wall_color;
 	int y;
 
-	printf("MUUUUR \n");
+	// printf("MUUUUR \n");
 	pos_x = game->plyr_data.pos_x;
     pos_y = game->plyr_data.pos_y;
     // 1. Calculer la distance au mur
@@ -153,8 +153,8 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
     // 4. Dessiner le mur
     wall_color = 0;
 	y = wall_top;
-	printf("valeur wall top : %d\n", wall_top);
-	printf("valeur wall botton : %d\n", wall_bottom);
+	// printf("valeur wall top : %d\n", wall_top);
+	// printf("valeur wall botton : %d\n", wall_bottom);
 	while(y < wall_bottom)
 	{
 		if (y >= 0 && y < WIN_H) 

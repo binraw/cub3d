@@ -35,16 +35,16 @@ int main(int argc, char **argv)
 	// game.map_data.width = ft_strlen(game.map_data.map[4]); // == plus longue ligne de la map
 	// game.texture.f_color = 0x0000FF;
 	// game.texture.c_color = 0xFF0000;
-    // if (argc != 2)
-	// 	return (ft_perror(USAGE), EXIT_FAILURE);
+    if (argc != 2)
+		return (ft_perror(USAGE), EXIT_FAILURE);
 	if (parsing(&game, argv[1]))
 		return (1);
-	// if (init_console(&game))
-	// 	return (EXIT_FAILURE);
+	if (init_console(&game))
+		return (EXIT_FAILURE);
 	// // process_create_map(&game, argv[1]);
 
 
-	// // raycaster(&game);
+	raycaster(&game);
 
     // mlx_loop(game.console.mlx_ptr);
 	// free_console(&game);
