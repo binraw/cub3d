@@ -1,150 +1,121 @@
 #include "../headers/cub.h"
 
-int init_value_texture_no(game_s *game, size_t y)
+static bool	not_dup_is_digit(char **buff, int *colors)
 {
-    size_t i;
+	size_t	i;
+	size_t	y;
 
+	i = 0;
+    while (i < 3)
+    {
+        if (colors[i] != -1)
+            return (ft_perror("A color is duplicated in file\n"), false);
+        i++;
+    }
     i = 0;
-    if (game->file[y][i] == 'N')
-        if (game->file[y][i + 1] == 'O')
-        {
-            i = 2;
-            while (game->file[y][i] != '\n')
-                i++;
-            i -= 1;
-            game->texture.text_no = malloc(i * sizeof(char));
-            if (!game->texture.text_no)
-                return (-1);
-        }
-    i = 2;
-        game->texture.text_no = ft_strjoin(game->texture.text_no, game->file[y] + i);
-    printf("valeur de no : %s\n", game->texture.text_no);
-    if (!game->texture.text_no)
-        return (-1);
-    return (0);
-}
-
-
-int init_value_texture_so(game_s *game, size_t y)
-{
-
-    size_t i;
-
-    i = 0;
-    if (game->file[y][i] == 'S')
-        if (game->file[y][i + 1] == 'O')
-        {
-            i = 2;
-            while (game->file[y][i] != '\n')
-                i++;
-            i -= 2;
-            game->texture.text_so = malloc(i * sizeof(char));
-            if (!game->texture.text_so)
-                return (-1);
-        }
-    i = 2;
-    game->texture.text_so = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de so : %s\n", game->texture.text_so);
-    if (!game->texture.text_so)
-        return (-1);
-    return (0);
-}
-
-int init_value_texture_we(game_s *game, size_t y)
-{
-
-    size_t i;
-
-    i = 0;
-    if (game->file[y][i] == 'W')
-        if (game->file[y][i + 1] == 'E')
-        {
-            i = 2;
-            while (game->file[y][i] != '\n')
-                i++;
-            i -= 2;
-            game->texture.text_we = malloc(i * sizeof(char));
-            if (!game->texture.text_we)
-                return (-1);
-        }
-    i = 2;
-    game->texture.text_we = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de we : %s\n", game->texture.text_we);
-    if (!game->texture.text_we)
-        return (-1);
-    return (0);
-}
-
-int init_value_texture_ea(game_s *game, size_t y)
-{
-
-    size_t i;
-
-    i = 0;
-    if (game->file[y][i] == 'E')
-        if (game->file[y][i + 1] == 'A')
-        {
-            i = 2;
-            while (game->file[y][i] != '\n')
-                i++;
-            i -= 2;
-            game->texture.text_ea = malloc(i * sizeof(char));
-            if (!game->texture.text_ea)
-                return (-1);
-        }
-    i = 2;
-    game->texture.text_ea = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de ea : %s\n", game->texture.text_ea);
-    if (!game->texture.text_ea)
-        return (-1);
-    return (0);
-}
-
-int init_value_texture_f(game_s *game, size_t y)
-{
-
-    size_t i;
-
-    i = 0;
-    if (game->file[y][i] == 'F')
+	y = 0;
+	while (buff[i])
 	{
-		i = 1;
-		while (game->file[y][i] != '\n')
-			i++;
-		i -= 1;
-		game->texture.text_f = malloc(i * sizeof(char));
-		if (!game->texture.text_no)
-			return (-1);
+		while (buff[i][y] && buff[i][y] != '\n')
+		{
+			if (ft_isdigit(buff[i][y]) == 0)
+				return (ft_perror("Bad RGB value in file\n"), false);
+			y++;
+		}
+		y = 0;
+		i++;
 	}
-    i = 1;
-    game->texture.text_f = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de f : %s\n", game->texture.text_f);
-    if (!game->texture.text_f)
-        return (-1);
-    return (0);
+	return (true);
 }
 
-
-int init_value_texture_c(game_s *game, size_t y)
+static int	fill_colors(char *buffer, int *colors)
 {
+	char	**tmp;
+	int		i;
 
-    size_t i;
-
-    i = 0;
-    if (game->file[y][i] == 'C')
+	i = 1;
+	while(buffer[i] && buffer[i] == ' ')
+		i++;
+	tmp = ft_split(&buffer[i], ',');
+	if (!tmp)
+		return (ft_perror("crash malloc in fill_color\n"));
+	if (not_dup_is_digit(tmp, colors) == false)
+		return (free_ptrtab(tmp), 1);
+	i = -1;
+	while (tmp[++i] && i < 3 && tmp[i][0])
 	{
-		i = 1;
-		while (game->file[y][i] != '\n')
-			i++;
-		i -= 1;
-		game->texture.text_c = malloc(i * sizeof(char));
-		if (!game->texture.text_no)
-			return (-1);
+		colors[i] = ft_atoi(tmp[i]);
+		if (colors[i] < 0 || colors[i] > 255)
+			return (free_ptrtab(tmp), \
+                    ft_perror("Invalid colors value in file\n"));
 	}
-    i = 1;
-    game->texture.text_c = ft_strjoin(NULL, game->file[y] + i);
-printf("valeur de c : %s\n", game->texture.text_c);
-    if (!game->texture.text_c)
-        return (-1);
-    return (0);
+	while (tmp[i])
+		i++;
+	if (i != 3)
+		return (free_ptrtab(tmp), ft_perror("Invalid color format in file\n"));
+	return (free_ptrtab(tmp), 0);
+}
+
+static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
+{
+	size_t	i;
+	int		fd;
+
+	i = 2;
+    if (*buff_t != NULL)
+        return (ft_perror("One direction field is duplicated\n"));
+	while (buff_f[i] && (buff_f[i] == ' ' || buff_f[i] == '\t'))
+		i++;
+	*buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i + 1);
+	if (!*buff_t)
+		return (ft_perror("crash malloc in fill_direction\n"));
+    game->texture.all_text += 1;
+	return (0);
+}
+
+static int	line_analysis(game_s *game, char *buffer)
+{
+	if (buffer[0] == 'N' && buffer[1] == 'O')
+		return (fill_direction(buffer, &game->texture.text_no, game));
+	else if (buffer[0] == 'S' && buffer[1] == 'O')
+		return (fill_direction(buffer, &game->texture.text_so, game));
+	else if (buffer[0] == 'E' && buffer[1] == 'A')
+		return (fill_direction(buffer, &game->texture.text_ea, game));
+	else if (buffer[0] == 'W' && buffer[1] == 'E')
+		return (fill_direction(buffer, &game->texture.text_we, game));
+	else if (buffer[0] == 'F')
+    {
+        game->texture.all_text += 1;
+		return (fill_colors(buffer, game->texture.f_color));
+    }
+	else if (buffer[0] == 'C')
+    {
+        game->texture.all_text += 1;
+		return (fill_colors(buffer, game->texture.c_color));
+    }
+	return (0);
+}
+
+int	get_textures(game_s *game, const int fd)
+{
+	char	*buffer;
+	
+	buffer = "buf";
+	while (buffer != NULL && game->texture.all_text != 6)
+	{
+		buffer = get_next_line(fd);
+		if (!buffer)
+			break ;
+		if (is_empty_line(buffer) == false && game->texture.all_text < 6)
+			return (free(buffer), ft_perror(E_FILE_FORMAT));
+		if (line_analysis(game, buffer))
+			return (free(buffer), 1);
+		if (game->texture.all_text == 6)
+		{
+			free(buffer);
+			break ;
+		}
+		free(buffer);
+	}
+	return (0);
 }

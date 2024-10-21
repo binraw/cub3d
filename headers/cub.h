@@ -6,17 +6,17 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/17 16:05:53 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/21 07:05:08 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
 
-    # include "../libft/libft.h"
+    # include "../libft/hdr/libft.h"
     # include "../minilibx-linux/mlx.h"
     # include "../minilibx-linux/mlx_int.h"
-    # include "../libft/get_next_line.h"
+    # include "../libft/hdr/get_next_line.h"
     # include <sys/stat.h>
     # include <stdbool.h>
     # include <stdlib.h>
@@ -25,16 +25,24 @@
     # include <math.h>
 
     /* ==== MACROS ==== */
-	# define USAGE		"Need a filepath as argument"
 
-	# define WIN_W		700	// largeur de la fenetre
-	# define WIN_H		700	// hauteur de la fenetre
+    /* ** ERROR MESSAGES ** */
+	# define USAGE	        "Need a filepath as argument\n"
+    # define E_FILE_FORMAT	"A file format error is detected\n"
+    # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
+    # define E_INVALID_CHAR "Invalid char in the map\n"
+    # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
+
+
+    /* ** PROG CONSTANTES ** */
+	# define WIN_W	700	// largeur de la fenetre
+	# define WIN_H	700	// hauteur de la fenetre
 
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
 	# define ANGLE_N	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	M_PI_2	// angle south == PI / 2 
+	# define ANGLE_S	M_PI_2	// angle south == PI / 2
 	# define ANGLE_E	0		// angle east
 	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
 	# define FOV		60		// angle champ de vision player
@@ -62,6 +70,9 @@
 		int		f_color[3];
 		int		c_color[3];
 
+		int		f_color[3];
+		int		c_color[3];
+		int     all_text;
 	} texture_s ;
 
     typedef struct player
@@ -87,6 +98,7 @@
 		size_t	width;
 		size_t	heigth;
 		int		tile_size; // == WIN_WIDTH / map_width
+		size_t	tmp;
 	} map_s;
 
     typedef struct game_s
@@ -99,12 +111,31 @@
 
 
 
-	/* === init === */
+	/* === init_console.c === */
 	int		init_console(game_s *game);
 	void	hook_management(game_s *game);
 
 	/* === free_memory.c === */
 	void	free_console(game_s *game);
+	void	free_textures(game_s *game);
+	void	free_ptrtab(char **tab);
+	void	free_map_data(game_s *game);
+
+	/* === parsing.c === */
+	int		parsing(game_s *game, char *filepath);
+	
+	/* === parsing_utils.c === */
+	bool	is_valid_char(char c);
+	bool	is_empty_line(char *buffer);
+	bool	is_player(char c);
+	char	**duplicate_map(char **src, size_t nb_ptr);
+	int		alloc_tab(game_s *game, bool first_alloc);
+	
+	/* === init_texture.c === */
+	int		get_textures(game_s *game, int fd);
+	
+	/* === init_map.c === */
+	int		get_map(game_s *game, int fd);
 
 
     int     init_value_texture_no(game_s *game, size_t y);
@@ -135,5 +166,11 @@
 	int	raycaster(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
 	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
-#endif
+    int    control_value_player(player_s *player, char *str);
+    int init_pos_player(game_s *game, int y);
+    int isclosed(game_s *game, int x);
+    int isclosed_column(game_s *game, int x);
+    int check_last_value(game_s *game, int y, size_t i);
+	int	ft_perror(char *msg);
 
+#endif

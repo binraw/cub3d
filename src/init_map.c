@@ -1,95 +1,123 @@
 #include "../headers/cub.h"
 
-int	count_line_maap(char *file)
+/*
+    . check if you got only one player in the map
+    . check if all characteres in file are allowed
+*/
+static int	valid_file_content(char *buffer)
 {
-	int		count;
-	int		fd;
-	char	*lign;
-
-	fd = open(file, O_RDONLY);
-	count = -1;
-	lign = "lign";
-	while (lign != NULL)
-	{
-		lign = get_next_line(fd);
-		free(lign);
-		count++;
-	}
-	return (count);
-}
-
-void	alloc_lign(char *file, game_s *game)
-{
-	int		line_count;
-
-	line_count = 0;
-	game->numb_line = count_line_maap(file);
-	game->file = malloc(sizeof(char *) * game->numb_line + 1);
-	if (!game->file)
-        return ; // rajouter des free 
-}
-
-void	read_file(char *file, game_s *game)
-{
-	int	i;
-	int	fd;
+	static int	player;
+	size_t		i;
 
 	i = 0;
-	fd = 0;
-	game->map_data.width = 0;
-	alloc_lign(file, game);
-	if (!game->file)
-		return ;
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	while (buffer[i])
 	{
-		return ;
-	}
-	game->map_data.heigth = count_line_maap(file);
-	game->map_data.width = 0;
-	while (i < game->map_data.heigth)
-	{
-		game->file[i] = get_next_line(fd);
-		if (ft_strlen(game->file[i]) > game->map_data.width)
-			game->map_data.width = ft_strlen(game->file[i]);
+		if (buffer[i] == 'N' || buffer[i] == 'S' || buffer[i] == 'E' || buffer[i] == 'W')
+		{
+			if (!player)
+				player = 1;
+			else
+				return (ft_perror(E_MULTIPLAY));
+		}
+		if (is_valid_char(buffer[i]) == false)
+			return (ft_perror(E_INVALID_CHAR));
 		i++;
 	}
-	close(fd);
+    return (0);
 }
 
-int init_all_texture(game_s *game)
+static int	format_line(char **line, size_t *length)
 {
-	size_t y;
+	size_t	i;
 
+	i = 0;
+	while (line[0][i])
+	{
+		if (line[0][i] == '\n')
+			line[0][i] = '\0';
+		i++;
+	}
+	i -= 1;
+	if (i > *length)
+		*length = i;
+	return (0);
+}
+
+static int	format_map(game_s *game)
+{
+	char	*tmp;
+	char	*temp;
+	size_t	len;
+	size_t	y;
 
 	y = 0;
-	game->texture.text_c = NULL;
-	while (game->file[y] && !game->texture.text_c) // maniere de tout init pas top a changer
+	while (y < game->map_data.heigth)
 	{
-		if (ft_strchr(game->file[y], 'N') && ft_strchr(game->file[y], 'O'))
-			init_value_texture_no(game, y);
-		if (ft_strchr(game->file[y], 'S') && ft_strchr(game->file[y], 'O'))
-			init_value_texture_so(game, y);
-		if (ft_strchr(game->file[y], 'W') && ft_strchr(game->file[y], 'E'))
-			init_value_texture_we(game, y);
-		if (ft_strchr(game->file[y], 'E') && ft_strchr(game->file[y], 'A'))
-			init_value_texture_ea(game, y);
-		if (ft_strchr(game->file[y], 'F'))
-			init_value_texture_f(game, y);
-		if (ft_strchr(game->file[y], 'C'))
-			init_value_texture_c(game, y);
+		len = ft_strlen(game->map_data.map[y]);
+		if (len < game->map_data.width)
+		{
+			tmp = ft_calloc(game->map_data.width - len + 1, sizeof(char));
+			if (!tmp)
+				return (ft_perror("Crash malloc in format_map()\n"));
+			ft_memset(tmp, ' ', game->map_data.width - len);
+			temp = ft_strjoin(game->map_data.map[y], tmp);
+			free(tmp);
+			if (!temp)
+				return (ft_perror("Crash ft_strjoin()\n"));
+			free(game->map_data.map[y]);
+			game->map_data.map[y] = temp;
+		}
 		y++;
 	}
-	if (control_texture_value(game) == 0)
-			return (y);
-	return (-1);
+	return (0);
 }
 
-int control_texture_value(game_s *game)
+static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
 {
-	if (!game->texture.text_c || !game->texture.text_ea || !game->texture.text_f
-	|| !game->texture.text_no || !game->texture.text_so || !game->texture.text_we)
-		return (-1);
-	else
-		return (0);
+	static bool	flag;
+	const bool	empty = is_empty_line(buffer);
+
+	if (empty == true && game->map_data.map[0] != NULL && flag == 0)
+        flag = 1;
+	else if (empty == false && flag == 1)
+		return (ft_perror(E_EMPTYLINE));
+	if (empty == true)
+        return (0);
+    if (valid_file_content(buffer))
+		return (1);
+	game->map_data.map[*tab_size] = ft_strdup(buffer);
+	if (!game->map_data.map[*tab_size])
+		return (ft_perror("Crash malloc in line_analysis() in get_map()\n"));
+	*tab_size += 1;
+	format_line(&game->map_data.map[*tab_size - 1], &game->map_data.width);
+	return (0);
+}
+
+int get_map(game_s *game, const int fd)
+{
+	char		*buffer;
+	size_t		tab_size;
+
+	if (alloc_tab(game, true))
+		return (1);
+	tab_size = 0;
+	buffer = "buff";
+	while (buffer != NULL)
+	{
+		if (tab_size == game->map_data.heigth)
+			if (alloc_tab(game, false))
+				return (free(buffer), 1);
+		buffer = get_next_line(fd);
+		if (!buffer)
+			break ;
+		if (line_analysis(game, &tab_size, buffer))
+			return (free(buffer), 1);
+		free(buffer);
+	}
+	if (tab_size == 0)
+		return (ft_perror("Map is undefined\n"));
+	else if (tab_size < 3)
+		return (ft_perror("Invalid map description\n"));
+	game->map_data.heigth = tab_size;
+	return (format_map(game));
 }

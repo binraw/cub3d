@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 16:53:37 by rtruvelo          #+#    #+#             */
-/*   Updated: 2023/11/22 17:46:18 by rtruvelo         ###   ########.fr       */
+/*   Created: 2024/02/14 22:01:42 by fberthou          #+#    #+#             */
+/*   Updated: 2024/10/18 11:32:14 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t num, size_t size)
+void	*ft_realloc(void *pointer, size_t memory_size, size_t src_size)
 {
-	char	*pointer;
-	size_t	i;
+	void	*tmp;
 
-	i = 0;
-	if (!num || !size)
-		return (malloc(0));
-	if (SIZE_MAX / num < size)
+	tmp = ft_calloc(memory_size, sizeof(char));
+	if (!tmp)
 		return (NULL);
-	pointer = malloc(num * size);
-	if (!pointer)
-		return (NULL);
-	while (i < (num * size))
-	{
-		pointer[i] = 0;
-		i++;
-	}
-	return (pointer);
+	tmp = ft_memcpy(tmp, (const void *)pointer, src_size);
+	if (pointer)
+		free(pointer);
+	return (tmp);
 }

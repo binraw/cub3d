@@ -11,20 +11,19 @@ static int	loop_hook(game_s *game)
 	if (game->plyr_data.move_right)
         game->plyr_data.pos_x += MOV_SPEED;
     if (game->plyr_data.rotate_l)
-        game->plyr_data.orientation -= ROT_SPEED;
+        game->plyr_data.angle -= ROT_SPEED;
     if (game->plyr_data.rotate_r)
-        game->plyr_data.orientation += ROT_SPEED;
+        game->plyr_data.angle += ROT_SPEED;
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
     {
-        game->plyr_data.pos_x = cos(game->plyr_data.orientation);
-        game->plyr_data.pos_y = sin(game->plyr_data.orientation);
+        game->plyr_data.pos_x = cos(game->plyr_data.angle);
+        game->plyr_data.pos_y = sin(game->plyr_data.angle);
     }
 	return (0);
 }
 
 int	init_console(game_s *game)
 {
-	ft_memset(game, 0, sizeof(game_s));
 	game->console.mlx_ptr = mlx_init();
 	if (!game->console.mlx_ptr)
 		return (ft_perror("mlx alloc failed\n"));

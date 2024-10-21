@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:45:14 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/30 11:29:48 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:32:52 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
+void	*ft_realloc(void *pointer, size_t memory_size, size_t src_size);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(const char *string, int searchedChar);
 char	*ft_strdup(const char *source);
