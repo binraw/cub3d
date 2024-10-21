@@ -33,11 +33,14 @@ int	move(game_s *game , double move_x, double move_y)
 
 
 
-void update_movement(game_s *game)
+int update_movement(game_s *game)
 {
-    double move_x = 0;
-    double move_y = 0;
+	double move_x;
+	double move_y;
 
+
+    move_x = 0;
+    move_y = 0;
     if (game->plyr_data.move_up)
     {
         move_x += cos(game->plyr_data.angle);
@@ -64,13 +67,19 @@ void update_movement(game_s *game)
     //     move_x /= length;
     //     move_y /= length;
     // }
-    move(game, move_x, move_y);
+    if (move_x == 0 && move_y == 0)
+        return (1);
+	move(game, move_x, move_y);
+    return (0);
 }
 
 int loop_hook(game_s *game)
 {
-    update_movement(game);
+    if (update_movement(game) == 1)
+        return (0);
     rotate(game);
+   
+    raycaster(game);
     return (0);
 }
 

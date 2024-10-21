@@ -34,7 +34,7 @@ int	init_console(game_s *game)
 		mlx_destroy_display(game->console.mlx_ptr);
 		return (free(game->console.mlx_ptr), ft_perror("win alloc failed\n"));
 	}
-	hook_management(game);
-	mlx_loop_hook(game->console.mlx_ptr, loop_hook, game);
+	// hook_management(game);
+	// mlx_loop_hook(game->console.mlx_ptr, loop_hook, game);
 	return (0);
 }

@@ -104,15 +104,10 @@ int	compute_ray(game_s *game)
 		// Boucle DDA pour avancer le rayon
         while (true && ray_x > 0 && ray_y > 0) 
 		{
-			// if (ray_x < 0 || ray_x >= game->map_data.width * TILE_S ||
-            //     ray_y < 0 || ray_y >= game->map_data.heigth * TILE_S)
-            //     	break ; 
-            // Vérifier si le rayon touche un mur
             if (check_wall(ray_x, ray_y, game) == 1)
 			{
-                // Dessiner le mur ici
                 draw_wall(game, ray_x, ray_y, i); // i est l'index de colonne
-                break ; // Sortir de la boucle si un mur est trouvé
+                break ;
             }
             // Avancer le rayon
             ray_x += dir_x * TILE_S; // Avancer selon la direction
@@ -121,7 +116,7 @@ int	compute_ray(game_s *game)
             // Conditions de sortie (si en dehors de la carte)
             if (ray_x < 0 || ray_x >= game->map_data.width * TILE_S ||
                 ray_y < 0 || ray_y >= game->map_data.heigth * TILE_S)
-                	break ; // Sortir si le rayon sort des limites
+                	break ;
         }
 		ray_angle += angle_increment;
 		i++;
@@ -204,7 +199,6 @@ int check_wall(double ray_x, double ray_y, game_s *game)
 
 int	raycaster(game_s *game)
 {
-	printf("rentre\n");
 	init_player(game);
 	compute_ray(game);
 

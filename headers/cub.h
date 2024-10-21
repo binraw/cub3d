@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/21 07:42:21 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/21 09:42:34 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 
 	# define ROT_SPEED	0.5
 	# define MOV_SPEED	2
-	# define TILE_S		64
+	# define TILE_S		5
 
     /* ==== STRUCTURES  */
     typedef struct console
@@ -96,6 +96,7 @@
 		size_t	heigth;
 		int		tile_size; // == WIN_WIDTH / map_width
 		size_t	tmp;
+		bool	screen_change;
 	} map_s;
 
     typedef struct game_s
@@ -164,7 +165,7 @@
 	int	rotate(game_s *game);
 	int	move(game_s *game , double move_x, double move_y);
 	int loop_hook(game_s *game);
-	void update_movement(game_s *game);
+	int update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
 	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
     int    control_value_player(player_s *player, char *str);
