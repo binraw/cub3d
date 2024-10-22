@@ -12,10 +12,10 @@ int rotate(game_s *game)
             game->plyr_data.orientation += ROT_SPEED; // Tourner à droite
 
         printf("valeur orientation apres : %f\n", game->plyr_data.orientation);
-        if (game->plyr_data.orientation < 0)
-            game->plyr_data.orientation += 2 * M_PI;
-        if (game->plyr_data.orientation >= 2 * M_PI)
-            game->plyr_data.orientation -= 2 * M_PI;
+        // if (game->plyr_data.orientation < 0)
+        //     game->plyr_data.orientation += 2 * M_PI;
+        // if (game->plyr_data.orientation >= 2 * M_PI)
+        //     game->plyr_data.orientation -= 2 * M_PI;
 
         //  la direction
         game->plyr_data.dir_x = cos(game->plyr_data.orientation);
@@ -27,84 +27,87 @@ int rotate(game_s *game)
     return (0);
 }
 
-//on donne les valeur a ajouter a notre position et on check si la nouvelle position n'est pas un mur
-
+/*
+	* si la prochaine case n'est pas un mur, met a jour les valeurs pos_x et pos_y
+	* avec les nouvelles valeurs move_x et move_y
+*/
 int	move(game_s *game , double move_x, double move_y)
 {
-	double	new_pos_x;
-	double	new_pos_y;
-
-	new_pos_x = game->plyr_data.pos_x + move_x  * MOV_SPEED;
-	new_pos_y = game->plyr_data.pos_y + move_y * MOV_SPEED;
-	if (new_pos_x < 0 || new_pos_x >= game->map_data.width || 
-		new_pos_y < 0 || new_pos_y >= game->map_data.heigth || 
-		game->map_data.map[(int)new_pos_y][(int)new_pos_x] == '1')
+	if (move_x < 0 || move_x >= game->map_data.width || 
+		move_y < 0 || move_y >= game->map_data.heigth || 
+		game->map_data.map[(int) round(move_y)][(int) round(move_x)] == '1')
 	{
-        printf("on rentre la\n");
+        printf("HIT WALL\n");
 		return (1);
 	}
-    // printf(" OLD game->plyr_data.pos_x : %f\n", game->plyr_data.pos_x);
-	game->plyr_data.pos_x = new_pos_x;
-	game->plyr_data.pos_y = new_pos_y;
-    // printf("game->plyr_data.pos_x : %f\n", game->plyr_data.pos_x);
+	game->plyr_data.pos_x = move_x;
+	game->plyr_data.pos_y = move_y;
 	return (0);
 }
+/*
+	* increment / decrement l'angle du player de la vitesse de rotation
+	* a voir si on doit revenir a l'angle de depart lorsqu'on arrive a 360 degres
+*/
+void    rotate_player(game_s *game)
+{
+    if (game->plyr_data.rotate_l)
+        game->plyr_data.angle -= ROT_SPEED;
+    if (game->plyr_data.rotate_r)
+        game->plyr_data.angle += ROT_SPEED;
+    game->plyr_data.dir_x = cos(game->plyr_data.angle);
+    game->plyr_data.dir_y = sin(game->plyr_data.angle);
+}
 
-
-
-
+/*
+    * update la position du player
+        - stock la valeur des mouvements de translation dans des variables
+        - la valeur des variables est validee dans la fonction move() qui update les variables de
+        - la structure si move_x et move_y sont valide (ne sortent pas de la map)
+        - update de l'angle de rotation dans rotate_player()
+*/
 int update_movement(game_s *game)
 {
 	double move_x;
 	double move_y;
 
 
-    move_x = 0;
-    move_y = 0;
+    move_x = game->plyr_data.pos_x;
+    move_y = game->plyr_data.pos_y;
     if (game->plyr_data.move_up)
-    {
-        move_x += cos(MOV_SPEED);
-        move_y += sin(MOV_SPEED);
-
-    }
+        move_y -= MOV_SPEED;
     if (game->plyr_data.move_down)
-    {
-        move_x -= cos(MOV_SPEED);
-        move_y -= sin(MOV_SPEED);
-    }
+        move_y += MOV_SPEED;
     if (game->plyr_data.move_left)
-    {
-        move_x -= sin(MOV_SPEED);
-        move_y += cos(MOV_SPEED);
-    }
+        move_x -= MOV_SPEED;
     if (game->plyr_data.move_right)
-    {
-        move_x += sin(MOV_SPEED);
-        move_y -= cos(MOV_SPEED);
-    }
-    // double length = sqrt(move_x * move_x + move_y * move_y); //ralenti si le deplacement va trop vite
-    // if (length > 1)
+        move_x += MOV_SPEED;
+    if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
+        rotate_player(game);
+    // if (move_x == 0 && move_y == 0 && rotate(game) == 0)
     // {
-    //     move_x /= length;
-    //     move_y /= length;
+    //     // printf("rentre si pas de mouvement\n");
+    //     return (1); 
     // }
-    if (move_x == 0 && move_y == 0 && rotate(game) == 0)
-    {
-        // printf("rentre si pas de mouvement\n");
-        return (1); 
-    }
-	move(game, move_x, move_y);
-    return (0);
+    return (move(game, move_x, move_y));
 }
 
 int loop_hook(game_s *game)
 {
-    
-    if (update_movement(game) == 1)
-        return (0);
-    raycaster(game);
-    // printf("value de la pos x : %f\n", game->plyr_data.pos_x);
-    // printf("BOUGE \n");
+    if (game->plyr_data.move_up || game->plyr_data.move_down || \
+        game->plyr_data.move_left || game->plyr_data.move_right || \
+        game->plyr_data.rotate_l || game->plyr_data.rotate_r)
+    {
+        printf("before move :\n");
+        print_player(game);
+        if (update_movement(game) == 1)
+		{
+			printf("HERE\n");
+            return (0);
+		}
+        printf("after move :\n");
+        print_player(game);
+        raycaster(game);
+    }
     return (0);
 }
 

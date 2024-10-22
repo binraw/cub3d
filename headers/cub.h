@@ -30,15 +30,15 @@
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
-	# define ANGLE_N	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	M_PI_2	// angle south == PI / 2
-	# define ANGLE_E	0		// angle east
-	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
-	# define FOV		60		// angle champ de vision player
-	# define NUM_RAYS   WIN_W		// nombre de rayon a tracer
+	# define ANGLE_N	M_PI_2				// angle north M_PI_2 == macro de math.h == PI/2
+	# define ANGLE_S	(3 * M_PI) * 005	// angle south == PI / 2
+	# define ANGLE_E	2 * M_PI			// angle east
+	# define ANGLE_W	M_PI				// angle west M_PI == macro de math.h == PI
+	# define FOV		60					// angle champ de vision player
+	# define NUM_RAYS   WIN_W				// nombre de rayon a tracer
 
-	# define ROT_SPEED	0.5
-	# define MOV_SPEED	0.15
+	# define ROT_SPEED	0.05
+	# define MOV_SPEED	0.5
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
@@ -94,6 +94,10 @@
 		player_s	plyr_data;
     } game_s;
 
+
+	/* === Temporary function === */
+	void	print_struct(game_s *game);
+	void	print_player(game_s *game);
 
 	/* === main.c === */
 	int		ft_perror(char *msg);

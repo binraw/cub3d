@@ -20,6 +20,13 @@ void	print_struct(game_s *game)
 	printf("player pos : x == %f : y == %f\n", game->plyr_data.pos_x, game->plyr_data.pos_y);
 }
 
+void	print_player(game_s *game)
+{
+	printf("PLAYER DATA :\n");
+	printf("pos_y == %f : pos_x = %f\n", game->plyr_data.pos_y, game->plyr_data.pos_x);
+	printf("dir_y == %f : dir_x = %f\n", game->plyr_data.dir_y, game->plyr_data.dir_x);
+	printf("angle == %f : orientation = %f\n\n", game->plyr_data.angle, game->plyr_data.orientation);
+}
 
 
 
@@ -38,14 +45,12 @@ int main(int argc, char **argv)
 		return (ft_perror(USAGE), EXIT_FAILURE);
 	if (parsing(&game, argv[1]))
 		return (1);
-
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
-
+	print_player(&game);
+	raycaster(&game);
 	hook_management(&game);
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
-	
-	
     mlx_loop(game.console.mlx_ptr);
 	free_console(&game);
 	free_map_data(&game);
