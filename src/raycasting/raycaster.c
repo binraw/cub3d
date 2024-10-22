@@ -34,64 +34,20 @@ void	init_player(game_s *game)
 	// game->plyr_data.pos_y = 2 * TILE_S;
 }
 
-
-
-// permet de faire le visuel actuel avec des ligne et deux zone differentes :
-// int	draw_horizon(game_s *game)
-// {
-// 	int	mid_heigth;
-// 	int	mid_width;
-	
-// 	mid_heigth = WIN_H * 0.5;
-// 	mid_width = WIN_W * 0.5;
-// 	// draw horizontale line
-// 	for (int y = 0; y < WIN_H; y+=2)
-// 	{
-// 		if (y > mid_heigth)
-// 		{
-// 			for (int x = 0; x < WIN_W; x+=2){
-// 				// mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.f_color);
-// 				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 200);
-// 			}
-// 		}
-// 		else if (y < mid_heigth)
-// 		{
-// 			for (int x = 0; x < WIN_W; x+=2){
-// 				// mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.c_color);
-// 				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 100);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			for (int x = 0; x < WIN_W; x++){
-// 				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 0xffffff);
-// 			}
-// 		}
-// 	}
-// 	//draw verticale line
-// 	for (int y = 0; y < WIN_W; y++){
-// 		mlx_pixel_put(MLX_PTR, WIN_PTR, mid_width, \
-// 						y, 0xffffff);
-// 	}
-// 	return (0);
-// }
-
 int	compute_ray(game_s *game)
 {
 
 	double angle_increment;
 	double ray_angle;
 	double ray_radians;
-	// double dir_x;
-	// double dir_y;
 	double ray_x;
 	double ray_y;
 	int i;
 	// printf("rentre bien dans compute\n");
 	i = 0;
-	angle_increment = FOV / NUM_RAYS; // Angle entre chaque rayon
+	angle_increment = FOV / WIN_W; // Angle entre chaque rayon
 	ray_angle = game->plyr_data.orientation - (FOV / 2); // Angle du premier rayon
-	while (i < NUM_RAYS)
+	while (i < WIN_W)
 	{
 		 // Convertir l'angle en radians
         ray_radians = ray_angle * (ANGLE_W / 180.0);
@@ -111,7 +67,6 @@ int	compute_ray(game_s *game)
             ray_x += game->plyr_data.dir_x * TILE_S; // Avancer selon la direction
             ray_y += game->plyr_data.dir_y * TILE_S;
 			// printf("Ray %d: Ray_x: %f, Ray_y: %f\n", i, ray_x, ray_y);
-            // Conditions de sortie (si en dehors de la carte)
             if (ray_x < 0 || ray_x >= game->map_data.width * TILE_S ||
                 ray_y < 0 || ray_y >= game->map_data.heigth * TILE_S)
                 	break ;
@@ -198,7 +153,7 @@ int check_wall(double ray_x, double ray_y, game_s *game)
 
 int	raycaster(game_s *game)
 {
-	init_player(game);
+	// init_player(game);
 	compute_ray(game);
 
 	return (0);

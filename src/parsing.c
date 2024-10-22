@@ -1,9 +1,3 @@
-
-
-
-
-
-
 #include "cub.h"
 
 static int	init_parsing(char *filepath, game_s *game, const int fd)

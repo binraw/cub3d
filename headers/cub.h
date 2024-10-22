@@ -133,7 +133,7 @@
 	char	**dup_map_pixel(game_s *game, int y);
     // int		control_value_player(player_s *player, char *str);
 	int		value_player(game_s *game, char c);
-
+	void	init_player(game_s *game);
 	int	raycaster(game_s *game);
 	int	rotate(game_s *game);
 	int	move(game_s *game , double move_x, double move_y);

@@ -13,21 +13,21 @@ int	rotate(game_s *game)
     // }
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
     {
-        printf("rentre dans rota\n");
+        printf("valeur angle avant  : %f\n", game->plyr_data.angle);
         if (game->plyr_data.rotate_l)
             game->plyr_data.angle -= ROT_SPEED; // Tourner à gauche
         if (game->plyr_data.rotate_r)
             game->plyr_data.angle += ROT_SPEED; // Tourner à droite
-
-        // Normaliser l'angle pour qu'il reste entre 0 et 2π
+        printf("valeur angle apres  : %f\n", game->plyr_data.angle);
+        // Mettre à jour la direction
         if (game->plyr_data.angle < 0)
             game->plyr_data.angle += 2 * M_PI;
         if (game->plyr_data.angle >= 2 * M_PI)
             game->plyr_data.angle -= 2 * M_PI;
-
-        // Mettre à jour la direction
         game->plyr_data.dir_x = cos(game->plyr_data.angle);
+        printf("valeur de dir_x : %f\n", game->plyr_data.dir_x);
         game->plyr_data.dir_y = sin(game->plyr_data.angle);
+        printf("valeur de dir_y : %f\n", game->plyr_data.dir_y);
         return (1);
     }
 
@@ -71,45 +71,48 @@ int update_movement(game_s *game)
     move_y = 0;
     if (game->plyr_data.move_up)
     {
-
-        move_x += cos(game->plyr_data.angle);
-
-        move_y += sin(game->plyr_data.angle);
+        move_x += cos(MOV_SPEED);
+        move_y += sin(MOV_SPEED);
 
     }
     if (game->plyr_data.move_down)
     {
-        move_x -= cos(game->plyr_data.angle);
-        move_y -= sin(game->plyr_data.angle);
+        move_x -= cos(MOV_SPEED);
+        move_y -= sin(MOV_SPEED);
     }
     if (game->plyr_data.move_left)
     {
-        move_x -= sin(game->plyr_data.angle);
-        move_y += cos(game->plyr_data.angle);
+        move_x -= sin(MOV_SPEED);
+        move_y += cos(MOV_SPEED);
     }
     if (game->plyr_data.move_right)
     {
-        move_x += sin(game->plyr_data.angle);
-        move_y -= cos(game->plyr_data.angle);
+        move_x += sin(MOV_SPEED);
+        move_y -= cos(MOV_SPEED);
     }
-    double length = sqrt(move_x * move_x + move_y * move_y); //ralenti si le deplacement va trop vite
-    if (length > 1)
-    {
-        move_x /= length;
-        move_y /= length;
-    }
+    // double length = sqrt(move_x * move_x + move_y * move_y); //ralenti si le deplacement va trop vite
+    // if (length > 1)
+    // {
+    //     move_x /= length;
+    //     move_y /= length;
+    // }
     if (move_x == 0 && move_y == 0 && rotate(game) == 0)
-        return (1);
+    {
+        // printf("rentre si pas de mouvement\n");
+        return (1); 
+    }
 	move(game, move_x, move_y);
     return (0);
 }
 
 int loop_hook(game_s *game)
 {
+    
     if (update_movement(game) == 1)
         return (0);
-    // printf("value de la pos x : %f\n", game->plyr_data.pos_x);
     raycaster(game);
+    // printf("value de la pos x : %f\n", game->plyr_data.pos_x);
+    // printf("BOUGE \n");
     return (0);
 }
 
