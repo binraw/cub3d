@@ -10,7 +10,10 @@ int rotate(game_s *game)
             game->plyr_data.orientation -= ROT_SPEED; // Tourner à gauche
         if (game->plyr_data.rotate_r)
             game->plyr_data.orientation += ROT_SPEED; // Tourner à droite
-
+        if (game->plyr_data.orientation > 360)
+            game->plyr_data.orientation = 0;
+        if (game->plyr_data.orientation < -360)
+            game->plyr_data.orientation = 0;
         printf("valeur orientation apres : %f\n", game->plyr_data.orientation);
         game->plyr_data.dir_x = cos(game->plyr_data.orientation);
         game->plyr_data.dir_y = sin(game->plyr_data.orientation);
