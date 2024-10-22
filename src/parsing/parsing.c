@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:03:58 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:17:11 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	init_parsing(char *filepath, game_s *game, const int fd)
 	ft_memset(game, 0, sizeof(game_s));
 	ft_memset(game->texture.c_color, -1, 3 * sizeof(int));
 	ft_memset(game->texture.f_color, -1, 3 * sizeof(int));
+	game->plyr_data.pos_x = -1;
+	game->plyr_data.pos_y = -1;
 	return (0);
 }
 
