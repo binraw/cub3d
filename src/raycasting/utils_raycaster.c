@@ -12,12 +12,6 @@ int rotate(game_s *game)
             game->plyr_data.orientation += ROT_SPEED; // Tourner à droite
 
         printf("valeur orientation apres : %f\n", game->plyr_data.orientation);
-        if (game->plyr_data.orientation < 0)
-            game->plyr_data.orientation += 2 * M_PI;
-        if (game->plyr_data.orientation >= 2 * M_PI)
-            game->plyr_data.orientation -= 2 * M_PI;
-
-        //  la direction
         game->plyr_data.dir_x = cos(game->plyr_data.orientation);
         game->plyr_data.dir_y = sin(game->plyr_data.orientation);
 
@@ -34,8 +28,10 @@ int	move(game_s *game , double move_x, double move_y)
 	double	new_pos_x;
 	double	new_pos_y;
 
-	new_pos_x = game->plyr_data.pos_x + move_x  * MOV_SPEED;
-	new_pos_y = game->plyr_data.pos_y + move_y * MOV_SPEED;
+	// new_pos_x = game->plyr_data.pos_x + move_x  * MOV_SPEED;
+	// new_pos_y = game->plyr_data.pos_y + move_y * MOV_SPEED;
+    	new_pos_x = game->plyr_data.pos_x + move_x;
+	new_pos_y = game->plyr_data.pos_y + move_y;
 	if (new_pos_x < 0 || new_pos_x >= game->map_data.width || 
 		new_pos_y < 0 || new_pos_y >= game->map_data.heigth || 
 		game->map_data.map[(int)new_pos_y][(int)new_pos_x] == '1')
@@ -61,32 +57,51 @@ int update_movement(game_s *game)
 
     move_x = 0;
     move_y = 0;
+    //utilisation de la ou le player regarde pour avancer dasn la bonne direction
     if (game->plyr_data.move_up)
     {
-        move_x += cos(MOV_SPEED);
-        move_y += sin(MOV_SPEED);
-
+        move_x += game->plyr_data.dir_x * MOV_SPEED; 
+        move_y += game->plyr_data.dir_y * MOV_SPEED;
     }
     if (game->plyr_data.move_down)
     {
-        move_x -= cos(MOV_SPEED);
-        move_y -= sin(MOV_SPEED);
+        move_x -= game->plyr_data.dir_x * MOV_SPEED;
+        move_y -= game->plyr_data.dir_y * MOV_SPEED;
     }
     if (game->plyr_data.move_left)
     {
-        move_x -= sin(MOV_SPEED);
-        move_y += cos(MOV_SPEED);
+        // Pour aller a gauche on utilise la direction perpendiculaire
+        move_x -= game->plyr_data.dir_y * MOV_SPEED;
+        move_y += game->plyr_data.dir_x * MOV_SPEED;
     }
     if (game->plyr_data.move_right)
     {
-        move_x += sin(MOV_SPEED);
-        move_y -= cos(MOV_SPEED);
+        // Pareil pour la droite de l'autre coter
+        move_x += game->plyr_data.dir_y * MOV_SPEED;
+        move_y -= game->plyr_data.dir_x * MOV_SPEED;
     }
-    // double length = sqrt(move_x * move_x + move_y * move_y); //ralenti si le deplacement va trop vite
-    // if (length > 1)
+
+    //     if (game->plyr_data.move_up)
     // {
-    //     move_x /= length;
-    //     move_y /= length;
+    //     move_x +=  MOV_SPEED; 
+    //     move_y +=  MOV_SPEED;
+    // }
+    // if (game->plyr_data.move_down)
+    // {
+    //     move_x -=  MOV_SPEED;
+    //     move_y -=  MOV_SPEED;
+    // }
+    // if (game->plyr_data.move_left)
+    // {
+    //     // Pour aller a gauche on utilise la direction perpendiculaire
+    //     move_x -=  MOV_SPEED;
+    //     move_y +=  MOV_SPEED;
+    // }
+    // if (game->plyr_data.move_right)
+    // {
+    //     // Pareil pour la droite de l'autre coter
+    //     move_x +=  MOV_SPEED;
+    //     move_y -=  MOV_SPEED;
     // }
     if (move_x == 0 && move_y == 0 && rotate(game) == 0)
     {

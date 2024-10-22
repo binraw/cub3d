@@ -34,7 +34,7 @@
 	# define ANGLE_S	M_PI_2	// angle south == PI / 2
 	# define ANGLE_E	0		// angle east
 	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
-	# define FOV		60		// angle champ de vision player
+	# define FOV		120		// angle champ de vision player
 	# define NUM_RAYS   WIN_W		// nombre de rayon a tracer
 
 	# define ROT_SPEED	0.5
