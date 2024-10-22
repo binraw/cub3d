@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/21 15:11:25 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:45:03 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@
 	char	**dup_map_pixel(game_s *game, int y);
     // int		control_value_player(player_s *player, char *str);
 	int		value_player(game_s *game, char c);
-
+	void	init_player(game_s *game);
 	int	raycaster(game_s *game);
 	int	rotate(game_s *game);
 	int	move(game_s *game , double move_x, double move_y);
