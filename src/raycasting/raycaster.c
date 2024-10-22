@@ -45,8 +45,8 @@ int	compute_ray(game_s *game)
 	int i;
 	// printf("rentre bien dans compute\n");
 	i = 0;
-	angle_increment = FOV / WIN_W; // Angle entre chaque rayon
-	ray_angle = game->plyr_data.orientation - (FOV / 2); // Angle du premier rayon
+	angle_increment = FOV / WIN_W;
+	ray_angle = game->plyr_data.orientation - (FOV / 2);
 	while (i < WIN_W)
 	{
 		 // Convertir l'angle en radians
@@ -55,7 +55,7 @@ int	compute_ray(game_s *game)
         game->plyr_data.dir_y = sin(ray_radians);
         ray_x = game->plyr_data.pos_x;
         ray_y = game->plyr_data.pos_y;
-		// Boucle DDA pour avancer le rayon
+		// printf("valeur de ray_x ray_y :%f\n %f\n", ray_x, ray_y);
         while (true && ray_x > 0 && ray_y > 0) 
 		{
             if (check_wall(ray_x, ray_y, game) == 1)
@@ -153,8 +153,6 @@ int check_wall(double ray_x, double ray_y, game_s *game)
 
 int	raycaster(game_s *game)
 {
-	// init_player(game);
 	compute_ray(game);
-
 	return (0);
 }
