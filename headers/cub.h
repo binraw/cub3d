@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/22 10:48:16 by fberthou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
@@ -35,8 +24,8 @@
 
 
     /* ** PROG CONSTANTES ** */
-	# define WIN_W	700	// largeur de la fenetre
-	# define WIN_H	700	// hauteur de la fenetre
+	# define WIN_W	1000	// largeur de la fenetre
+	# define WIN_H	1000	// hauteur de la fenetre
 
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
@@ -49,8 +38,8 @@
 	# define NUM_RAYS   WIN_W		// nombre de rayon a tracer
 
 	# define ROT_SPEED	0.5
-	# define MOV_SPEED	2
-	# define TILE_S		5
+	# define MOV_SPEED	0.15
+	# define TILE_S		1
 
     /* ==== STRUCTURES  */
     typedef struct console
