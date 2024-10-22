@@ -1,36 +1,28 @@
 #include "../headers/cub.h"
 
-int	rotate(game_s *game)
+int rotate(game_s *game)
 {
-	// double	old_x;
-
-	// old_x = game->plyr_data.pos_x;
-    // if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
-    // {
-    //     game->plyr_data.pos_x = old_x * cos(game->plyr_data.angle) - game->plyr_data.pos_y * sin(game->plyr_data.angle);
-	//     game->plyr_data.pos_y = old_x * sin(game->plyr_data.angle) + game->plyr_data.pos_y * cos(game->plyr_data.angle);
-    //     return (1);
-    // }
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
     {
-        printf("valeur angle avant  : %f\n", game->plyr_data.angle);
+        printf("valeur orientation avant : %f\n", game->plyr_data.orientation);
+        
         if (game->plyr_data.rotate_l)
-            game->plyr_data.angle -= ROT_SPEED; // Tourner à gauche
+            game->plyr_data.orientation -= ROT_SPEED; // Tourner à gauche
         if (game->plyr_data.rotate_r)
-            game->plyr_data.angle += ROT_SPEED; // Tourner à droite
-        printf("valeur angle apres  : %f\n", game->plyr_data.angle);
-        // Mettre à jour la direction
-        if (game->plyr_data.angle < 0)
-            game->plyr_data.angle += 2 * M_PI;
-        if (game->plyr_data.angle >= 2 * M_PI)
-            game->plyr_data.angle -= 2 * M_PI;
-        game->plyr_data.dir_x = cos(game->plyr_data.angle);
-        printf("valeur de dir_x : %f\n", game->plyr_data.dir_x);
-        game->plyr_data.dir_y = sin(game->plyr_data.angle);
-        printf("valeur de dir_y : %f\n", game->plyr_data.dir_y);
+            game->plyr_data.orientation += ROT_SPEED; // Tourner à droite
+
+        printf("valeur orientation apres : %f\n", game->plyr_data.orientation);
+        if (game->plyr_data.orientation < 0)
+            game->plyr_data.orientation += 2 * M_PI;
+        if (game->plyr_data.orientation >= 2 * M_PI)
+            game->plyr_data.orientation -= 2 * M_PI;
+
+        //  la direction
+        game->plyr_data.dir_x = cos(game->plyr_data.orientation);
+        game->plyr_data.dir_y = sin(game->plyr_data.orientation);
+
         return (1);
     }
-
 
     return (0);
 }
