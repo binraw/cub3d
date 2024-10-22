@@ -18,11 +18,6 @@ void	print_struct(game_s *game)
 		printf("%s\n", game->map_data.map[i++]);
 	printf("map size == %zu\n", game->map_data.heigth);
 	printf("player pos : x == %f : y == %f\n", game->plyr_data.pos_x, game->plyr_data.pos_y);
-
-
-
-
-
 }
 
 

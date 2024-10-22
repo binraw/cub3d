@@ -35,11 +35,7 @@ SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c \
 					$(DIR_PARS)init_map.c $(DIR_PARS)init_texture.c $(DIR_PARS)valid_map.c \
 					\
 					$(DIR_RAY)raycaster.c $(DIR_RAY)utils_raycaster.c
-OBJS	= $(SRCS_FILE:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
-# OBJS = $(patsubst %.c, $(DIR_OBJ)%.o, $(SRCS_FILE))
-# SRCS = $(addprefix $(DIR_SRC),$(SRCS_FILE))
-
-# $(shell $(MD) $(DIR_OBJ))
+OBJS	= $(SRCS_FILE:$(DIR_SRC)%.c=$(DIR_OBJ)%.o)
 
 default: all
 all: $(MLX) $(LIBFT) $(NAME)
@@ -49,8 +45,8 @@ $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	@echo "**** CUBD3D READY ****"
 
 $(DIR_OBJ)%.o: $(DIR_SRC)%.c $(HDR_DIR)*.h Makefile $(LIBFT)
-	$(MD) $(dir $@)
 	@echo "Compiling $< to $@"
+	$(MD) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(MLX): FORCE

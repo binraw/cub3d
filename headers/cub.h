@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/21 13:48:18 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:48:16 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
     /* ==== MACROS ==== */
 
     /* ** ERROR MESSAGES ** */
-	# define USAGE	        "Need a filepath as argument\n"
+	# define USAGE	        "Need one filepath as argument\n"
     # define E_FILE_FORMAT	"A file format error is detected\n"
     # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
     # define E_INVALID_CHAR "Invalid char in the map\n"
