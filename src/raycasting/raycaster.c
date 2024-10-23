@@ -72,30 +72,69 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 	}
 }
 
+void	init_ray(ray_s *ray, game_s *game, int nb_ray)
+{
+	ray->angle = (game->plyr_data.angle - (FOV * 0.5)) + nb_ray * (FOV * 0.5); // angle 1er rayon + a gauche
+	ray->pos_x = game->plyr_data.pos_x;
+	ray->pos_y = game->plyr_data.pos_y;
+	ray->dir_x = cos(ray->angle);
+	ray->dir_y = sin(ray->angle);
+	ray->delta_x = abs(1 / ray->dir_x);
+	ray->delta_y = abs(1 / ray->dir_y);
+	return ;
+}
+
+/*
+	DDA ALGO PSEUDO CODE
+	* determiner si on doit incrementer abscisse ou ordonne
+	* stepx positif == avance a droite (+x) stepx negatif == avance a gauche
+	* stepy positif == vers le bas (+x) stepx negatif == vers le haut
+		- si ray_dir_x > 0 -> stepx += 1;
+		- si ray_dir_x < 0 -> stepx -= 1;
+		- si ray_dir_y < 0 -> stepy += 1;
+		- si ray_dir_y < 0 -> stepy -= 1;
+	
+	* calculer distance jusqu'a la lignes de la grille
+	* sideDistX est initialiser a la valeur de ray_pos_x (position x initial du player)
+	* sideDistY est initialiser a la valeur de ray_pos_y (position y initial du player)
+		- sideDistX == distance entre pos joueur et premiere intercection sur axe vertical
+		- sideDistY == distance entre pos joueur et premiere intercection sur axe horizontal
+	
+*/
+void	dda(game_s, *game, ray_s *ray)
+{
+	double	stepx;
+	double	stepy;
+
+	stepx = ray->pos_x;
+	stepy = ray->pos_y;
+	if (ray->dir_x > 0)
+		stepx = 1;
+	else if (ray->dir_x < 0)
+		stepx = 1;
+	if (ray->dir_y > 0)
+		stepy = 1;
+	else if (ray->dir_y > 0)
+		stepy = 1;
+	
+}
+
 int	compute_ray(game_s *game)
 {
-	double	ray_angle;
-	double	ray_dirx;
-	double	ray_diry;
-	double	ray_radians;
+	ray_s	ray;
+	int		i;
 
-	double ray_x;
-	double ray_y;
-	int i;
-	
-	// printf("in compute_ray\n");
 	i = 0;
-	ray_angle = game->plyr_data.angle - (FOV * 0.5);
-	ray_dirx = cos(ray_angle);
-	ray_diry = sin(ray_angle);
-	while (i < WIN_W)
+	while (i <= WIN_W)
 	{
-		 // Convertir l'angle du rayon en radians
-        ray_radians = (ray_angle * M_PI) / 180;
-		// reinitialise le point de depart du rayon sur la pos du player
-		ray_x = game->plyr_data.pos_x;
-        ray_y = game->plyr_data.pos_y;
-        while (true && ray_x > 0 && ray_y > 0) 
+		init_ray(&ray, game, i);
+		
+
+
+
+
+
+        while (ray_x > 0 && ray_y > 0) 
 		{
             if (check_wall(ray_x, ray_y, game) == 1)
 			{
@@ -110,8 +149,12 @@ int	compute_ray(game_s *game)
                 ray_y < 0 || ray_y >= game->map_data.heigth * TILE_S)
                 	break ;
         }
-		ray_angle += i - (FOV * 0.5);
 		i++;
+		curr_ray_angle = ray.angle + i * (FOV / WIN_W);n
+		ray.pos_x = game->plyr_data.pos_x;
+        ray.pos_y = game->plyr_data.pos_y;
+		ray.dir_x = cos(ray.angle);
+		ray.dir_y = sin(ray.angle);
 	}
 	return (0);
 }

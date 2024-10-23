@@ -25,10 +25,8 @@ void	print_player(game_s *game)
 	printf("PLAYER DATA :\n");
 	printf("pos_y == %f : pos_x = %f\n", game->plyr_data.pos_y, game->plyr_data.pos_x);
 	printf("dir_y == %f : dir_x = %f\n", game->plyr_data.dir_y, game->plyr_data.dir_x);
-	printf("angle == %f : orientation = %f\n\n", game->plyr_data.angle, game->plyr_data.orientation);
+	printf("angle == %f\n\n", game->plyr_data.angle);
 }
-
-
 
 int	ft_perror(char *msg)
 {

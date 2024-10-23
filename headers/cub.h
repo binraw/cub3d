@@ -61,13 +61,22 @@
 		int     all_text;
 	} texture_s ;
 
+	typedef struct ray
+	{
+		double	pos_x;
+		double	pos_y;
+		double	dir_x;
+		double	dir_y;
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+	} ray_s;
+
     typedef struct player
     {
 		double	pos_x;
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
-		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
 		bool	move_up;
 		double orientation;
 		bool	move_down;

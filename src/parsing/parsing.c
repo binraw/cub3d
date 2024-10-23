@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/22 14:39:57 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/23 10:40:53 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ static void	fill_player_data(game_s *game, char orientation)
 	}
 	else if (orientation == 'E')
 	{
-		game->plyr_data.dir_x = 1;
+		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
 		game->plyr_data.angle = 0;
 	}
 	else
 	{
-		game->plyr_data.dir_x = -1;
+		game->plyr_data.dir_x = 1;
 		game->plyr_data.dir_y = 0;
 		game->plyr_data.angle = M_PI;
 	}
