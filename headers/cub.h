@@ -86,12 +86,45 @@
 		bool	screen_change;
 	} map_s;
 
+
+typedef struct ray
+{
+    double pos_x;        // Position actuelle du rayon sur l'axe X (dans le monde)
+    double pos_y;        // Position actuelle du rayon sur l'axe Y (dans le monde)
+    
+    double dir_x;        // Direction du rayon sur l'axe X
+    double dir_y;        // Direction du rayon sur l'axe Y
+
+    double delta_dist_x; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe X
+    double delta_dist_y; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe Y
+
+    double side_dist_x;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe X
+    double side_dist_y;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe Y
+
+    int step_x;          // Indique si l'on avance vers l'Est (1) ou l'Ouest (-1) dans la grille
+    int step_y;          // Indique si l'on avance vers le Nord (-1) ou le Sud (1) dans la grille
+
+    int map_x;           // Coordonnée X actuelle du rayon sur la grille
+    int map_y;           // Coordonnée Y actuelle du rayon sur la grille
+
+    int hit;             // Flag pour indiquer si le rayon a touché un mur (0 = pas touché, 1 = touché)
+    int side;            // Indique si le mur touché est sur une ligne verticale (0) ou horizontale (1)
+
+    double wall_dist;    // Distance entre le joueur et le mur le plus proche détecté par le rayon
+    int line_height;     // Hauteur de la ligne à dessiner pour ce rayon
+    int draw_start;      // Position Y où commencer à dessiner la ligne (en pixels)
+    int draw_end;        // Position Y où terminer de dessiner la ligne (en pixels)
+    double wall_x;       // Position précise où le rayon frappe le mur
+} ray_s;
+
+
     typedef struct game_s
     {
 		console_s	console;
 		texture_s	texture;
 		map_s		map_data;
 		player_s	plyr_data;
+		ray_s		ray_data;
     } game_s;
 
 
