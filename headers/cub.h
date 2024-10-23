@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 07:54:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/10/21 13:48:18 by fberthou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
@@ -27,7 +16,7 @@
     /* ==== MACROS ==== */
 
     /* ** ERROR MESSAGES ** */
-	# define USAGE	        "Need a filepath as argument\n"
+	# define USAGE	        "Need one filepath as argument\n"
     # define E_FILE_FORMAT	"A file format error is detected\n"
     # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
     # define E_INVALID_CHAR "Invalid char in the map\n"
@@ -35,22 +24,22 @@
 
 
     /* ** PROG CONSTANTES ** */
-	# define WIN_W	700	// largeur de la fenetre
-	# define WIN_H	700	// hauteur de la fenetre
+	# define WIN_W	1000	// largeur de la fenetre
+	# define WIN_H	1000	// hauteur de la fenetre
 
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
-	# define ANGLE_N	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	M_PI_2	// angle south == PI / 2
-	# define ANGLE_E	0		// angle east
-	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
-	# define FOV		60		// angle champ de vision player
-	# define NUM_RAYS   WIN_W		// nombre de rayon a tracer
+	# define ANGLE_N	M_PI_2				// angle north M_PI_2 == macro de math.h == PI/2
+	# define ANGLE_S	(3 * M_PI) * 0.5	// angle south == PI / 2
+	# define ANGLE_E	2 * M_PI			// angle east
+	# define ANGLE_W	M_PI				// angle west M_PI == macro de math.h == PI
+	# define FOV		60					// angle champ de vision player
+	# define NUM_RAYS   WIN_W				// nombre de rayon a tracer
 
-	# define ROT_SPEED	0.5
-	# define MOV_SPEED	2
-	# define TILE_S		5
+	# define ROT_SPEED	0.05
+	# define MOV_SPEED	0.5
+	# define TILE_S		1
 
     /* ==== STRUCTURES  */
     typedef struct console
@@ -72,13 +61,30 @@
 		int     all_text;
 	} texture_s ;
 
+	typedef struct ray
+	{
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	pos_x;
+		double	pos_y;
+		double	dir_x;
+		double	dir_y;
+		double	delta_x;
+		double	delta_y;
+		double	step_x;
+		double	step_y;
+		double	side_x;
+		double	side_y;
+		bool	colision_side; // 0 == ligne vertical : 1 == ligne horizontale
+		bool	hit_wall;
+	} ray_s;
+
     typedef struct player
     {
 		double	pos_x;
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
-		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
 		bool	move_up;
 		double orientation;
 		bool	move_down;
@@ -105,6 +111,10 @@
 		player_s	plyr_data;
     } game_s;
 
+
+	/* === Temporary function === */
+	void	print_struct(game_s *game);
+	void	print_player(game_s *game);
 
 	/* === main.c === */
 	int		ft_perror(char *msg);
@@ -144,7 +154,7 @@
 	char	**dup_map_pixel(game_s *game, int y);
     // int		control_value_player(player_s *player, char *str);
 	int		value_player(game_s *game, char c);
-
+	void	init_player(game_s *game);
 	int	raycaster(game_s *game);
 	int	rotate(game_s *game);
 	int	move(game_s *game , double move_x, double move_y);

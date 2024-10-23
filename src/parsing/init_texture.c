@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:09:13 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:53:01 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,15 @@ static int	fill_colors(char *buffer, int *colors)
 	if (not_dup_is_digit(tmp, colors) == false)
 		return (free_ptrtab(tmp), 1);
 	i = -1;
-	while (tmp[++i] && i < 3 && tmp[i][0])
+	while (tmp[++i] && tmp[i][0])
 	{
+		if (i == 3)
+			return (ft_perror("Invalid colors format in file\n"));
 		colors[i] = ft_atoi(tmp[i]);
 		if (colors[i] < 0 || colors[i] > 255)
 			return (free_ptrtab(tmp), \
 					ft_perror("Invalid colors value in file\n"));
 	}
-	while (tmp[i])
-		i++;
-	if (i != 3)
-		return (free_ptrtab(tmp), ft_perror("Invalid color format in file\n"));
 	return (free_ptrtab(tmp), 0);
 }
 

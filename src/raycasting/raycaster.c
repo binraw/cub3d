@@ -2,126 +2,22 @@
 
 
 
-// permet de definir l'orientation initial du player :
-void	init_player(game_s *game)
+int check_wall(double ray_x, double ray_y, game_s *game)
 {
-	game->plyr_data.angle = ANGLE_N;
-	if (game->plyr_data.angle == ANGLE_N)
-	{
-		game->plyr_data.dir_x = 0;
-		game->plyr_data.dir_y = -1;
-	}
-	else if (game->plyr_data.angle == ANGLE_S)
-	{
-		game->plyr_data.dir_x = 0;
-		game->plyr_data.dir_y = 1;
-	}
-	else if (game->plyr_data.angle == ANGLE_E)
-	{
-		game->plyr_data.dir_x = 1;
-		game->plyr_data.dir_y = 0;
-	}
-	else
-	{
-		game->plyr_data.dir_x = -1;
-		game->plyr_data.dir_y = 0;
-	}
-	game->map_data.tile_size = round((double) WIN_W / game->map_data.width);
-	// game->plyr_data.pos_x = 18 * TILE_S + TILE_S * 0.5;
-	// game->plyr_data.pos_y = 2 * TILE_S + TILE_S * 0.5;
-	game->plyr_data.pos_x = 18 * TILE_S;
-	game->plyr_data.pos_y = 2 * TILE_S;
-}
+    // Convertir les coordonnées en indices de la carte
+	int map_x;
+	int map_y;
 
-
-
-// permet de faire le visuel actuel avec des ligne et deux zone differentes :
-int	draw_horizon(game_s *game)
-{
-	int	mid_heigth;
-	int	mid_width;
-
-	mid_heigth = WIN_H * 0.5;
-	mid_width = WIN_W * 0.5;
-	// draw horizontale line
-	for (int y = 0; y < WIN_H; y+=2)
+    map_x = (int) round(ray_x);
+    map_y = (int) round(ray_y);
+    // Vérifier si les indices sont valides et s'il y a un mur
+    if (map_x >= 0 && map_x < game->map_data.width &&
+        map_y >= 0 && map_y < game->map_data.heigth)
 	{
-		if (y > mid_heigth)
-		{
-			for (int x = 0; x < WIN_W; x+=2){
-				// mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.f_color);
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 200);
-			}
-		}
-		else if (y < mid_heigth)
-		{
-			for (int x = 0; x < WIN_W; x+=2){
-				// mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, game->texture.c_color);
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 100);
-			}
-		}
-		else
-		{
-			for (int x = 0; x < WIN_W; x++){
-				mlx_pixel_put(MLX_PTR, WIN_PTR, x, y, 0xffffff);
-			}
-		}
+		// printf("HIT WALL\n");
+		return (game->map_data.map[map_y][map_x] == '1');
 	}
-	//draw verticale line
-	for (int y = 0; y < WIN_W; y++){
-		mlx_pixel_put(MLX_PTR, WIN_PTR, mid_width, \
-						y, 0xffffff);
-	}
-	return (0);
-}
-
-int	compute_ray(game_s *game)
-{
-
-	double angle_increment;
-	double ray_angle;
-	double ray_radians;
-	double dir_x;
-	double dir_y;
-	double ray_x;
-	double ray_y;
-	int i;
-	printf("rentre bien dans compute\n");
-	i = 0;
-	angle_increment = FOV / NUM_RAYS; // Angle entre chaque rayon
-	ray_angle = game->plyr_data.orientation - (FOV / 2); // Angle du premier rayon
-	while (i < NUM_RAYS)
-	{
-		 // Convertir l'angle en radians
-        ray_radians = ray_angle * (ANGLE_W / 180.0);
-        // Déterminer la direction du rayon
-        dir_x = cos(ray_radians);
-        dir_y = sin(ray_radians);
-		// printf("valeur dir_x : %f, valeur dir_y : %f\n", dir_x, dir_y);
-        // Initialiser les coordonnées du rayon
-        ray_x = game->plyr_data.pos_x;
-        ray_y = game->plyr_data.pos_y;
-		// Boucle DDA pour avancer le rayon
-        while (true && ray_x > 0 && ray_y > 0)
-		{
-            if (check_wall(ray_x, ray_y, game) == 1)
-			{
-                draw_wall(game, ray_x, ray_y, i); // i est l'index de colonne
-                break ;
-            }
-            // Avancer le rayon
-            ray_x += dir_x * TILE_S; // Avancer selon la direction
-            ray_y += dir_y * TILE_S;
-			printf("Ray %d: Ray_x: %f, Ray_y: %f\n", i, ray_x, ray_y);
-            // Conditions de sortie (si en dehors de la carte)
-            if (ray_x < 0 || ray_x >= game->map_data.width * TILE_S ||
-                ray_y < 0 || ray_y >= game->map_data.heigth * TILE_S)
-                	break ;
-        }
-		ray_angle += angle_increment;
-		i++;
-	}
-	return (0);
+    return (0); // Pas de mur
 }
 
 void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
@@ -142,6 +38,7 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
     distance = sqrt((ray_x - pos_x) * (ray_x - pos_x) + (ray_y - pos_y) * (ray_y - pos_y));
     // 2. Calculer la hauteur du mur
     wall_height = (int)(WIN_H / distance);
+	// printf("valeur de la hauteur du mur : %d\n", wall_height);
     // 3. Déterminer la position verticale du mur
     wall_top = (WIN_H / 2) - (wall_height / 2);
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
@@ -169,38 +66,128 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 		y++;
 	}
 	y = wall_bottom;
-	while (y < WIN_H)
+	while(y < WIN_H)
 	{
-		if (y >= 0 && y < WIN_H)
-		{
-            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, 100);
-        }
-		y++;
+		mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y++, 300);
 	}
 }
 
-int check_wall(double ray_x, double ray_y, game_s *game)
+void	init_step(ray_s *ray)
 {
-    // Convertir les coordonnées en indices de la carte
-	int map_x;
-	int map_y;
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_x = 0;
+	}
+	else if (ray->dir_x > 0)
+	{
+		ray->step_x = 1;
+		ray->side_x = ray->delta_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_y = 0;
+	}
+	else if (ray->dir_y > 0)
+	{
+		ray->step_y = 1;
+		ray->side_y = ray->delta_y;
+	}
+	return ;
+}
 
-    map_x = (int)(ray_x / TILE_S);
-    map_y = (int)(ray_y / TILE_S);
-    // Vérifier si les indices sont valides et s'il y a un mur
-    if (map_x >= 0 && map_x < game->map_data.width &&
-        map_y >= 0 && map_y < game->map_data.heigth)
+void	init_ray(ray_s *ray, game_s *game, int nb_ray)
+{
+	 // angle 1er rayon + a gauche + l'incrementation du nb de ray
+	ray->angle = (game->plyr_data.angle - (FOV * 0.5)) + nb_ray * (FOV * 0.5);
+	// point de depart du rayon
+	ray->pos_x = game->plyr_data.pos_x;
+	ray->pos_y = game->plyr_data.pos_y;
+	// angle du rayon actuelle
+	ray->dir_x = cos(ray->angle);
+	ray->dir_y = sin(ray->angle);
+	// distance du rayon jusqu'a la prochaine intercection vertical et horizontal (valeur positive donc abs)
+	ray->delta_x = fabs(1 / ray->dir_x);
+	ray->delta_y = fabs(1 / ray->dir_y);
+	init_step(ray);
+	return ;
+}
+
+/*
+	DDA ALGO PSEUDO CODE
+	* determiner si on doit incrementer abscisse ou ordonne
+	* stepx positif == avance a droite (+x) stepx negatif == avance a gauche
+	* stepy positif == vers le bas (+x) stepx negatif == vers le haut
+		- si ray_dir_x > 0 -> stepx += 1;
+		- si ray_dir_x < 0 -> stepx -= 1;
+		- si ray_dir_y < 0 -> stepy += 1;
+		- si ray_dir_y < 0 -> stepy -= 1;
+
+	* calculer distance jusqu'a la lignes de la grille
+	* sideDistX est initialiser a la valeur de ray_pos_x (position x initial du player)
+	* sideDistY est initialiser a la valeur de ray_pos_y (position y initial du player)
+		- sideDistX == distance entre pos joueur et premiere intercection sur axe vertical
+		- sideDistY == distance entre pos joueur et premiere intercection sur axe horizontal
+
+*/
+void	dda(game_s *game, ray_s *ray)
+{
+
+}
+
+int	compute_ray(game_s *game)
+{
+	double	wall_dist;
+	ray_s	ray;
+	int		i;
+
+	i = 0;
+	while (i <= WIN_W)
+	{
+		// initialise la structure ray suivant i
+		init_ray(&ray, game, i);
+		ray.hit_wall = false;
+		while (ray.hit_wall == false)
 		{
-
-			return (game->map_data.map[map_y][map_x] == '1');
-		} // 1 signifie qu'il y a un mur
-    return (0); // Pas de mur
+			if (ray.side_x < ray.side_y) // croise axe verticale, on avance sur x
+			{
+				ray.side_x += ray.delta_x;
+				ray.pos_x += ray.step_x;
+				ray.colision_side = 1;
+			}
+			else // croise axe horizontal, increment y;
+			{
+				ray.side_y += ray.delta_y;
+				ray.pos_y += ray.step_y;
+				ray.colision_side = 0;
+			}
+			if (game->map_data.map[(int) round(ray.pos_y)][(int) round(ray.pos_x)] == '1')
+			{
+				if (i <= 5 || i >= WIN_H - 5)
+					printf("HITWALL y = %f : x = %f\n", ray.pos_y, ray.pos_x);
+				ray.hit_wall = true;
+			}
+		}
+		// calcul la longueur totale du rayon
+		if (ray.colision_side == 1)
+			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) * 0.5) / ray.dir_x;
+		else
+			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) * 0.5) / ray.dir_y;
+		// coordonnees du point de contact du mur sur la carte
+		int x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
+		int y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
+		draw_wall(game, x, y, i);
+		if (i++ <= 5)
+			printf("end_y == %d : end_x == %d\n", y ,x);
+		else if (i >= WIN_H - 5)
+			printf("end_y == %d : end_x == %d\n", y ,x);
+	}
+	return (0);
 }
 
 int	raycaster(game_s *game)
 {
-	init_player(game);
 	compute_ray(game);
-
 	return (0);
 }
