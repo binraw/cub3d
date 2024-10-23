@@ -63,11 +63,14 @@
 
 	typedef struct ray
 	{
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
 		double	pos_x;
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
-		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	delta_x;
+		double	delta_y;
+		bool	hit_wall;
 	} ray_s;
 
     typedef struct player
