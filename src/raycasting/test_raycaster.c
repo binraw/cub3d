@@ -1,5 +1,7 @@
 #include "../headers/cub.h"
 
+
+// init des donnes utils dans ray
 void init_ray(ray_s *ray, game_s *game, int pixel_column)
 {
     double camera_x;
@@ -16,7 +18,7 @@ void init_ray(ray_s *ray, game_s *game, int pixel_column)
     ray->hit = 0;
 }
 
-
+// algo dda pour determiner si un mur est toucher
 void dda(game_s *game, ray_s *ray)
 {
     if (ray->dir_x < 0)
@@ -58,6 +60,8 @@ void dda(game_s *game, ray_s *ray)
     }
 }
 
+
+// fct draw modifier pour fonctionner avec le nouveau systeme dda 
 void draw_wall(game_s *game, int column_index, ray_s *ray)
 {
     int wall_height;
@@ -99,7 +103,7 @@ void draw_wall(game_s *game, int column_index, ray_s *ray)
     }
 }
 
-
+// boucle raycaster pour chaque rayon 
 int compute_ray(game_s *game)
 {
     ray_s ray;
