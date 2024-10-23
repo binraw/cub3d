@@ -40,7 +40,7 @@ int	draw_horizon(game_s *game)
 {
 	int	mid_heigth;
 	int	mid_width;
-	
+
 	mid_heigth = WIN_H * 0.5;
 	mid_width = WIN_W * 0.5;
 	// draw horizontale line
@@ -102,7 +102,7 @@ int	compute_ray(game_s *game)
         ray_x = game->plyr_data.pos_x;
         ray_y = game->plyr_data.pos_y;
 		// Boucle DDA pour avancer le rayon
-        while (true && ray_x > 0 && ray_y > 0) 
+        while (true && ray_x > 0 && ray_y > 0)
 		{
             if (check_wall(ray_x, ray_y, game) == 1)
 			{
@@ -152,7 +152,7 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 	// printf("valeur wall botton : %d\n", wall_bottom);
 	while(y < wall_bottom)
 	{
-		if (y >= 0 && y < WIN_H) 
+		if (y >= 0 && y < WIN_H)
 		{ // Vérification des limites de l'écran
             mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, wall_color);
         }
@@ -179,7 +179,7 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 	}
 }
 
-int check_wall(double ray_x, double ray_y, game_s *game) 
+int check_wall(double ray_x, double ray_y, game_s *game)
 {
     // Convertir les coordonnées en indices de la carte
 	int map_x;
@@ -191,7 +191,7 @@ int check_wall(double ray_x, double ray_y, game_s *game)
     if (map_x >= 0 && map_x < game->map_data.width &&
         map_y >= 0 && map_y < game->map_data.heigth)
 		{
-			
+
 			return (game->map_data.map[map_y][map_x] == '1');
 		} // 1 signifie qu'il y a un mur
     return (0); // Pas de mur
