@@ -68,19 +68,49 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 	y = wall_bottom;
 	while(y < WIN_H)
 	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y++, 210);
+		mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y++, 300);
 	}
+}
+
+void	init_step(ray_s *ray)
+{
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_x = 0;
+	}
+	else if (ray->dir_x > 0)
+	{
+		ray->step_x = 1;
+		ray->side_x = ray->delta_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_y = 0;
+	}
+	else if (ray->dir_y > 0)
+	{
+		ray->step_y = 1;
+		ray->side_y = ray->delta_y;
+	}
+	return ;
 }
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-	ray->angle = (game->plyr_data.angle - (FOV * 0.5)) + nb_ray * (FOV * 0.5); // angle 1er rayon + a gauche
+	 // angle 1er rayon + a gauche + l'incrementation du nb de ray
+	ray->angle = (game->plyr_data.angle - (FOV * 0.5)) + nb_ray * (FOV * 0.5);
+	// point de depart du rayon
 	ray->pos_x = game->plyr_data.pos_x;
 	ray->pos_y = game->plyr_data.pos_y;
+	// angle du rayon actuelle
 	ray->dir_x = cos(ray->angle);
 	ray->dir_y = sin(ray->angle);
-	ray->delta_x = abs(1 / ray->dir_x);
-	ray->delta_y = abs(1 / ray->dir_y);
+	// distance du rayon jusqu'a la prochaine intercection vertical et horizontal (valeur positive donc abs)
+	ray->delta_x = fabs(1 / ray->dir_x);
+	ray->delta_y = fabs(1 / ray->dir_y);
+	init_step(ray);
 	return ;
 }
 
@@ -101,60 +131,57 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 		- sideDistY == distance entre pos joueur et premiere intercection sur axe horizontal
 	
 */
-void	dda(game_s, *game, ray_s *ray)
+void	dda(game_s *game, ray_s *ray)
 {
-	double	stepx;
-	double	stepy;
 
-	stepx = ray->pos_x;
-	stepy = ray->pos_y;
-	if (ray->dir_x > 0)
-		stepx = 1;
-	else if (ray->dir_x < 0)
-		stepx = 1;
-	if (ray->dir_y > 0)
-		stepy = 1;
-	else if (ray->dir_y > 0)
-		stepy = 1;
-	
 }
 
 int	compute_ray(game_s *game)
 {
+	double	wall_dist;
 	ray_s	ray;
 	int		i;
 
 	i = 0;
 	while (i <= WIN_W)
 	{
+		// initialise la structure ray suivant i
 		init_ray(&ray, game, i);
-		
-
-
-
-
-
-        while (ray_x > 0 && ray_y > 0) 
+		ray.hit_wall = false;
+		while (ray.hit_wall == false)
 		{
-            if (check_wall(ray_x, ray_y, game) == 1)
+			if (ray.side_x < ray.side_y) // croise axe verticale, on avance sur x
 			{
-                draw_wall(game, ray_x, ray_y, i); // i est l'index de colonne
-                break ;
-            }
-            // Avancer le rayon
-            ray_x += ray_dirx * TILE_S; // Avancer selon la direction
-            ray_y += ray_diry * TILE_S;
-			// printf("Ray %d: Ray_x: %f, Ray_y: %f\n", i, ray_x, ray_y);
-            if (ray_x < 0 || ray_x >= game->map_data.width * TILE_S ||
-                ray_y < 0 || ray_y >= game->map_data.heigth * TILE_S)
-                	break ;
-        }
-		i++;
-		curr_ray_angle = ray.angle + i * (FOV / WIN_W);n
-		ray.pos_x = game->plyr_data.pos_x;
-        ray.pos_y = game->plyr_data.pos_y;
-		ray.dir_x = cos(ray.angle);
-		ray.dir_y = sin(ray.angle);
+				ray.side_x += ray.delta_x;
+				ray.pos_x += ray.step_x;
+				ray.colision_side = 1;
+			}
+			else // croise axe horizontal, increment y;
+			{
+				ray.side_y += ray.delta_y;
+				ray.pos_y += ray.step_y;
+				ray.colision_side = 0; 
+			}
+			if (game->map_data.map[(int) round(ray.pos_y)][(int) round(ray.pos_x)] == '1')
+			{
+				if (i <= 5 || i >= WIN_H - 5)
+					printf("HITWALL y = %f : x = %f\n", ray.pos_y, ray.pos_x);
+				ray.hit_wall = true;
+			}
+		}
+		// calcul la longueur totale du rayon
+		if (ray.colision_side == 1)
+			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) * 0.5) / ray.dir_x;
+		else
+			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) * 0.5) / ray.dir_y;
+		// coordonnees du point de contact du mur sur la carte
+		int x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
+		int y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
+		draw_wall(game, x, y, i);
+		if (i++ <= 5)
+			printf("end_y == %d : end_x == %d\n", y ,x);
+		else if (i >= WIN_H - 5)
+			printf("end_y == %d : end_x == %d\n", y ,x);
 	}
 	return (0);
 }

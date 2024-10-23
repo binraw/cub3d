@@ -31,7 +31,7 @@
 	# define WIN_PTR	game->console.win_ptr
 
 	# define ANGLE_N	M_PI_2				// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	(3 * M_PI) * 005	// angle south == PI / 2
+	# define ANGLE_S	(3 * M_PI) * 0.5	// angle south == PI / 2
 	# define ANGLE_E	2 * M_PI			// angle east
 	# define ANGLE_W	M_PI				// angle west M_PI == macro de math.h == PI
 	# define FOV		60					// angle champ de vision player
@@ -70,6 +70,11 @@
 		double	dir_y;
 		double	delta_x;
 		double	delta_y;
+		double	step_x;
+		double	step_y;
+		double	side_x;
+		double	side_y;
+		bool	colision_side; // 0 == ligne vertical : 1 == ligne horizontale
 		bool	hit_wall;
 	} ray_s;
 
