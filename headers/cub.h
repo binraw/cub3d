@@ -69,6 +69,8 @@
 		double	dir_y;
 		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
 		bool	move_up;
+		double  plane_y;
+		double  plane_x;
 		double orientation;
 		bool	move_down;
 		bool	move_right;
@@ -168,12 +170,15 @@ typedef struct ray
 	int		value_player(game_s *game, char c);
 	void	init_player(game_s *game);
 	int	raycaster(game_s *game);
+	int compute_ray(game_s *game);
 	int	rotate(game_s *game);
 	int	move(game_s *game , double move_x, double move_y);
 	int loop_hook(game_s *game);
 	int update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
-	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
+	void draw_wall(game_s *game, int column_index, ray_s *ray);
+	void dda(game_s *game, ray_s *ray);
+	void init_ray(ray_s *ray, game_s *game, int pixel_column);
     int    control_value_player(player_s *player, char *str);
     // int init_pos_player(game_s *game, int y);
     // int isclosed(game_s *game, int x);

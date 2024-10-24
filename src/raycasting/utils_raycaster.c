@@ -120,7 +120,8 @@ int loop_hook(game_s *game)
     
     if (update_movement(game) == 1)
         return (0);
-    raycaster(game);
+    compute_ray(game);
+    // raycaster(game);
     // printf("value de la pos x : %f\n", game->plyr_data.pos_x);
     // printf("BOUGE \n");
     return (0);

@@ -47,6 +47,8 @@ int	fill_player_data(game_s *game, char orientation, size_t x, size_t y)
 		game->plyr_data.dir_y = 0;
 		game->plyr_data.angle = ANGLE_W;
 	}
+	game->plyr_data.plane_x = 0.66;
+	game->plyr_data.plane_y = 0;
 	return (0);
 }
 

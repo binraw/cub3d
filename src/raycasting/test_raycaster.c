@@ -6,6 +6,7 @@ void init_ray(ray_s *ray, game_s *game, int pixel_column)
 {
     double camera_x;
 
+    
     camera_x = 2 * pixel_column / (double)WIN_W - 1;
     ray->pos_x = game->plyr_data.pos_x;
     ray->pos_y = game->plyr_data.pos_y;
@@ -55,7 +56,7 @@ void dda(game_s *game, ray_s *ray)
             ray->map_y += ray->step_y;
             ray->side = 1;
         }
-        if (game->map[ray->map_x][ray->map_y] == '1')
+        if (game->map_data.map[ray->map_x][ray->map_y] == '1')
             ray->hit = 1;
     }
 }
@@ -114,7 +115,7 @@ int compute_ray(game_s *game)
     {
         init_ray(&ray, game, i);
         dda(game, &ray);
-        draw_wall(game, &ray, i);
+        draw_wall(game, i, &ray);
         i++;
     }
     return (0);
