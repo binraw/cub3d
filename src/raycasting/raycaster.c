@@ -99,8 +99,11 @@ void	init_step(ray_s *ray)
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-	 // angle 1er rayon + a gauche + l'incrementation du nb de ray
-	ray->angle = (game->plyr_data.angle - (FOV * 0.5)) + nb_ray * (FOV * 0.5);
+	 // angle 1er rayon + a gauche
+	if (!nb_ray)
+		ray->angle = game->plyr_data.angle - (FOV_RAD) * 0.5;
+	else // l'incrementation pour chaque nouveau rayon
+		ray->angle += (FOV_RAD) / WIN_W;
 	// point de depart du rayon
 	ray->pos_x = game->plyr_data.pos_x;
 	ray->pos_y = game->plyr_data.pos_y;
@@ -108,8 +111,14 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 	ray->dir_x = cos(ray->angle);
 	ray->dir_y = sin(ray->angle);
 	// distance du rayon jusqu'a la prochaine intercection vertical et horizontal (valeur positive donc abs)
-	ray->delta_x = fabs(1 / ray->dir_x);
-	ray->delta_y = fabs(1 / ray->dir_y);
+	if (ray->dir_x <= 0)
+		ray->delta_x = fabs(1 / ray->dir_x);
+	else
+		ray->delta_x = 1e30;
+	if (ray->dir_y <= 0)
+		ray->delta_y = fabs(1 / ray->dir_y);
+	else
+		ray->delta_y = 1e30;
 	init_step(ray);
 	return ;
 }
@@ -143,7 +152,7 @@ int	compute_ray(game_s *game)
 	int		i;
 
 	i = 0;
-	while (i <= WIN_W)
+	while (i < WIN_W)
 	{
 		// initialise la structure ray suivant i
 		init_ray(&ray, game, i);
@@ -162,10 +171,12 @@ int	compute_ray(game_s *game)
 				ray.pos_y += ray.step_y;
 				ray.colision_side = 0;
 			}
-			if (game->map_data.map[(int) round(ray.pos_y)][(int) round(ray.pos_x)] == '1')
+			if ((int) ray.pos_x <= 0 || (int) ray.pos_x >= game->map_data.width || \
+				(int) ray.pos_y <= 0 || (int) ray.pos_y >= game->map_data.heigth || \
+				game->map_data.map[(int) ray.pos_y][(int) ray.pos_x] == '1')
 			{
-				if (i <= 5 || i >= WIN_H - 5)
-					printf("HITWALL y = %f : x = %f\n", ray.pos_y, ray.pos_x);
+				// if (i <= 5 || i >= WIN_H - 5)
+				// 	printf("HITWALL y = %f : x = %f\n", ray.pos_y, ray.pos_x);
 				ray.hit_wall = true;
 			}
 		}
@@ -175,13 +186,13 @@ int	compute_ray(game_s *game)
 		else
 			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) * 0.5) / ray.dir_y;
 		// coordonnees du point de contact du mur sur la carte
-		int x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
-		int y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
+		double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
+		double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
 		draw_wall(game, x, y, i);
 		if (i++ <= 5)
-			printf("end_y == %d : end_x == %d\n", y ,x);
+			printf("end_y == %f : end_x == %f\n", y ,x);
 		else if (i >= WIN_H - 5)
-			printf("end_y == %d : end_x == %d\n", y ,x);
+			printf("end_y == %f : end_x == %f\n", y ,x);
 	}
 	return (0);
 }

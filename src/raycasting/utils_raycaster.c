@@ -37,6 +37,15 @@ int	move(game_s *game , double move_x, double move_y)
 		move_y < 0 || move_y >= game->map_data.heigth || 
 		game->map_data.map[(int) round(move_y)][(int) round(move_x)] == '1')
 	{
+        // if (game->plyr_data.move_up || game->plyr_data.move_down || \
+        // game->plyr_data.move_left || game->plyr_data.move_right || \
+        // game->plyr_data.rotate_l || game->plyr_data.rotate_r)
+        // {
+    	//     game->plyr_data.pos_x = move_x;
+	    //     game->plyr_data.pos_y = move_y;
+
+        //     return (0);
+        // }
         printf("HIT WALL\n");
 		return (1);
 	}

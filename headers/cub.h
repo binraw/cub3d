@@ -35,10 +35,11 @@
 	# define ANGLE_E	2 * M_PI			// angle east
 	# define ANGLE_W	M_PI				// angle west M_PI == macro de math.h == PI
 	# define FOV		60					// angle champ de vision player
+	# define FOV_RAD	(FOV * game->plyr_data.angle) / 180
 	# define NUM_RAYS   WIN_W				// nombre de rayon a tracer
 
 	# define ROT_SPEED	0.05
-	# define MOV_SPEED	0.5
+	# define MOV_SPEED	1
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
@@ -85,8 +86,8 @@
 		double	dir_x;
 		double	dir_y;
 		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	orientation;
 		bool	move_up;
-		double orientation;
 		bool	move_down;
 		bool	move_right;
 		bool	move_left;
