@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/23 10:40:53 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:47:37 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ static int	get_plyr_pos(game_s *game)
 			{
 				game->plyr_data.pos_x = (float) x;
 				game->plyr_data.pos_y = (float) y;
-				return (fill_player_data(game, game->map_data.map[y][x]), 0);
+				fill_player_data(game, game->map_data.map[y][x]);
+				game->plyr_data.initial_angle = game->plyr_data.angle;
+				return (0);
 			}
 			x++;
 		}

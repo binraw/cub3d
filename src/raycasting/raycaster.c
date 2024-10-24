@@ -20,11 +20,11 @@ int check_wall(double ray_x, double ray_y, game_s *game)
     return (0); // Pas de mur
 }
 
-void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
+void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, double distance)
 {
     double pos_x;
     double pos_y;
-	double distance;
+	// double distance;
 	int wall_height;
 	int wall_top;
 	int wall_bottom;
@@ -35,7 +35,7 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index)
 	pos_x = game->plyr_data.pos_x;
     pos_y = game->plyr_data.pos_y;
     // 1. Calculer la distance au mur
-    distance = sqrt((ray_x - pos_x) * (ray_x - pos_x) + (ray_y - pos_y) * (ray_y - pos_y));
+    // distance = sqrt((ray_x - pos_x) * (ray_x - pos_x) + (ray_y - pos_y) * (ray_y - pos_y));
     // 2. Calculer la hauteur du mur
     wall_height = (int)(WIN_H / distance);
 	// printf("valeur de la hauteur du mur : %d\n", wall_height);
@@ -101,9 +101,9 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
 	 // angle 1er rayon + a gauche
 	if (!nb_ray)
-		ray->angle = game->plyr_data.angle - (FOV_RAD) * 0.5;
+		ray->angle = (game->plyr_data.angle - FOV * 0.5) * (M_PI / 180.0f);
 	else // l'incrementation pour chaque nouveau rayon
-		ray->angle += (FOV_RAD) / WIN_W;
+		ray->angle += ((FOV / 180) * M_PI) / WIN_W;
 	// point de depart du rayon
 	ray->pos_x = game->plyr_data.pos_x;
 	ray->pos_y = game->plyr_data.pos_y;
@@ -128,10 +128,10 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 	* determiner si on doit incrementer abscisse ou ordonne
 	* stepx positif == avance a droite (+x) stepx negatif == avance a gauche
 	* stepy positif == vers le bas (+x) stepx negatif == vers le haut
-		- si ray_dir_x > 0 -> stepx += 1;
-		- si ray_dir_x < 0 -> stepx -= 1;
-		- si ray_dir_y < 0 -> stepy += 1;
-		- si ray_dir_y < 0 -> stepy -= 1;
+		- si ray_dir_x > 0 -> stepx = 1;
+		- si ray_dir_x < 0 -> stepx = -1;
+		- si ray_dir_y < 0 -> stepy = 1;
+		- si ray_dir_y < 0 -> stepy = -1;
 
 	* calculer distance jusqu'a la lignes de la grille
 	* sideDistX est initialiser a la valeur de ray_pos_x (position x initial du player)
@@ -142,7 +142,27 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 */
 void	dda(game_s *game, ray_s *ray)
 {
-
+	while (ray->hit_wall == false)
+	{
+		if (ray->side_x < ray->side_y) // croise axe verticale, on avance sur x
+		{
+			ray->side_x += ray->delta_x;
+			ray->pos_x += ray->step_x;
+			ray->colision_side = 1;
+		}
+		else // croise axe horizontal, increment y;
+		{
+			ray->side_y += ray->delta_y;
+			ray->pos_y += ray->step_y;
+			ray->colision_side = 0;
+		}
+		if ((int) ray->pos_x <= 0 || (int) ray->pos_x >= game->map_data.width || \
+			(int) ray->pos_y <= 0 || (int) ray->pos_y >= game->map_data.heigth || \
+			game->map_data.map[(int) ray->pos_y][(int) ray->pos_x] == '1')
+		{
+			ray->hit_wall = true;
+		}
+	}
 }
 
 int	compute_ray(game_s *game)
@@ -157,42 +177,27 @@ int	compute_ray(game_s *game)
 		// initialise la structure ray suivant i
 		init_ray(&ray, game, i);
 		ray.hit_wall = false;
-		while (ray.hit_wall == false)
-		{
-			if (ray.side_x < ray.side_y) // croise axe verticale, on avance sur x
-			{
-				ray.side_x += ray.delta_x;
-				ray.pos_x += ray.step_x;
-				ray.colision_side = 1;
-			}
-			else // croise axe horizontal, increment y;
-			{
-				ray.side_y += ray.delta_y;
-				ray.pos_y += ray.step_y;
-				ray.colision_side = 0;
-			}
-			if ((int) ray.pos_x <= 0 || (int) ray.pos_x >= game->map_data.width || \
-				(int) ray.pos_y <= 0 || (int) ray.pos_y >= game->map_data.heigth || \
-				game->map_data.map[(int) ray.pos_y][(int) ray.pos_x] == '1')
-			{
-				// if (i <= 5 || i >= WIN_H - 5)
-				// 	printf("HITWALL y = %f : x = %f\n", ray.pos_y, ray.pos_x);
-				ray.hit_wall = true;
-			}
-		}
-		// calcul la longueur totale du rayon
+		// calcul la longueur totale du rayon walldist == longueur rayon
+		dda(game, &ray);
 		if (ray.colision_side == 1)
 			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) * 0.5) / ray.dir_x;
 		else
 			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) * 0.5) / ray.dir_y;
+		
+		// correction fisheye
+		double anglediff = ray.angle - game->plyr_data.angle;
+		double correctdist = wall_dist * cos(anglediff);
+
 		// coordonnees du point de contact du mur sur la carte
 		double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
 		double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
-		draw_wall(game, x, y, i);
+		draw_wall(game, x, y, i, correctdist);
 		if (i++ <= 5)
 			printf("end_y == %f : end_x == %f\n", y ,x);
 		else if (i >= WIN_H - 5)
 			printf("end_y == %f : end_x == %f\n", y ,x);
+		else if (i == 500)
+			printf("middle end_y == %f : end_x == %f : angle == %f\n", y ,x, ray.angle);
 	}
 	return (0);
 }

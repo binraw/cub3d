@@ -60,9 +60,18 @@ int	move(game_s *game , double move_x, double move_y)
 void    rotate_player(game_s *game)
 {
     if (game->plyr_data.rotate_l)
+    {
         game->plyr_data.angle -= ROT_SPEED;
+        if (game->plyr_data.angle <= 0)
+        {
+            game->plyr_data.angle = fmod(game->plyr_data.angle + 360, 360);
+        }
+    }
     if (game->plyr_data.rotate_r)
+    {
         game->plyr_data.angle += ROT_SPEED;
+        game->plyr_data.angle = fmod(game->plyr_data.angle, 360);;
+    }
     game->plyr_data.dir_x = cos(game->plyr_data.angle);
     game->plyr_data.dir_y = sin(game->plyr_data.angle);
 }

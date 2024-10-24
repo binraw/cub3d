@@ -39,7 +39,7 @@
 	# define NUM_RAYS   WIN_W				// nombre de rayon a tracer
 
 	# define ROT_SPEED	0.05
-	# define MOV_SPEED	1
+	# define MOV_SPEED	0.25
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
@@ -69,6 +69,8 @@
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
+		double	plane_x;
+		double	plane_y;
 		double	delta_x;
 		double	delta_y;
 		double	step_x;
@@ -85,6 +87,7 @@
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
+		double	initial_angle;
 		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
 		double	orientation;
 		bool	move_up;
@@ -162,7 +165,7 @@
 	int loop_hook(game_s *game);
 	int update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
-	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
+	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, double distance);
     int    control_value_player(player_s *player, char *str);
     // int init_pos_player(game_s *game, int y);
     // int isclosed(game_s *game, int x);
