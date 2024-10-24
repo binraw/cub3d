@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/22 14:19:05 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:05:40 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,16 @@ static int	init_parsing(char *filepath, game_s *game, const int fd)
 	ft_memset(game, 0, sizeof(game_s));
 	ft_memset(game->texture.c_color, -1, 3 * sizeof(int));
 	ft_memset(game->texture.f_color, -1, 3 * sizeof(int));
+	game->plyr_data.pos_x = -1;
+	game->plyr_data.pos_y = -1;
 	return (0);
 }
 
-static int	fill_player_data(game_s *game, char orientation)
+static void	fill_player_data(game_s *game, char orientation)
 {
 	if (orientation == 'N')
 	{
-		game->plyr_data.angle = ANGLE_N;
+		game->plyr_data.angle = 3 * M_PI_2;
 		game->plyr_data.dir_x = 0;
 		game->plyr_data.dir_y = -1;
 	}
@@ -44,22 +46,23 @@ static int	fill_player_data(game_s *game, char orientation)
 	{
 		game->plyr_data.dir_x = 0;
 		game->plyr_data.dir_y = 1;
-		game->plyr_data.angle = ANGLE_S;
+		game->plyr_data.angle = M_PI_2;
 	}
 	else if (orientation == 'E')
 	{
-		game->plyr_data.dir_x = 1;
+		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
-		game->plyr_data.angle = ANGLE_E;
+		game->plyr_data.angle = 0;
 	}
 	else
 	{
-		game->plyr_data.dir_x = -1;
+		game->plyr_data.dir_x = 1;
 		game->plyr_data.dir_y = 0;
-		game->plyr_data.angle = ANGLE_W;
+		game->plyr_data.angle = M_PI;
 	}
 	game->plyr_data.orientation = game->plyr_data.angle;
-	return (0);
+	game->plyr_data.plane_x = 0.66;
+	game->plyr_data.plane_y = 0;
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -77,7 +80,7 @@ static int	get_plyr_pos(game_s *game)
 			{
 				game->plyr_data.pos_x = (float) x;
 				game->plyr_data.pos_y = (float) y;
-				return (fill_player_data(game, game->map_data.map[y][x]));
+				return (fill_player_data(game, game->map_data.map[y][x]), 0);
 			}
 			x++;
 		}

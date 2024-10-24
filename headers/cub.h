@@ -30,14 +30,16 @@
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
-	# define ANGLE_N	3 * M_PI_2// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	M_PI_2	// angle south == PI / 2
-	# define ANGLE_E	0		// angle east
-	# define ANGLE_W	M_PI	// angle west M_PI == macro de math.h == PI
-	# define FOV		120		// angle champ de vision player
-	# define NUM_RAYS   WIN_W		// nombre de rayon a tracer
+	// nombre de rayon a tracer
+	# define ANGLE_N	M_PI_2				// angle north M_PI_2 == macro de math.h == PI/2
+	# define ANGLE_S	(3 * M_PI) * 0.5	// angle south == PI / 2
+	# define ANGLE_E	2 * M_PI			// angle east
+	# define ANGLE_W	M_PI				// angle west M_PI == macro de math.h == PI
+	# define FOV		60					// angle champ de vision player
+	# define FOV_RAD	(FOV * game->plyr_data.angle) / 180
+	# define NUM_RAYS   WIN_W				// nombre de rayon a tracer
 
-	# define ROT_SPEED	0.5
+	# define ROT_SPEED	0.05
 	# define MOV_SPEED	0.15
 	# define TILE_S		1
 
@@ -61,17 +63,34 @@
 		int     all_text;
 	} texture_s ;
 
+	typedef struct ray
+	{
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	pos_x;
+		double	pos_y;
+		double	dir_x;
+		double	dir_y;
+		double	delta_x;
+		double	delta_y;
+		double	step_x;
+		double	step_y;
+		double	side_x;
+		double	side_y;
+		bool	colision_side; // 0 == ligne vertical : 1 == ligne horizontale
+		bool	hit_wall;
+	} ray_s;
+
     typedef struct player
     {
 		double	pos_x;
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
-		double	angle;	// angle du premier rayon -> PI/2 - A_FOV/2
+		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	orientation;
 		bool	move_up;
 		double  plane_y;
 		double  plane_x;
-		double orientation;
 		bool	move_down;
 		bool	move_right;
 		bool	move_left;
@@ -89,35 +108,35 @@
 	} map_s;
 
 
-typedef struct ray
-{
-    double pos_x;        // Position actuelle du rayon sur l'axe X (dans le monde)
-    double pos_y;        // Position actuelle du rayon sur l'axe Y (dans le monde)
+// typedef struct ray
+// {
+//     double pos_x;        // Position actuelle du rayon sur l'axe X (dans le monde)
+//     double pos_y;        // Position actuelle du rayon sur l'axe Y (dans le monde)
     
-    double dir_x;        // Direction du rayon sur l'axe X
-    double dir_y;        // Direction du rayon sur l'axe Y
+//     double dir_x;        // Direction du rayon sur l'axe X
+//     double dir_y;        // Direction du rayon sur l'axe Y
 
-    double delta_dist_x; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe X
-    double delta_dist_y; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe Y
+//     double delta_dist_x; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe X
+//     double delta_dist_y; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe Y
 
-    double side_dist_x;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe X
-    double side_dist_y;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe Y
+//     double side_dist_x;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe X
+//     double side_dist_y;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe Y
 
-    int step_x;          // Indique si l'on avance vers l'Est (1) ou l'Ouest (-1) dans la grille
-    int step_y;          // Indique si l'on avance vers le Nord (-1) ou le Sud (1) dans la grille
+//     int step_x;          // Indique si l'on avance vers l'Est (1) ou l'Ouest (-1) dans la grille
+//     int step_y;          // Indique si l'on avance vers le Nord (-1) ou le Sud (1) dans la grille
 
-    int map_x;           // Coordonnée X actuelle du rayon sur la grille
-    int map_y;           // Coordonnée Y actuelle du rayon sur la grille
+//     int map_x;           // Coordonnée X actuelle du rayon sur la grille
+//     int map_y;           // Coordonnée Y actuelle du rayon sur la grille
 
-    int hit;             // Flag pour indiquer si le rayon a touché un mur (0 = pas touché, 1 = touché)
-    int side;            // Indique si le mur touché est sur une ligne verticale (0) ou horizontale (1)
+//     int hit;             // Flag pour indiquer si le rayon a touché un mur (0 = pas touché, 1 = touché)
+//     int side;            // Indique si le mur touché est sur une ligne verticale (0) ou horizontale (1)
 
-    double wall_dist;    // Distance entre le joueur et le mur le plus proche détecté par le rayon
-    int line_height;     // Hauteur de la ligne à dessiner pour ce rayon
-    int draw_start;      // Position Y où commencer à dessiner la ligne (en pixels)
-    int draw_end;        // Position Y où terminer de dessiner la ligne (en pixels)
-    double wall_x;       // Position précise où le rayon frappe le mur
-} ray_s;
+//     double wall_dist;    // Distance entre le joueur et le mur le plus proche détecté par le rayon
+//     int line_height;     // Hauteur de la ligne à dessiner pour ce rayon
+//     int draw_start;      // Position Y où commencer à dessiner la ligne (en pixels)
+//     int draw_end;        // Position Y où terminer de dessiner la ligne (en pixels)
+//     double wall_x;       // Position précise où le rayon frappe le mur
+// } ray_s;
 
 
     typedef struct game_s
@@ -129,6 +148,10 @@ typedef struct ray
 		ray_s		ray_data;
     } game_s;
 
+
+	/* === Temporary function === */
+	void	print_struct(game_s *game);
+	void	print_player(game_s *game);
 
 	/* === main.c === */
 	int		ft_perror(char *msg);
@@ -176,9 +199,7 @@ typedef struct ray
 	int loop_hook(game_s *game);
 	int update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
-	void draw_wall(game_s *game, int column_index, ray_s *ray);
-	void dda(game_s *game, ray_s *ray);
-	void init_ray(ray_s *ray, game_s *game, int pixel_column);
+void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
     int    control_value_player(player_s *player, char *str);
     // int init_pos_player(game_s *game, int y);
     // int isclosed(game_s *game, int x);
