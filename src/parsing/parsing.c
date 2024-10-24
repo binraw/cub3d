@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/24 13:05:40 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:22:00 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	fill_player_data(game_s *game, char orientation)
 		game->plyr_data.dir_y = 0;
 		game->plyr_data.angle = M_PI;
 	}
-	game->plyr_data.orientation = game->plyr_data.angle;
+	
 	game->plyr_data.plane_x = 0.66;
 	game->plyr_data.plane_y = 0;
 }

@@ -143,30 +143,30 @@ void	init_step(game_s *game, ray_s *ray)
         ray->step_y = 1;
         ray->side_y = (ray->pos_y + 1.0 - ray->pos_y) * ray->delta_y;
     }
-    while (!ray->hit_wall)
-    {
-        if (ray->side_x < ray->side_y)
-        {
-            ray->side_x += ray->delta_x;
-            ray->pos_x += ray->step_x;
-            ray->colision_side = 0;
-        }
-        else
-        {
-            ray->side_y += ray->delta_y;
-            ray->pos_y += ray->step_y;
-            ray->colision_side = 1;
-        }
-        if (game->map_data.map[(int)ray->pos_x][(int)ray->pos_y] == '1')
-            ray->hit_wall = 1;
-    }
+    // while (!ray->hit_wall)
+    // {
+    //     if (ray->side_x < ray->side_y)
+    //     {
+    //         ray->side_x += ray->delta_x;
+    //         ray->pos_x += ray->step_x;
+    //         ray->colision_side = 0;
+    //     }
+    //     else
+    //     {
+    //         ray->side_y += ray->delta_y;
+    //         ray->pos_y += ray->step_y;
+    //         ray->colision_side = 1;
+    //     }
+    //     if (game->map_data.map[(int)ray->pos_x][(int)ray->pos_y] == '1')
+    //         ray->hit_wall = 1;
+    // }
 }
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-	double camera_x;
+	// double camera_x;
 
-	camera_x = 2 * nb_ray / (WIN_W - 1);
+	// camera_x = 2 * nb_ray / (WIN_W - 1);
 
 	 // angle 1er rayon + a gauche
 	if (!nb_ray)
@@ -177,10 +177,10 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 	ray->pos_x = game->plyr_data.pos_x;
 	ray->pos_y = game->plyr_data.pos_y;
 	// angle du rayon actuelle
-	// ray->dir_x = cos(ray->angle);
-	// ray->dir_y = sin(ray->angle);
-	ray->dir_x = game->plyr_data.dir_x + game->plyr_data.plane_x * camera_x;
-	ray->dir_y = game->plyr_data.dir_y + game->plyr_data.plane_y * camera_x;
+	ray->dir_x = cos(ray->angle);
+	ray->dir_y = sin(ray->angle);
+	// ray->dir_x = game->plyr_data.dir_x + game->plyr_data.plane_x * camera_x;
+	// ray->dir_y = game->plyr_data.dir_y + game->plyr_data.plane_y * camera_x;
 	// distance du rayon jusqu'a la prochaine intercection vertical et horizontal (valeur positive donc abs)
 	if (ray->dir_x <= 0)
 		ray->delta_x = fabs(1 / ray->dir_x);
@@ -225,18 +225,17 @@ int	compute_ray(game_s *game)
 	i = 0;
 	while (i < WIN_W)
 	{
-		// initialise la structure ray suivant i
 		init_ray(&ray, game, i);
 		ray.hit_wall = false;
 		while (ray.hit_wall == false)
 		{
-			if (ray.side_x < ray.side_y) // croise axe verticale, on avance sur x
+			if (ray.side_x < ray.side_y)
 			{
 				ray.side_x += ray.delta_x;
 				ray.pos_x += ray.step_x;
 				ray.colision_side = 1;
 			}
-			else // croise axe horizontal, increment y;
+			else
 			{
 				ray.side_y += ray.delta_y;
 				ray.pos_y += ray.step_y;
@@ -246,17 +245,13 @@ int	compute_ray(game_s *game)
 				(int) ray.pos_y <= 0 || (int) ray.pos_y >= game->map_data.heigth || \
 				game->map_data.map[(int) ray.pos_y][(int) ray.pos_x] == '1')
 			{
-				// if (i <= 5 || i >= WIN_H - 5)
-				// 	printf("HITWALL y = %f : x = %f\n", ray.pos_y, ray.pos_x);
 				ray.hit_wall = true;
 			}
 		}
-		// calcul la longueur totale du rayon
 		if (ray.colision_side == 1)
 			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) * 0.5) / ray.dir_x;
 		else
 			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) * 0.5) / ray.dir_y;
-		// coordonnees du point de contact du mur sur la carte
 		double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
 		double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
 		draw_wall(game, x, y, i);

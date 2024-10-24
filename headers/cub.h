@@ -87,7 +87,6 @@
 		double	dir_x;
 		double	dir_y;
 		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
-		double	orientation;
 		bool	move_up;
 		double  plane_y;
 		double  plane_x;
