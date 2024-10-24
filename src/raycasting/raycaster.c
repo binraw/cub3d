@@ -99,17 +99,19 @@ void	init_step(ray_s *ray)
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
+    // point de depart du rayon
+	ray->pos_x = game->plyr_data.pos_x - TILE_S * 0.5; // on enleve la moitie de la taille de la tuile
+	ray->pos_y = game->plyr_data.pos_y - TILE_S * 0.5; // pour lancer les rayons depuis le centre de la case
 	 // angle 1er rayon + a gauche
 	if (!nb_ray)
-		ray->angle = (game->plyr_data.angle - FOV * 0.5) * (M_PI / 180.0f);
-	else // l'incrementation pour chaque nouveau rayon
-		ray->angle += ((FOV / 180) * M_PI) / WIN_W;
-	// point de depart du rayon
-	ray->pos_x = game->plyr_data.pos_x;
-	ray->pos_y = game->plyr_data.pos_y;
-	// angle du rayon actuelle
-	ray->dir_x = cos(ray->angle);
-	ray->dir_y = sin(ray->angle);
+		ray->angle = game->plyr_data.angle - FOV_2; // angle player - la moitie de l'angle FOV (tout en radian)
+	// else // l'incrementation pour chaque nouveau rayon
+	// 	ray->angle += ((FOV / 180) * M_PI) / WIN_W;
+
+	// les valeurs combinnees de cos et sin forment le vecteur de direction
+	ray->dir_x = cos(ray->angle); // composante horizontale -> direction de x
+	ray->dir_y = sin(ray->angle); // composante verticale -> direction de y
+
 	// distance du rayon jusqu'a la prochaine intercection vertical et horizontal (valeur positive donc abs)
 	if (ray->dir_x <= 0)
 		ray->delta_x = fabs(1 / ray->dir_x);
@@ -183,7 +185,7 @@ int	compute_ray(game_s *game)
 			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) * 0.5) / ray.dir_x;
 		else
 			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) * 0.5) / ray.dir_y;
-		
+
 		// correction fisheye
 		double anglediff = ray.angle - game->plyr_data.angle;
 		double correctdist = wall_dist * cos(anglediff);
