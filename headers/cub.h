@@ -2,10 +2,10 @@
 #ifndef CUB_H
 # define CUB_H
 
-    # include "../libft/hdr/libft.h"
-    # include "../minilibx-linux/mlx.h"
-    # include "../minilibx-linux/mlx_int.h"
-    # include "../libft/hdr/get_next_line.h"
+    # include "libft.h"
+    # include "get_next_line.h"
+    # include "mlx.h"
+    # include "mlx_int.h"
     # include <sys/stat.h>
     # include <stdbool.h>
     # include <stdlib.h>
@@ -24,8 +24,8 @@
 
 
     /* ** PROG CONSTANTES ** */
-	# define WIN_W		1000	// largeur de la fenetre
-	# define WIN_H		1000	// hauteur de la fenetre
+	# define WIN_W		700	// largeur de la fenetre
+	# define WIN_H		700	// hauteur de la fenetre
 	# define NUM_RAYS	WIN_W	// nombre de rayon a tracer
 
 	# define MLX_PTR	game->console.mlx_ptr
@@ -41,8 +41,8 @@
 
     // ces deux macros permettent de centrer la position du player dans sa case
 	# define FOV_RAD	(FOV * game->plyr_data.angle) / 180
-    # define POX_Y(game)    (game)->plyr_data.pos_y - (TILE_S * 0.5)
-    # define POX_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
+    # define POS_Y(game)    (game)->plyr_data.pos_y - (TILE_S * 0.5)
+    # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
 
 	# define ROT_SPEED	0.05
 	# define MOV_SPEED	0.25
@@ -77,6 +77,7 @@
 		double	dir_y;
 		double	plane_x;
 		double	plane_y;
+        double  cam_x;
 		double	delta_x;
 		double	delta_y;
 		double	step_x;

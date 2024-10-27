@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/24 21:15:03 by florian          ###   ########.fr       */
+/*   Updated: 2024/10/27 12:38:08 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	fill_player_data(game_s *game, char orientation)
 		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
 	}
+	game->plyr_data.initial_angle = game->plyr_data.angle;
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -78,7 +79,6 @@ static int	get_plyr_pos(game_s *game)
 				game->plyr_data.pos_x = (float) x;
 				game->plyr_data.pos_y = (float) y;
 				fill_player_data(game, game->map_data.map[y][x]);
-				game->plyr_data.initial_angle = game->plyr_data.angle;
 				return (0);
 			}
 			x++;
