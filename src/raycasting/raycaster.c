@@ -35,13 +35,12 @@ void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, doubl
 	while(y < wall_bottom)
 	{
 		if (y >= 0 && y < WIN_H)
-		{ // Vérification des limites de l'écran
+		{
             mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, wall_color);
         }
 		y++;
 	}
-	// plafond :
-	y = 0; // represente le haut de l'ecran
+	y = 0;
 	while (y < wall_top)
 	{
 		if (y >= 0 && y < WIN_H)
@@ -95,6 +94,7 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 
 	if (!nb_ray)
 	{
+		printf("RENTRE ICIIIIII \n");
 		ray->angle = fmod(game->plyr_data.angle - FOV_2, 2*M_PI); // angle player - la moitie de l'angle FOV (tout en radian) FOV_2 == 30 degres
 		ray->plane_x = -0.66; // vecteur du plan joueur
 		ray->plane_y = 0; 

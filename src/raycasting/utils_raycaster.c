@@ -37,7 +37,7 @@ void rotate_player(game_s *game)
 
     game->plyr_data.dir_x = cos(game->plyr_data.angle * (M_PI / 180)); // Conversion en radians
     game->plyr_data.dir_y = sin(game->plyr_data.angle * (M_PI / 180)); // Conversion en radians
-    printf("valeur des directions : x et y : %f\n %f\n", game->plyr_data.dir_x, game->plyr_data.dir_y);
+    //printf("valeur des directions : x et y : %f\n %f\n", game->plyr_data.dir_x, game->plyr_data.dir_y);
 
 }
 
@@ -46,7 +46,7 @@ int update_movement(game_s *game)
 {
     double move_x = game->plyr_data.pos_x;
     double move_y = game->plyr_data.pos_y;
-    printf("valeur de move_x et move_y : %f\n %f\n", move_x, move_y);
+   // printf("valeur de move_x et move_y : %f\n %f\n", move_x, move_y);
     if (game->plyr_data.move_up)
     {
         move_x += game->plyr_data.dir_x * MOV_SPEED; 

@@ -115,37 +115,15 @@
 		bool	screen_change;
 	} map_s;
 
-
-// typedef struct ray
-// {
-//     double pos_x;        // Position actuelle du rayon sur l'axe X (dans le monde)
-//     double pos_y;        // Position actuelle du rayon sur l'axe Y (dans le monde)
-    
-//     double dir_x;        // Direction du rayon sur l'axe X
-//     double dir_y;        // Direction du rayon sur l'axe Y
-
-//     double delta_dist_x; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe X
-//     double delta_dist_y; // Distance à parcourir pour aller d'une intersection de grille à la suivante sur l'axe Y
-
-//     double side_dist_x;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe X
-//     double side_dist_y;  // Distance actuelle entre la position du rayon et la prochaine ligne de grille sur l'axe Y
-
-//     int step_x;          // Indique si l'on avance vers l'Est (1) ou l'Ouest (-1) dans la grille
-//     int step_y;          // Indique si l'on avance vers le Nord (-1) ou le Sud (1) dans la grille
-
-//     int map_x;           // Coordonnée X actuelle du rayon sur la grille
-//     int map_y;           // Coordonnée Y actuelle du rayon sur la grille
-
-//     int hit;             // Flag pour indiquer si le rayon a touché un mur (0 = pas touché, 1 = touché)
-//     int side;            // Indique si le mur touché est sur une ligne verticale (0) ou horizontale (1)
-
-//     double wall_dist;    // Distance entre le joueur et le mur le plus proche détecté par le rayon
-//     int line_height;     // Hauteur de la ligne à dessiner pour ce rayon
-//     int draw_start;      // Position Y où commencer à dessiner la ligne (en pixels)
-//     int draw_end;        // Position Y où terminer de dessiner la ligne (en pixels)
-//     double wall_x;       // Position précise où le rayon frappe le mur
-// } ray_s;
-
+	typedef struct img
+	{
+		int			height[4];
+		int			width[4];
+		void		*img_text_no;
+		void		*img_text_so;
+		void		*img_text_we;
+		void		*img_text_ea;
+	}	img_s;
 
     typedef struct game_s
     {
@@ -154,6 +132,7 @@
 		map_s		map_data;
 		player_s	plyr_data;
 		ray_s		ray_data;
+		img_s		img_data;
     } game_s;
 
 
@@ -186,6 +165,11 @@
 
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
+	void    load_texture(game_s *game);
+	void    init_texture_no(game_s *game);
+	void    init_texture_so(game_s *game);
+	void    init_texture_we(game_s *game);
+	void    init_texture_ea(game_s *game);
 
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
@@ -195,20 +179,14 @@
 
 
 
-    int		init_pixel_map(game_s *game, int y);
-	char	**dup_map_pixel(game_s *game, int y);
-    // int		control_value_player(player_s *player, char *str);
-	int		value_player(game_s *game, char c);
-	void	init_player(game_s *game);
+
 	int	raycaster(game_s *game);
 	int compute_ray(game_s *game);
-	int	rotate(game_s *game);
 	int	move(game_s *game , double move_x, double move_y);
 	int loop_hook(game_s *game);
 	int update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
 	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, double distance);
-    int    control_value_player(player_s *player, char *str);
     // int init_pos_player(game_s *game, int y);
     // int isclosed(game_s *game, int x);
     // int isclosed_column(game_s *game, int x);
