@@ -1,21 +1,6 @@
 #include "cub.h"
 
-/*
-	* si la prochaine case n'est pas un mur, met a jour les valeurs pos_x et pos_y
-	* avec les nouvelles valeurs move_x et move_y
-*/
-// int	move(game_s *game , double move_x, double move_y)
-// {
-// 	if (move_x < 0 || move_x >= game->map_data.width ||
-// 		move_y < 0 || move_y >= game->map_data.heigth ||
-// 		game->map_data.map[(int) round(move_y)][(int) round(move_x)] == '1')
-// 	{
-// 		return (1);
-// 	}
-// 	game->plyr_data.pos_x = move_x;
-// 	game->plyr_data.pos_y = move_y;
-// 	return (0);
-// }
+
 
 int move(game_s *game, double move_x, double move_y)
 {
@@ -33,10 +18,6 @@ int move(game_s *game, double move_x, double move_y)
     game->plyr_data.pos_y = move_y;
     return (0); // Pas de collision
 }
-/*
-	* increment / decrement l'angle du player de la vitesse de rotation
-	* a voir si on doit revenir a l'angle de depart lorsqu'on arrive a 360 degres
-*/
 
 
 
@@ -59,13 +40,6 @@ void rotate_player(game_s *game)
     printf("valeur des directions : x et y : %f\n %f\n", game->plyr_data.dir_x, game->plyr_data.dir_y);
 
 }
-/*
-    * update la position du player
-        - stock la valeur des mouvements de translation dans des variables
-        - la valeur des variables est validee dans la fonction move() qui update les variables de
-        - la structure si move_x et move_y sont valide (ne sortent pas de la map)
-        - update de l'angle de rotation dans rotate_player()
-*/
 
 
 int update_movement(game_s *game)
@@ -73,28 +47,30 @@ int update_movement(game_s *game)
     double move_x = game->plyr_data.pos_x;
     double move_y = game->plyr_data.pos_y;
     printf("valeur de move_x et move_y : %f\n %f\n", move_x, move_y);
-
     if (game->plyr_data.move_up)
     {
-        move_y -= game->plyr_data.dir_y * MOV_SPEED;
+        move_x += game->plyr_data.dir_x * MOV_SPEED; 
+        move_y += game->plyr_data.dir_y * MOV_SPEED; 
     }
     if (game->plyr_data.move_down)
     {
-        move_y += game->plyr_data.dir_y * MOV_SPEED;
+        move_x -= game->plyr_data.dir_x * MOV_SPEED;
+        move_y -= game->plyr_data.dir_y * MOV_SPEED; 
     }
     if (game->plyr_data.move_left)
     {
-        move_x -= MOV_SPEED;
+        move_x -= game->plyr_data.dir_y * MOV_SPEED; 
+        move_y += game->plyr_data.dir_x * MOV_SPEED; 
     }
     if (game->plyr_data.move_right)
     {
-        move_x += MOV_SPEED; 
+        move_x += game->plyr_data.dir_y * MOV_SPEED;
+        move_y -= game->plyr_data.dir_x * MOV_SPEED; 
     }
-    
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
         rotate_player(game);
     
-    return (move(game, move_x, move_y));
+    return move(game, move_x, move_y);
 }
 
 int loop_hook(game_s *game)

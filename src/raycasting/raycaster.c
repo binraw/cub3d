@@ -79,7 +79,12 @@ void	init_step(ray_s *ray, game_s *game)
 		ray->step_y = 1;
 		ray->side_y = (ray->pos_y + 1 - game->plyr_data.pos_y) * ray->delta_y;
 	}
-	return ;
+	else
+    {
+        ray->step_y = 0; // Si dir_y est 0, on ne bouge pas sur l'axe Y
+        ray->side_y = 1e30; // Éviter la division par zéro
+    }
+	// return ;
 }
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
@@ -109,35 +114,17 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 	return ;
 }
 
-
-/*
-	DDA ALGO PSEUDO CODE
-	* determiner si on doit incrementer abscisse ou ordonne
-	* stepx positif == avance a droite (+x) stepx negatif == avance a gauche
-	* stepy positif == vers le bas (+x) stepx negatif == vers le haut
-		- si ray_dir_x > 0 -> stepx = 1;
-		- si ray_dir_x < 0 -> stepx = -1;
-		- si ray_dir_y < 0 -> stepy = 1;
-		- si ray_dir_y < 0 -> stepy = -1;
-
-	* calculer distance jusqu'a la lignes de la grille
-	* sideDistX est initialiser a la valeur de ray_pos_x (position x initial du player)
-	* sideDistY est initialiser a la valeur de ray_pos_y (position y initial du player)
-		- sideDistX == distance entre pos joueur et premiere intercection sur axe vertical
-		- sideDistY == distance entre pos joueur et premiere intercection sur axe horizontal
-
-*/
 void	dda(game_s *game, ray_s *ray)
 {
 	while (ray->hit_wall == false)
 	{
-		if (ray->side_x < ray->side_y) // croise axe verticale, on avance sur x
+		if (ray->side_x < ray->side_y)
 		{
 			ray->side_x += ray->delta_x;
 			ray->pos_x += ray->step_x;
 			ray->colision_side = 1;
 		}
-		else // croise axe horizontal, increment y;
+		else
 		{
 			ray->side_y += ray->delta_y;
 			ray->pos_y += ray->step_y;
@@ -147,7 +134,6 @@ void	dda(game_s *game, ray_s *ray)
 			(int) ray->pos_y <= 0 || (int) ray->pos_y >= game->map_data.heigth || \
 			game->map_data.map[(int) ray->pos_y][(int) ray->pos_x] == '1')
 		{
-			// printf("HIT WALL\n");
 			ray->hit_wall = true;
 		}
 	}
