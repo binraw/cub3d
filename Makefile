@@ -23,7 +23,7 @@ DIR_OBJ		= .object/
 
 # ==== COMPILATION TOOLS ==== #
 LIB_FLAG	= -I$(DIR_LIBFT)hdr -I$(DIR_MLX)
-MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lm
 CFLAGS		= -g -I$(HDR_DIR) $(LIB_FLAG) # -Wall -Wextra -Werror
 
 ### === SOURCES FILE === ###
@@ -41,7 +41,7 @@ default: all
 all: $(MLX) $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) -L$(DIR_MLX) $(MLX_FLAGS) $^ -o $@
+	$(CC) $(CFLAGS) -o $@ $^ -L$(DIR_MLX) $(MLX_FLAGS)
 	@echo "**** CUBD3D READY ****"
 
 $(DIR_OBJ)%.o: $(DIR_SRC)%.c $(HDR_DIR)*.h Makefile $(LIBFT)

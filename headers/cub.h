@@ -2,10 +2,10 @@
 #ifndef CUB_H
 # define CUB_H
 
-    # include "../libft/hdr/libft.h"
-    # include "../minilibx-linux/mlx.h"
-    # include "../minilibx-linux/mlx_int.h"
-    # include "../libft/hdr/get_next_line.h"
+    # include "libft.h"
+    # include "get_next_line.h"
+    # include "mlx.h"
+    # include "mlx_int.h"
     # include <sys/stat.h>
     # include <stdbool.h>
     # include <stdlib.h>
@@ -24,23 +24,28 @@
 
 
     /* ** PROG CONSTANTES ** */
-	# define WIN_W	1000	// largeur de la fenetre
-	# define WIN_H	1000	// hauteur de la fenetre
+	# define WIN_W		700	// largeur de la fenetre
+	# define WIN_H		700	// hauteur de la fenetre
+	# define NUM_RAYS	WIN_W	// nombre de rayon a tracer
 
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
-	// nombre de rayon a tracer
-	# define ANGLE_N	M_PI_2				// angle north M_PI_2 == macro de math.h == PI/2
-	# define ANGLE_S	(3 * M_PI) * 0.5	// angle south == PI / 2
-	# define ANGLE_E	2 * M_PI			// angle east
-	# define ANGLE_W	M_PI				// angle west M_PI == macro de math.h == PI
-	# define FOV		60					// angle champ de vision player
-	# define FOV_RAD	(FOV * game->plyr_data.angle) / 180
-	# define NUM_RAYS   WIN_W				// nombre de rayon a tracer
+	// tous les angles sont donnes en radian
+	# define ANGLE_N	M_PI_2				// PI/2, donc regarde en bas
+	# define ANGLE_S	(3 * M_PI) * 0.5	// 3PI/2 donc regarde en haut
+	# define ANGLE_E	0					// regarde a droite, point de depart
+	# define ANGLE_W	M_PI				// PI donc regarde a gauche
+	# define ANGLE_FOV	M_PI / 3			// angle champ de vision player total
+	# define FOV_2		M_PI / 6			// ANGLE_FOV / 2
 
-	# define ROT_SPEED	0.05
-	# define MOV_SPEED	0.15
+    // ces deux macros permettent de centrer la position du player dans sa case
+	# define FOV_RAD	(FOV * game->plyr_data.angle) / 180
+    # define POS_Y(game)    (game)->plyr_data.pos_y - (TILE_S * 0.5)
+    # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
+
+	# define ROT_SPEED	1
+	# define MOV_SPEED	1
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
@@ -70,6 +75,9 @@
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
+		double	plane_x;
+		double	plane_y;
+        double  cam_x;
 		double	delta_x;
 		double	delta_y;
 		double	step_x;
@@ -82,11 +90,12 @@
 
     typedef struct player
     {
-		double	pos_x;
+		double	pos_x; // necessaire pour naviguer dans tab
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
 		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	initial_angle;
 		bool	move_up;
 		double  plane_y;
 		double  plane_x;
@@ -167,24 +176,24 @@
 
 	/* === parsing.c === */
 	int		parsing(game_s *game, char *filepath);
-	
+
 	/* === parsing_utils.c === */
 	bool	is_valid_char(char c);
 	bool	is_empty_line(char *buffer);
 	bool	is_player(char c);
 	char	**duplicate_map(char **src, size_t nb_ptr);
 	int		alloc_tab(game_s *game, bool first_alloc);
-	
+
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
-	
+
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
 
 	/* === valid_map.c === */
 	int	check_map_validity(game_s *game);
 
-	
+
 
     int		init_pixel_map(game_s *game, int y);
 	char	**dup_map_pixel(game_s *game, int y);
@@ -198,7 +207,7 @@
 	int loop_hook(game_s *game);
 	int update_movement(game_s *game);
 	int check_wall(double ray_x, double ray_y, game_s *game);
-void draw_wall(game_s *game, double ray_x, double ray_y, int column_index);
+	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, double distance);
     int    control_value_player(player_s *player, char *str);
     // int init_pos_player(game_s *game, int y);
     // int isclosed(game_s *game, int x);

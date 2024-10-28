@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/24 15:22:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:07:09 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,29 @@ static void	fill_player_data(game_s *game, char orientation)
 {
 	if (orientation == 'N')
 	{
-		game->plyr_data.angle = 3 * M_PI_2;
+		game->plyr_data.angle = ANGLE_N;
 		game->plyr_data.dir_x = 0;
 		game->plyr_data.dir_y = -1;
 	}
 	else if (orientation == 'S')
 	{
+		game->plyr_data.angle = ANGLE_S;
 		game->plyr_data.dir_x = 0;
 		game->plyr_data.dir_y = 1;
-		game->plyr_data.angle = M_PI_2;
 	}
 	else if (orientation == 'E')
 	{
-		game->plyr_data.dir_x = -1;
+		game->plyr_data.angle = ANGLE_E;
+		game->plyr_data.dir_x = 1;
 		game->plyr_data.dir_y = 0;
-		game->plyr_data.angle = 0;
 	}
 	else
 	{
-		game->plyr_data.dir_x = 1;
+		game->plyr_data.angle = ANGLE_W;
+		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
-		game->plyr_data.angle = M_PI;
 	}
-	
-	game->plyr_data.plane_x = 0.66;
-	game->plyr_data.plane_y = 0;
+	game->plyr_data.initial_angle = game->plyr_data.angle;
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -80,7 +78,8 @@ static int	get_plyr_pos(game_s *game)
 			{
 				game->plyr_data.pos_x = (float) x;
 				game->plyr_data.pos_y = (float) y;
-				return (fill_player_data(game, game->map_data.map[y][x]), 0);
+				fill_player_data(game, game->map_data.map[y][x]);
+				return (0);
 			}
 			x++;
 		}
