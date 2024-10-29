@@ -160,14 +160,6 @@ int	compute_ray(game_s *game)
 			wall_dist = (ray.side_y - ray.delta_y);
 
 		draw_wall_all(game, &ray, i, wall_dist);
-		// if (ray.dir_y > 0.50)
-		// 	draw_wall_no(game, &ray, i, wall_dist);
-		// else if (ray.dir_y  <= 0.50 && ray.dir_y  > 0)
-		// 	draw_wall_we(game, &ray, i, wall_dist);
-		// else if (ray.dir_y <= 0 && ray.dir_y > -0.50)
-		// 	draw_wall_so(game, &ray, i, wall_dist);
-		// else
-		// 	draw_wall_ea(game, &ray, i, wall_dist);
 		i++;
 	}
 	return (0);
