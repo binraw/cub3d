@@ -8,6 +8,7 @@ int get_texture_color(void *img_ptr, int x, int y, int texture_width)
     int endian; // ordre de stockage
     int color;
 
+    // printf("rentre dans la recup de texture pour afficher le bon pixel \n");
     // Obtenir les données de l'image
     data = mlx_get_data_addr(img_ptr, &bpp, &size_line, &endian);
 
@@ -46,13 +47,14 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
     {
         if (y >= 0 && y < WIN_H)
         {
-            texture_y = ((y - wall_top) * game->texture_height[0]) / wall_height;
+            texture_y = ((y - wall_top) * game->img_data.height[0]) / wall_height;
             color = get_texture_color(game->img_data.img_text_no, texture_x, texture_y, game->img_data.width[0]);
-
-            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+            printf("valeur de la color : %d\n", color);
+            mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, y, color);
         }
         y++;
     }
+    printf("fin du mur\n");
     draw_sky(game, column_index, wall_top);
     draw_floor(game, column_index, wall_bottom);
 }
@@ -76,10 +78,10 @@ void draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance)
     {
         if (y >= 0 && y < WIN_H)
         {
-            texture_y = ((y - wall_top) * game->texture_height[1]) / wall_height;
+            texture_y = ((y - wall_top) * game->img_data.height[1]) / wall_height;
             color = get_texture_color(game->img_data.img_text_so, texture_x, texture_y, game->img_data.width[1]);
 
-            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+            mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, y, color);
         }
         y++;
     }
@@ -106,10 +108,10 @@ void draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance)
     {
         if (y >= 0 && y < WIN_H)
         {
-            texture_y = ((y - wall_top) * game->texture_height[2]) / wall_height;
+            texture_y = ((y - wall_top) * game->img_data.height[2]) / wall_height;
             color = get_texture_color(game->img_data.img_text_we, texture_x, texture_y, game->img_data.width[2]);
 
-            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+            mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, y, color);
         }
         y++;
     }
@@ -137,10 +139,10 @@ void draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance)
     {
         if (y >= 0 && y < WIN_H)
         {
-            texture_y = ((y - wall_top) * game->texture_height[3]) / wall_height;
+            texture_y = ((y - wall_top) * game->img_data.height[3]) / wall_height;
             color = get_texture_color(game->img_data.img_text_ea, texture_x, texture_y, game->img_data.width[3]);
 
-            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+            mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, y, color);
         }
         y++;
     }
@@ -153,8 +155,11 @@ void    draw_sky(game_s *game, int column_index, int wall_top)
     int y;
     int sky_color;
 
+    printf("rentre dans sky\n");
     y = 0;
-    sky_color = (game->texture.text_c[0] << 16) | (game->texture.text_c[1] << 8) | game->texture.text_c[2];
+    printf("valeur tex_c : %d\n", game->texture.c_color[0]);
+    sky_color = (game->texture.c_color[0] << 16) | (game->texture.c_color[1] << 8) | game->texture.c_color[2];
+    printf("valeur sky_color : %d\n", sky_color);
     while (y < wall_top)
 	{
 		if (y >= 0 && y < WIN_H)
@@ -171,7 +176,7 @@ void    draw_floor(game_s *game, int column_index, int wall_bottom)
     int floor_color;
 
     y = 0;
-    floor_color = (game->texture.text_f[0] << 16) | (game->texture.text_f[1] << 8) | game->texture.text_f[2];
+    floor_color = (game->texture.f_color[0] << 16) | (game->texture.f_color[1] << 8) | game->texture.f_color[2];
     y = wall_bottom;
 	while(y < WIN_H)
 	{

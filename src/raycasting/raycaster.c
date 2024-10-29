@@ -167,7 +167,8 @@ int	compute_ray(game_s *game)
 		// // // coordonnees du point de contact du mur sur la carte
 		// // double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
 		// // double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
-		draw_wall(game, POS_X(game), POS_Y(game), i, wall_dist);
+		// draw_wall(game, POS_X(game), POS_Y(game), i, wall_dist);
+		draw_wall_no(game, &ray, i, wall_dist);
 		i++;
 	}
 	return (0);

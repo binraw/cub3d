@@ -46,6 +46,7 @@ int main(int argc, char **argv)
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
 	print_player(&game);
+	load_texture(&game); // rajouter pour init
 	raycaster(&game);
 	hook_management(&game);
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);

@@ -165,11 +165,21 @@
 
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
+	/* === texture.c === */
 	void    load_texture(game_s *game);
 	void    init_texture_no(game_s *game);
 	void    init_texture_so(game_s *game);
 	void    init_texture_we(game_s *game);
 	void    init_texture_ea(game_s *game);
+
+	/* === draw.c === */
+	int		get_texture_color(void *img_ptr, int x, int y, int texture_width);
+	void	draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance);
+	void	draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance);
+	void	draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance);
+	void	draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance);
+	void    draw_sky(game_s *game, int column_index, int wall_top);
+	void    draw_floor(game_s *game, int column_index, int wall_bottom);
 
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
