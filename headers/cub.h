@@ -180,6 +180,7 @@
 	void	draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance);
 	void    draw_sky(game_s *game, int column_index, int wall_top);
 	void    draw_floor(game_s *game, int column_index, int wall_bottom);
+	void	draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist);
 
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
@@ -188,7 +189,8 @@
 	int	check_map_validity(game_s *game);
 
 
-
+void update_player_rotation(game_s *game);
+void rotate_camera(game_s *game, float angle);
 
 	int	raycaster(game_s *game);
 	int compute_ray(game_s *game);

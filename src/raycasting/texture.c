@@ -17,8 +17,6 @@ void    init_texture_no(game_s *game)
     int width;
     int height;
 
-    // ft_memset(game->img_data.width, -1, 4 * sizeof(int));
-	// ft_memset(game->img_data.height, -1, 4 * sizeof(int));
     game->img_data.img_text_no = mlx_xpm_file_to_image(game->console.mlx_ptr, game->texture.text_no, &width, &height);
     if (!game->img_data.img_text_no) // probleme car \n dans le nom de la texture
     {

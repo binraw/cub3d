@@ -94,7 +94,6 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 
 	if (!nb_ray)
 	{
-		printf("RENTRE ICIIIIII \n");
 		ray->angle = fmod(game->plyr_data.angle - FOV_2, 2*M_PI); // angle player - la moitie de l'angle FOV (tout en radian) FOV_2 == 30 degres
 		ray->plane_x = -0.66; // vecteur du plan joueur
 		ray->plane_y = 0; 
@@ -160,22 +159,15 @@ int	compute_ray(game_s *game)
 		else
 			wall_dist = (ray.side_y - ray.delta_y);
 
-		// // correction fisheye
-		// // double anglediff = ray.angle - game->plyr_data.angle;
-		// // double correctdist = wall_dist * cos(anglediff);
-
-		// // // coordonnees du point de contact du mur sur la carte
-		// // double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
-		// // double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
-		// draw_wall(game, POS_X(game), POS_Y(game), i, wall_dist);
-		if (ray.dir_y > 0.50)
-			draw_wall_no(game, &ray, i, wall_dist);
-		else if (ray.dir_y  <= 0.50 && ray.dir_y  > 0)
-			draw_wall_we(game, &ray, i, wall_dist);
-		else if (ray.dir_y <= 0 && ray.dir_y > -0.50)
-			draw_wall_so(game, &ray, i, wall_dist);
-		else
-			draw_wall_ea(game, &ray, i, wall_dist);
+		draw_wall_all(game, &ray, i, wall_dist);
+		// if (ray.dir_y > 0.50)
+		// 	draw_wall_no(game, &ray, i, wall_dist);
+		// else if (ray.dir_y  <= 0.50 && ray.dir_y  > 0)
+		// 	draw_wall_we(game, &ray, i, wall_dist);
+		// else if (ray.dir_y <= 0 && ray.dir_y > -0.50)
+		// 	draw_wall_so(game, &ray, i, wall_dist);
+		// else
+		// 	draw_wall_ea(game, &ray, i, wall_dist);
 		i++;
 	}
 	return (0);

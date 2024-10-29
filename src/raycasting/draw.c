@@ -184,3 +184,28 @@ void    draw_floor(game_s *game, int column_index, int wall_bottom)
         y++;
 	}
 }
+
+void draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist)
+{
+    if (ray->colision_side == 0) 
+    { // Mur vertical
+        if (ray->dir_x < 0) 
+        {
+            draw_wall_we(game, ray, i, wall_dist); // Ouest
+        } else 
+        {
+            draw_wall_ea(game, ray, i, wall_dist); // Est
+        }
+    } 
+    else 
+    { // Mur horizontal
+        if (ray->dir_y < 0) 
+        {
+            draw_wall_so(game, ray, i, wall_dist); // Sud
+        } 
+        else 
+        {
+            draw_wall_no(game, ray, i, wall_dist); // Nord
+        }
+    }
+}
