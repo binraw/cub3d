@@ -31,6 +31,8 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
     int wall_bottom;
     int y;
     int texture_x;
+    int color;
+    int texture_y;
 
     wall_height = (int)(WIN_H / distance);
     wall_top = (WIN_H / 2) - (wall_height / 2);
@@ -44,13 +46,136 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
     {
         if (y >= 0 && y < WIN_H)
         {
-            int texture_y = ((y - wall_top) * game->texture_height[0]) / wall_height; // Coordonnée y dans la texture
-            int color = get_texture_color(game->img_data.img_text_no, texture_x, texture_y, game->img_data.width[0]);
+            texture_y = ((y - wall_top) * game->texture_height[0]) / wall_height;
+            color = get_texture_color(game->img_data.img_text_no, texture_x, texture_y, game->img_data.width[0]);
 
             mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
         }
         y++;
     }
+    draw_sky(game, column_index, wall_top);
+    draw_floor(game, column_index, wall_bottom);
+}
 
-    // afficher le sol et le ciel apres
+void draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance)
+{
+    int wall_height;
+    int wall_top;
+    int wall_bottom;
+    int y;
+    int texture_x;
+    int color;
+    int texture_y;
+
+    wall_height = (int)(WIN_H / distance);
+    wall_top = (WIN_H / 2) - (wall_height / 2);
+    wall_bottom = (WIN_H / 2) + (wall_height / 2);
+    texture_x = (int)(ray->pos_y * game->img_data.height[1]) % game->img_data.width[1];
+    y = wall_top;
+    while (y < wall_bottom)
+    {
+        if (y >= 0 && y < WIN_H)
+        {
+            texture_y = ((y - wall_top) * game->texture_height[1]) / wall_height;
+            color = get_texture_color(game->img_data.img_text_so, texture_x, texture_y, game->img_data.width[1]);
+
+            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+        }
+        y++;
+    }
+    draw_sky(game, column_index, wall_top);
+    draw_floor(game, column_index, wall_bottom);
+}
+
+void draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance)
+{
+    int wall_height;
+    int wall_top;
+    int wall_bottom;
+    int y;
+    int texture_x;
+    int color;
+    int texture_y;
+
+    wall_height = (int)(WIN_H / distance);
+    wall_top = (WIN_H / 2) - (wall_height / 2);
+    wall_bottom = (WIN_H / 2) + (wall_height / 2);
+    texture_x = (int)(ray->pos_y * game->img_data.height[2]) % game->img_data.width[2];
+    y = wall_top;
+    while (y < wall_bottom)
+    {
+        if (y >= 0 && y < WIN_H)
+        {
+            texture_y = ((y - wall_top) * game->texture_height[2]) / wall_height;
+            color = get_texture_color(game->img_data.img_text_we, texture_x, texture_y, game->img_data.width[2]);
+
+            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+        }
+        y++;
+    }
+    draw_sky(game, column_index, wall_top);
+    draw_floor(game, column_index, wall_bottom);
+}
+
+
+void draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance)
+{
+    int wall_height;
+    int wall_top;
+    int wall_bottom;
+    int y;
+    int texture_x;
+    int color;
+    int texture_y;
+
+    wall_height = (int)(WIN_H / distance);
+    wall_top = (WIN_H / 2) - (wall_height / 2);
+    wall_bottom = (WIN_H / 2) + (wall_height / 2);
+    texture_x = (int)(ray->pos_y * game->img_data.height[3]) % game->img_data.width[3];
+    y = wall_top;
+    while (y < wall_bottom)
+    {
+        if (y >= 0 && y < WIN_H)
+        {
+            texture_y = ((y - wall_top) * game->texture_height[3]) / wall_height;
+            color = get_texture_color(game->img_data.img_text_ea, texture_x, texture_y, game->img_data.width[3]);
+
+            mlx_pixel_put(game->conole.mlx_ptr, game->console.win_ptr, column_index, y, color);
+        }
+        y++;
+    }
+    draw_sky(game, column_index, wall_top);
+    draw_floor(game, column_index, wall_bottom);
+}
+
+void    draw_sky(game_s *game, int column_index, int wall_top)
+{
+    int y;
+    int sky_color;
+
+    y = 0;
+    sky_color = (game->texture.text_c[0] << 16) | (game->texture.text_c[1] << 8) | game->texture.text_c[2];
+    while (y < wall_top)
+	{
+		if (y >= 0 && y < WIN_H)
+		{
+            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, sky_color);
+        }
+		y++;
+	}
+}
+
+void    draw_floor(game_s *game, int column_index, int wall_bottom)
+{
+    int y;
+    int floor_color;
+
+    y = 0;
+    floor_color = (game->texture.text_f[0] << 16) | (game->texture.text_f[1] << 8) | game->texture.text_f[2];
+    y = wall_bottom;
+	while(y < WIN_H)
+	{
+		mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, floor_color);
+        y++;
+	}
 }
