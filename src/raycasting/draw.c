@@ -7,17 +7,18 @@ int get_texture_color(void *img_ptr, int x, int y, int texture_width)
     int size_line; // taille de chaque ligne
     int endian; // ordre de stockage
     int color;
+    int index;
 
     // printf("rentre dans la recup de texture pour afficher le bon pixel \n");
     // Obtenir les données de l'image
     data = mlx_get_data_addr(img_ptr, &bpp, &size_line, &endian);
 
     // Calculer l'index du pixel
-    int index = (y * size_line + x * (bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+    index = (y * size_line + x * (bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
 
     // Récupérer la couleur du pixel
     color = *(int *)(data + index); // Cast pour obtenir la couleur
-
+ 
     return color;
 }
 
@@ -49,12 +50,11 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
         {
             texture_y = ((y - wall_top) * game->img_data.height[0]) / wall_height;
             color = get_texture_color(game->img_data.img_text_no, texture_x, texture_y, game->img_data.width[0]);
-            printf("valeur de la color : %d\n", color);
+            // printf("valeur de la color : %d\n", color);
             mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, y, color);
         }
         y++;
     }
-    printf("fin du mur\n");
     draw_sky(game, column_index, wall_top);
     draw_floor(game, column_index, wall_bottom);
 }
@@ -155,11 +155,11 @@ void    draw_sky(game_s *game, int column_index, int wall_top)
     int y;
     int sky_color;
 
-    printf("rentre dans sky\n");
+    // printf("rentre dans sky\n");
     y = 0;
-    printf("valeur tex_c : %d\n", game->texture.c_color[0]);
+    // printf("valeur tex_c : %d\n", game->texture.c_color[0]);
     sky_color = (game->texture.c_color[0] << 16) | (game->texture.c_color[1] << 8) | game->texture.c_color[2];
-    printf("valeur sky_color : %d\n", sky_color);
+    // printf("valeur sky_color : %d\n", sky_color);
     while (y < wall_top)
 	{
 		if (y >= 0 && y < WIN_H)

@@ -168,7 +168,14 @@ int	compute_ray(game_s *game)
 		// // double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
 		// // double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
 		// draw_wall(game, POS_X(game), POS_Y(game), i, wall_dist);
-		draw_wall_no(game, &ray, i, wall_dist);
+		if (ray.dir_y > 0.50)
+			draw_wall_no(game, &ray, i, wall_dist);
+		else if (ray.dir_y  <= 0.50 && ray.dir_y  > 0)
+			draw_wall_we(game, &ray, i, wall_dist);
+		else if (ray.dir_y <= 0 && ray.dir_y > -0.50)
+			draw_wall_so(game, &ray, i, wall_dist);
+		else
+			draw_wall_ea(game, &ray, i, wall_dist);
 		i++;
 	}
 	return (0);
