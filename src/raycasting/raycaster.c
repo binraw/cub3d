@@ -94,37 +94,7 @@ void	init_step(ray_s *ray, game_s *game)
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-    // static const tile = TILE_S * 0.5;
-    // point de depart du rayon
-	ray->pos_x = game->plyr_data.pos_x - TILE_S * 0.5; // on enleve la moitie de la taille de la tuile
-	ray->pos_y = game->plyr_data.pos_y - TILE_S * 0.5; // pour lancer les rayons depuis le centre de la case
-	// angle 1er rayon + a gauche
-    // fmod permet de faire un modulo sur des float
-    // on assure que angle soit toujours dans le bon range (entre 0 et 2 * PI)
-	if (!nb_ray)
-	{
-		ray->angle = fmod(game->plyr_data.angle - FOV_2, 2*M_PI); // angle player - la moitie de l'angle FOV (tout en radian) FOV_2 == 30 degres
-		ray->plane_x = -0.66; // vecteur du plan joueur
-		ray->plane_y = 0; // oriantation nord
-	}
-	// else // l'incrementation pour chaque nouveau rayon
-	// 	ray->angle += ((FOV / 180) * M_PI) / WIN_W;
 
-	// les valeurs combinnees de cos et sin forment le vecteur de direction
-	ray->dir_x = game->plyr_data.dir_x + ray->plane_x * ray->cam_x; // composante horizontale -> direction de x   dirX + planeX * cameraX;
-	ray->dir_y = game->plyr_data.dir_y + ray->plane_y * ray->cam_x; // composante verticale -> direction de y     dirY + planeY * cameraX;
-
-	// distance du rayon jusqu'a la prochaine intercection vertical et horizontal (valeur positive donc abs)
-	if (ray->dir_x != 0)
-		ray->delta_x = fabs(1 / ray->dir_x);
-	else
-		ray->delta_x = 1e30;
-	if (ray->dir_y != 0)
-		ray->delta_y = fabs(1 / ray->dir_y);
-	else
-		ray->delta_y = 1e30;
-	init_step(ray, game);
-	return ;
 }
 
 /*
@@ -170,42 +140,25 @@ void	dda(game_s *game, ray_s *ray)
 	}
 }
 
+double	get_x_length(ray_s *ray, game_s *game)
+{
+
+}
+
 int	compute_ray(game_s *game)
 {
-	double	wall_dist;
-	ray_s	ray;
-	int		i;
+    size_t	i;
+    double	x_hit;
+    double	y_hit;
+    ray_s	ray;
 
 	i = 0;
+	ray.angle = fabs(fmod(game->plyr_data.angle, 2 * M_PI));
 	while (i < WIN_W)
 	{
-		// initialise la structure ray suivant i
-		ray.hit_wall = false;
-		ray.cam_x = 2 * i / (double) WIN_W - 1;
-		init_ray(&ray, game, i);
-		// calcul la longueur totale du rayon walldist == longueur rayon
-		// dda(game, &ray);
+		ray.hit_wall = 0;
+		x_hit = get_x_length(&ray, game);
 
-		// if(ray.colision_side == 1)
-		// 	wall_dist = (ray.side_x - ray.delta_x);
-		// else
-		// 	wall_dist = (ray.side_y - ray.delta_y);
-
-		// // correction fisheye
-		// // double anglediff = ray.angle - game->plyr_data.angle;
-		// // double correctdist = wall_dist * cos(anglediff);
-
-		// // // coordonnees du point de contact du mur sur la carte
-		// // double x = game->plyr_data.pos_x + ray.dir_x * wall_dist;
-		// // double y = game->plyr_data.pos_y + ray.dir_y * wall_dist;
-		// draw_wall(game, POS_X(game), POS_Y(game), i, wall_dist);
-		i++;
-		// if (i++ <= 5)
-		// 	printf("end_y == %f : end_x == %f\n", y ,x);
-		// else if (i >= WIN_H - 5)
-		// 	printf("end_y == %f : end_x == %f\n", y ,x);
-		// else if (i == 500)
-		// 	printf("middle end_y == %f : end_x == %f : angle == %f\n", y ,x, ray.angle);
 	}
 	return (0);
 }
