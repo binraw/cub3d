@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/22 16:53:01 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:32:00 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,20 @@ static int	fill_colors(char *buffer, int *colors)
 	return (free_ptrtab(tmp), 0);
 }
 
+size_t	ft_strlen_texture(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] != '\0' && str[i] != '\n')
+	{
+		i++;
+	}
+	return (i);
+}
+
 static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 {
 	size_t	i;
@@ -76,7 +90,8 @@ static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 		return (ft_perror("One direction field is duplicated\n"));
 	while (buff_f[i] && (buff_f[i] == ' ' || buff_f[i] == '\t'))
 		i++;
-	*buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i + 1);
+	*buff_t = ft_substr(buff_f, i, ft_strlen_texture(buff_f) - i);
+	// *buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i + 1);
 	if (!*buff_t)
 		return (ft_perror("crash malloc in fill_direction\n"));
 	game->texture.all_text += 1;
