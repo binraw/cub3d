@@ -24,8 +24,6 @@ int get_texture_color(void *img_ptr, int x, int y, int texture_width)
 
 // x doit etre le point x ou le rayon touche le mur et pareil pour le y
 
-
-
 void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
 {
     int wall_height;

@@ -26,12 +26,16 @@ void rotate_player(game_s *game)
     if (game->plyr_data.rotate_l)
     {
         // game->plyr_data.dir_x -= ROT_SPEED;
-        game->plyr_data.angle -= ROT_SPEED;
+        game->plyr_data.angle += ROT_SPEED;
+        if (game->plyr_data.angle > M_PI * 2)
+            game->plyr_data.angle -= M_PI * 2;
     }
     if (game->plyr_data.rotate_r)
     {
         // game->plyr_data.dir_x += ROT_SPEED;
-        game->plyr_data.angle += ROT_SPEED;
+        game->plyr_data.angle -= ROT_SPEED;
+        if (game->plyr_data.angle < 0)
+            game->plyr_data.angle += M_PI * 2;
     }
     // l'angle reste entre 0 et 360 degrés
     game->plyr_data.angle = fmod(game->plyr_data.angle + 360, 360);
@@ -41,6 +45,7 @@ void rotate_player(game_s *game)
     //printf("valeur des directions : x et y : %f\n %f\n", game->plyr_data.dir_x, game->plyr_data.dir_y);
 
 }
+
 void update_player_rotation(game_s *game)
 {
     if (game->plyr_data.rotate_l) {

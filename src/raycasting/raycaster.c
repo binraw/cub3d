@@ -1,61 +1,5 @@
 #include "cub.h"
 
-
-
-int check_wall(double ray_x, double ray_y, game_s *game)
-{
-	int map_x;
-	int map_y;
-
-    map_x = (int) round(ray_x);
-    map_y = (int) round(ray_y);
-    if (map_x >= 0 && map_x < game->map_data.width &&
-        map_y >= 0 && map_y < game->map_data.heigth)
-	{
-		return (game->map_data.map[map_y][map_x] == '1');
-	}
-    return (0);
-}
-
-void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, double distance)
-{
-	int wall_height;
-	int wall_top;
-	int wall_bottom;
-	int wall_color;
-	int y;
-
-    // distance = sqrt((ray_x - pos_x) * (ray_x - pos_x) + (ray_y - pos_y) * (ray_y - pos_y));
-
-    wall_height = (int)(WIN_H / distance);
-    wall_top = (WIN_H / 2) - (wall_height / 2);
-    wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    wall_color = 0;
-	y = wall_top;
-	while(y < wall_bottom)
-	{
-		if (y >= 0 && y < WIN_H)
-		{
-            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, wall_color);
-        }
-		y++;
-	}
-	y = 0;
-	while (y < wall_top)
-	{
-		if (y >= 0 && y < WIN_H)
-		{
-            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, 200);
-        }
-		y++;
-	}
-	y = wall_bottom;
-	while(y < WIN_H)
-	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y++, 300);
-	}
-}
-
 void	init_step(ray_s *ray, game_s *game)
 {
 	if (ray->dir_x < 0)
@@ -88,24 +32,26 @@ void	init_step(ray_s *ray, game_s *game)
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-
 	ray->pos_x = game->plyr_data.pos_x - TILE_S * 0.5; // on enleve la moitie de la taille de la tuile
 	ray->pos_y = game->plyr_data.pos_y - TILE_S * 0.5; // pour lancer les rayons depuis le centre de la case
-
 	if (!nb_ray)
 	{
-		ray->angle = fmod(game->plyr_data.angle - FOV_2, 2*M_PI); // angle player - la moitie de l'angle FOV (tout en radian) FOV_2 == 30 degres
+		ray->angle = fmod(game->plyr_data.angle + FOV_2, 2*M_PI); // angle player - la moitie de l'angle FOV (tout en radian) FOV_2 == 30 degres
 		ray->plane_x = -0.66; // vecteur du plan joueur
 		ray->plane_y = 0; 
 	}
+	else
+	{
+		ray->angle += ANGLE_FOV / WIN_W;
+	}
 	ray->cam_x = (2 * nb_ray / (double) WIN_W) - 1;
-	ray->dir_x = game->plyr_data.dir_x + ray->plane_x * ray->cam_x; // composante horizontale -> direction de x   dirX + planeX * cameraX;
-	ray->dir_y = game->plyr_data.dir_y + ray->plane_y * ray->cam_x; // composante verticale -> direction de y     dirY + planeY * cameraX;
-	if (ray->dir_x != 0)
+	ray->dir_x = cos(ray->angle); // composante horizontale -> direction de x   dirX + planeX * cameraX;
+	ray->dir_y = sin(ray->angle); // composante verticale -> direction de y     dirY + planeY * cameraX;
+	if (ray->dir_x > 0)
 		ray->delta_x = fabs(1 / ray->dir_x);
 	else
 		ray->delta_x = 1e30;
-	if (ray->dir_y != 0)
+	if (ray->dir_y > 0)
 		ray->delta_y = fabs(1 / ray->dir_y);
 	else
 		ray->delta_y = 1e30;

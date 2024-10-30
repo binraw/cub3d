@@ -32,15 +32,15 @@
 	# define WIN_PTR	game->console.win_ptr
 
 	// tous les angles sont donnes en radian
-	# define ANGLE_N	M_PI_2				// PI/2, donc regarde en bas
-	# define ANGLE_S	(3 * M_PI) * 0.5	// 3PI/2 donc regarde en haut
+	# define ANGLE_N	M_PI_2				// PI/2, regarde en bas
+	# define ANGLE_S	(3 * M_PI) * 0.5	// 3PI/2 regarde en haut
 	# define ANGLE_E	0					// regarde a droite, point de depart
-	# define ANGLE_W	M_PI				// PI donc regarde a gauche
+	# define ANGLE_W	M_PI				// PI regarde a gauche
 	# define ANGLE_FOV	M_PI / 3			// angle champ de vision player total
 	# define FOV_2		M_PI / 6			// ANGLE_FOV / 2
 
     // ces deux macros permettent de centrer la position du player dans sa case
-	# define FOV_RAD	(FOV * game->plyr_data.angle) / 180
+	# define FOV_RAD		(FOV * game->plyr_data.angle) / 180
     # define POS_Y(game)    (game)->plyr_data.pos_y - (TILE_S * 0.5)
     # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
 
