@@ -28,6 +28,21 @@ void	print_player(game_s *game)
 	printf("angle == %f\n\n", game->plyr_data.angle);
 }
 
+void	print_ray(ray_s *ray)
+{
+    printf("r_angle == %f\n", ray->angle);
+    printf("r_col_side == %d\n", ray->colision_side);
+    printf("r_deltaX == %f\n", ray->delta_x);
+    printf("r_deltaY == %f\n", ray->delta_y);
+    printf("r_sideX == %f\n", ray->side_x);
+    printf("r_sideY == %f\n", ray->side_y);
+    printf("r_posX == %f\n", ray->pos_x);
+    printf("r_posY == %f\n", ray->pos_y);
+    printf("r_dirX == %f\n", ray->dir_x);
+    printf("r_dirY == %f\n", ray->dir_y);
+    printf("\n");
+}
+
 int	ft_perror(char *msg)
 {
 	write(2, "Error\n", 7);

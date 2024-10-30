@@ -32,8 +32,8 @@
 	# define WIN_PTR	game->console.win_ptr
 
 	// tous les angles sont donnes en radian
-	# define ANGLE_N	M_PI_2				// PI/2, regarde en bas
-	# define ANGLE_S	(3 * M_PI) * 0.5	// 3PI/2 regarde en haut
+	# define ANGLE_N	(3 * M_PI) * 0.5    // PI/2, regarde en bas
+	# define ANGLE_S	M_PI_2             // 3PI/2 regarde en haut
 	# define ANGLE_E	0					// regarde a droite, point de depart
 	# define ANGLE_W	M_PI				// PI regarde a gauche
 	# define ANGLE_FOV	M_PI / 3			// angle champ de vision player total
@@ -44,8 +44,8 @@
     # define POS_Y(game)    (game)->plyr_data.pos_y - (TILE_S * 0.5)
     # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
 
-	# define ROT_SPEED	1
-	# define MOV_SPEED	0.15
+	# define ROT_SPEED	0.05
+	# define MOV_SPEED	1
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
@@ -139,7 +139,7 @@
 	/* === Temporary function === */
 	void	print_struct(game_s *game);
 	void	print_player(game_s *game);
-
+	void	print_ray(ray_s *ray);
 	/* === main.c === */
 	int		ft_perror(char *msg);
 

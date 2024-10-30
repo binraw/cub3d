@@ -1,114 +1,109 @@
 #include "cub.h"
 
-
-
 int move(game_s *game, double move_x, double move_y)
 {
-    int new_x = (int)floor(move_x);
-    int new_y = (int)floor(move_y);
+    // int new_x = roundf(move_x + game->plyr_data.pos_x);
+    // int new_y = roundf(move_y + game->plyr_data.pos_y);
 
-    if (new_x < 0 || new_x >= game->map_data.width ||
-        new_y < 0 || new_y >= game->map_data.heigth ||
-        game->map_data.map[new_y][new_x] == '1')
-    {
-        return (1); // Collision
-    }
+    // if (new_x < 0 || new_x >= game->map_data.width ||
+    //     new_y < 0 || new_y >= game->map_data.heigth ||
+    //     game->map_data.map[new_y][new_x] == '1')
+    // {
 
-    game->plyr_data.pos_x = move_x;
-    game->plyr_data.pos_y = move_y;
-    return (0); // Pas de collision
+    //     return (1); // Collision
+    // }
+
+    // game->plyr_data.pos_x = new_x;
+    // game->plyr_data.pos_y = new_y;
+    // return (0); // Pas de collision
+    int		map_grid_y;
+	int		map_grid_x;
+	int		new_x;
+	int		new_y;
+
+	new_x = roundf(game->plyr_data.pos_x + move_x);
+	new_y = roundf(game->plyr_data.pos_y + move_y);
+	map_grid_x = (new_x / TILE_S);
+	map_grid_y = (new_y / TILE_S);
+	if (game->map_data.map[map_grid_y][map_grid_x] != '1')
+	{
+		game->plyr_data.pos_x = new_x;
+		game->plyr_data.pos_y = new_y;
+	}
 }
-
-
 
 void rotate_player(game_s *game)
 {
     if (game->plyr_data.rotate_l)
     {
-        // game->plyr_data.dir_x -= ROT_SPEED;
-        game->plyr_data.angle += ROT_SPEED;
-        if (game->plyr_data.angle > M_PI * 2)
-            game->plyr_data.angle -= M_PI * 2;
-    }
-    if (game->plyr_data.rotate_r)
-    {
-        // game->plyr_data.dir_x += ROT_SPEED;
         game->plyr_data.angle -= ROT_SPEED;
         if (game->plyr_data.angle < 0)
             game->plyr_data.angle += M_PI * 2;
     }
-    // l'angle reste entre 0 et 360 degrés
-    game->plyr_data.angle = fmod(game->plyr_data.angle + 360, 360);
-
-    game->plyr_data.dir_x = cos(game->plyr_data.angle * (M_PI / 180)); // Conversion en radians
-    game->plyr_data.dir_y = sin(game->plyr_data.angle * (M_PI / 180)); // Conversion en radians
-    //printf("valeur des directions : x et y : %f\n %f\n", game->plyr_data.dir_x, game->plyr_data.dir_y);
-
-}
-
-void update_player_rotation(game_s *game)
-{
-    if (game->plyr_data.rotate_l) {
-        rotate_camera(game, ROT_SPEED); // Tourner à gauche
-    }
-    if (game->plyr_data.rotate_r) {
-        rotate_camera(game, -ROT_SPEED); // Tourner à droite
+    if (game->plyr_data.rotate_r)
+    {
+        game->plyr_data.angle += ROT_SPEED;
+        if (game->plyr_data.angle > M_PI * 2)
+            game->plyr_data.angle -= M_PI * 2;
     }
 }
 
-void rotate_camera(game_s *game, float angle)
-{
-    float old_dir_x;
-    float old_plane_x;
-    float rad;
+// void update_player_rotation(game_s *game)
+// {
+//     if (game->plyr_data.rotate_l) {
+//         rotate_camera(game, ROT_SPEED); // Tourner à gauche
+//     }
+//     if (game->plyr_data.rotate_r) {
+//         rotate_camera(game, -ROT_SPEED); // Tourner à droite
+//     }
+// }
 
-    old_dir_x = game->plyr_data.dir_x;
-    old_plane_x = game->plyr_data.plane_x;
-
-    // Conversion de l'angle en radians
-    rad = angle * (M_PI / 180);
-
-    // Calcul des nouvelles directions
-    game->plyr_data.dir_x = old_dir_x * cos(rad) - game->plyr_data.dir_y * sin(rad);
-    game->plyr_data.dir_y = old_dir_x * sin(rad) + game->plyr_data.dir_y * cos(rad);
-
-    // Calcul des nouvelles directions du plan
-    game->plyr_data.plane_x = old_plane_x * cos(rad) - game->plyr_data.plane_y * sin(rad);
-    game->plyr_data.plane_y = old_plane_x * sin(rad) + game->plyr_data.plane_y * cos(rad);
-}
+// void rotate_camera(game_s *game, float angle)
+// {
+//     float old_dir_x;
+//     float old_plane_x;
+//     float rad;
+//     old_dir_x = game->plyr_data.dir_x;
+//     old_plane_x = game->plyr_data.plane_x;
+//     // Conversion de l'angle en radians
+//     rad = angle * (M_PI / 180);
+//     // Calcul des nouvelles directions
+//     game->plyr_data.dir_x = old_dir_x * cos(rad) - game->plyr_data.dir_y * sin(rad);
+//     game->plyr_data.dir_y = old_dir_x * sin(rad) + game->plyr_data.dir_y * cos(rad);
+//     // Calcul des nouvelles directions du plan
+//     game->plyr_data.plane_x = old_plane_x * cos(rad) - game->plyr_data.plane_y * sin(rad);
+//     game->plyr_data.plane_y = old_plane_x * sin(rad) + game->plyr_data.plane_y * cos(rad);
+// }
 
 int update_movement(game_s *game)
 {
-    double move_x = game->plyr_data.pos_x;
-    double move_y = game->plyr_data.pos_y;
-   // printf("valeur de move_x et move_y : %f\n %f\n", move_x, move_y);
+    double move_x;
+    double move_y;
+
     if (game->plyr_data.move_up)
     {
-        move_x += game->plyr_data.dir_x * MOV_SPEED; 
-        move_y += game->plyr_data.dir_y * MOV_SPEED; 
+        move_x = cos(game->plyr_data.angle) * MOV_SPEED;
+        move_y = sin(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.move_down)
     {
-        move_x -= game->plyr_data.dir_x * MOV_SPEED;
-        move_y -= game->plyr_data.dir_y * MOV_SPEED; 
+        move_x = -cos(game->plyr_data.angle) * MOV_SPEED;
+        move_y = -sin(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.move_left)
     {
-        move_x -= game->plyr_data.dir_y * MOV_SPEED; 
-        move_y += game->plyr_data.dir_x * MOV_SPEED; 
+        move_x = sin(game->plyr_data.angle) * MOV_SPEED;
+        move_y = -cos(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.move_right)
     {
-        move_x += game->plyr_data.dir_y * MOV_SPEED;
-        move_y -= game->plyr_data.dir_x * MOV_SPEED; 
+        move_x = -sin(game->plyr_data.angle) * MOV_SPEED;
+        move_y = -cos(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
-    {
-// rotate_player(game);
-    update_player_rotation(game);
-    }
-        
-    return move(game, move_x, move_y);
+        rotate_player(game);
+    move(game, move_x, move_y);
+    return (0);
 }
 
 int loop_hook(game_s *game)
