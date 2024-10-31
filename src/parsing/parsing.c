@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/31 11:17:41 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:24:48 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ static int	get_plyr_pos(game_s *game)
 		{
 			if (is_player(game->map_data.map[y][x]))
 			{
-				game->plyr_data.pos_x = (float) x;
-				game->plyr_data.pos_y = (float) y;
+				game->plyr_data.pos_x = (float) x + 0.5;
+				game->plyr_data.pos_y = (float) y + 0.5;
 				fill_player_data(game, game->map_data.map[y][x]);
 				return (0);
 			}

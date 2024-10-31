@@ -39,7 +39,7 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
     
     // Calcul de texture_x en fonction de l'orientation du mur
-    texture_x = (int)(ray->pos_y * game->img_data.height[0]) % game->img_data.width[0];
+    texture_x = (int)(ray->pos_x * game->img_data.width[0]) % game->img_data.width[0];
 
     y = wall_top;
     while (y < wall_bottom)
@@ -70,7 +70,7 @@ void draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance)
     wall_height = (int)(WIN_H / distance);
     wall_top = (WIN_H / 2) - (wall_height / 2);
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    texture_x = (int)(ray->pos_y * game->img_data.height[1]) % game->img_data.width[1];
+    texture_x = (int)(ray->pos_x * game->img_data.width[1]) % game->img_data.width[1];
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -100,7 +100,7 @@ void draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance)
     wall_height = (int)(WIN_H / distance);
     wall_top = (WIN_H / 2) - (wall_height / 2);
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    texture_x = (int)(ray->pos_y * game->img_data.height[2]) % game->img_data.width[2];
+    texture_x = (int)(ray->pos_y * game->img_data.width[2]) % game->img_data.width[2];
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -131,7 +131,7 @@ void draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance)
     wall_height = (int)(WIN_H / distance);
     wall_top = (WIN_H / 2) - (wall_height / 2);
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    texture_x = (int)(ray->pos_y * game->img_data.height[3]) % game->img_data.width[3];
+    texture_x = (int)(ray->pos_y * game->img_data.width[3]) % game->img_data.width[3];
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -198,7 +198,7 @@ void draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist)
     } 
     else 
     {
-        if (ray->dir_y < 0) 
+        if (ray->dir_y > 0)
         {
             draw_wall_so(game, ray, i, wall_dist); // Sud
         } 
