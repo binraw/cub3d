@@ -185,7 +185,8 @@ void    draw_floor(game_s *game, int column_index, int wall_bottom)
 
 void draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist)
 {
-    if (ray->colision_side == 0) 
+    print_ray(ray);
+    if (ray->colision_side == 1) 
     {
         if (ray->dir_x < 0) 
         {
@@ -198,7 +199,7 @@ void draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist)
     } 
     else 
     {
-        if (ray->dir_y > 0)
+        if (ray->dir_y < 0)
         {
             draw_wall_so(game, ray, i, wall_dist); // Sud
         } 

@@ -2,9 +2,9 @@
 
 void	init_step(ray_s *ray, game_s *game)
 {
-	printf("dir_x: %f, dir_y: %f, delta_x: %f, delta_y: %f\n", ray->dir_x, ray->dir_y, ray->delta_x, ray->delta_y);
-	printf("step_x: %f, step_y: %f\n", ray->step_x, ray->step_y);
-	printf("side_x: %f, side_y: %f\n", ray->side_x, ray->side_y);
+	// printf("dir_x: %f, dir_y: %f, delta_x: %f, delta_y: %f\n", ray->dir_x, ray->dir_y, ray->delta_x, ray->delta_y);
+	// printf("step_x: %f, step_y: %f\n", ray->step_x, ray->step_y);
+	// printf("side_x: %f, side_y: %f\n", ray->side_x, ray->side_y);
 
 	if (ray->dir_x < 0)
 	{
@@ -57,8 +57,8 @@ void	dda(game_s *game, ray_s *ray)
 {
 	while (ray->hit_wall == false)
 	{
-		printf("HERE\n");
-		printf("side_x : %f\n side_y : %f\n", ray->side_x, ray->side_y);
+		// printf("HERE\n");
+		// printf("side_x : %f\n side_y : %f\n", ray->side_x, ray->side_y);
 		if (ray->side_x < ray->side_y)
 		{
 			ray->side_x += ray->delta_x;
@@ -97,7 +97,7 @@ int	compute_ray(game_s *game)
 		dda(game, &ray);
 
         // printf("after DDA\n");
-        print_ray(&ray);
+        // print_ray(&ray);
 
 		if(ray.colision_side == 1)
 			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) / 2) / ray.dir_x; 
@@ -107,13 +107,13 @@ int	compute_ray(game_s *game)
 			// wall_dist = fabs((ray.pos_y - game->plyr_data.pos_y) / ray.dir_y);
 		// double anglediff = ray.angle - game->plyr_data.angle;
 		// double correctdist = wall_dist * cos(anglediff);
-		printf("valeur de wall_dist %f\n", wall_dist);
+		// printf("valeur de wall_dist %f\n", wall_dist);
 		//compense l’angle entre le joueur et le rayon pour obtenir une distance 
 		//perpendiculaire, essentielle pour un rendu 3D correct.
 		wall_dist = wall_dist * cos(game->plyr_data.angle - ray.angle);
 		if (i == WIN_W)
 		{
-        	printf("WALLDIST == %f\n", wall_dist);
+        	// printf("WALLDIST == %f\n", wall_dist);
 			break;
 		}
 		draw_wall_all(game, &ray, i, wall_dist);
