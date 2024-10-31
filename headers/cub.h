@@ -45,7 +45,7 @@
     # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
 
 	# define ROT_SPEED	0.05
-	# define MOV_SPEED	0.15
+	# define MOV_SPEED	0.50
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
