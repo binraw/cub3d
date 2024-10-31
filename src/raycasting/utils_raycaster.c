@@ -16,20 +16,22 @@ int move(game_s *game, double move_x, double move_y)
     // game->plyr_data.pos_x = new_x;
     // game->plyr_data.pos_y = new_y;
     // return (0); // Pas de collision
-    int		map_grid_y;
-	int		map_grid_x;
-	int		new_x;
-	int		new_y;
+    double		map_grid_y;
+	double		map_grid_x;
+	double		new_x;
+	double		new_y;
 
-	new_x = roundf(game->plyr_data.pos_x + move_x);
-	new_y = roundf(game->plyr_data.pos_y + move_y);
+	new_x = game->plyr_data.pos_x + move_x;
+	new_y = game->plyr_data.pos_y + move_y;
 	map_grid_x = (new_x / TILE_S);
 	map_grid_y = (new_y / TILE_S);
-	if (game->map_data.map[map_grid_y][map_grid_x] != '1')
+	if (game->map_data.map[(int)map_grid_y][(int)map_grid_x] != '1')
 	{
 		game->plyr_data.pos_x = new_x;
 		game->plyr_data.pos_y = new_y;
+        return (0);
 	}
+    return (1);
 }
 
 void rotate_player(game_s *game)
@@ -84,6 +86,7 @@ int update_movement(game_s *game)
     {
         move_x = cos(game->plyr_data.angle) * MOV_SPEED;
         move_y = sin(game->plyr_data.angle) * MOV_SPEED;
+        printf("valeur de move_x et move_y : %f %f", move_x, move_y);
     }
     if (game->plyr_data.move_down)
     {
@@ -101,9 +104,11 @@ int update_movement(game_s *game)
         move_y = -cos(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
+    {
         rotate_player(game);
-    move(game, move_x, move_y);
-    return (0);
+        return (0);
+    }
+    return (move(game, move_x, move_y));
 }
 
 int loop_hook(game_s *game)

@@ -1,0 +1,44 @@
+valeur de width no et sa height : 64 64
+r_angle == 5.235988
+r_col_side == 1
+r_deltaX == 2.000000
+r_deltaY == 1.154701
+r_sideX == 5.000000
+r_sideY == 4.041452
+r_posX == 17.500000
+r_posY == 5.500000
+r_dirX == 0.500000
+r_dirY == -0.866025
+
+r_angle == 5.234941
+r_col_side == 1
+r_deltaX == 2.003635
+r_deltaY == 1.154003
+r_sideX == 5.009088
+r_sideY == 4.039012
+r_posX == 17.500000
+r_posY == 5.500000
+r_dirX == 0.499093
+r_dirY == -0.866549
+
+r_angle == 5.233893
+r_col_side == 1
+r_deltaX == 2.007286
+r_deltaY == 1.153308
+r_sideX == 5.018215
+r_sideY == 4.036580
+r_posX == 17.500000
+r_posY == 5.500000
+r_dirX == 0.498185
+r_dirY == -0.867071
+
+r_angle == 5.232846
+r_col_side == 1
+r_deltaX == 2.010952
+r_deltaY == 1.152616
+r_sideX == 5.027381
+r_sideY == 4.034155
+r_posX == 17.500000
+r_posY == 5.500000
+r_dirX == 0.497277
+r_dirY == -0.867592

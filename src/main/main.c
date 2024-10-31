@@ -30,6 +30,7 @@ void	print_player(game_s *game)
 
 void	print_ray(ray_s *ray)
 {
+	
     printf("r_angle == %f\n", ray->angle);
     printf("r_col_side == %d\n", ray->colision_side);
     printf("r_deltaX == %f\n", ray->delta_x);

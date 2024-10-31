@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/30 17:29:17 by florian          ###   ########.fr       */
+/*   Updated: 2024/10/31 11:17:41 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	fill_player_data(game_s *game, char orientation)
 		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
 	}
-	game->plyr_data.angle;
+	// game->plyr_data.angle;
 }
 
 static int	get_plyr_pos(game_s *game)

@@ -24,18 +24,18 @@
 
 
     /* ** PROG CONSTANTES ** */
-	# define WIN_W		700	// largeur de la fenetre
-	# define WIN_H		700	// hauteur de la fenetre
+	# define WIN_W		1000	// largeur de la fenetre
+	# define WIN_H		1000	// hauteur de la fenetre
 	# define NUM_RAYS	WIN_W	// nombre de rayon a tracer
 
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
 	// tous les angles sont donnes en radian
-	# define ANGLE_N	(3 * M_PI) * 0.5    // PI/2, regarde en bas
-	# define ANGLE_S	M_PI_2             // 3PI/2 regarde en haut
-	# define ANGLE_E	0					// regarde a droite, point de depart
-	# define ANGLE_W	M_PI				// PI regarde a gauche
+	# define ANGLE_N	(3 * M_PI) * 0.5    
+	# define ANGLE_S	M_PI_2             
+	# define ANGLE_E	0					
+	# define ANGLE_W	M_PI				
 	# define ANGLE_FOV	M_PI / 3			// angle champ de vision player total
 	# define FOV_2		M_PI / 6			// ANGLE_FOV / 2
 
@@ -45,7 +45,7 @@
     # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
 
 	# define ROT_SPEED	0.05
-	# define MOV_SPEED	1
+	# define MOV_SPEED	0.15
 	# define TILE_S		1
 
     /* ==== STRUCTURES  */
