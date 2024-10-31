@@ -105,10 +105,12 @@ int	compute_ray(game_s *game)
 		else
 			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) / 2) / ray.dir_y;
 			// wall_dist = fabs((ray.pos_y - game->plyr_data.pos_y) / ray.dir_y);
+		// double anglediff = ray.angle - game->plyr_data.angle;
+		// double correctdist = wall_dist * cos(anglediff);
 		printf("valeur de wall_dist %f\n", wall_dist);
 		//compense l’angle entre le joueur et le rayon pour obtenir une distance 
 		//perpendiculaire, essentielle pour un rendu 3D correct.
-		wall_dist = wall_dist / cos(game->plyr_data.angle - ray.angle);
+		wall_dist = wall_dist * cos(game->plyr_data.angle - ray.angle);
 		if (i == WIN_W)
 		{
         	printf("WALLDIST == %f\n", wall_dist);
