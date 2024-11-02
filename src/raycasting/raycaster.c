@@ -31,12 +31,16 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
 	static const double	increment = ANGLE_FOV / WIN_W;
 
-	ray->pos_x = game->plyr_data.pos_x;
-	ray->pos_y = game->plyr_data.pos_y;
+	ray->pos_x = game->plyr_data.pos_x + (TILE_S * 0.5);
+	ray->pos_y = game->plyr_data.pos_y + (TILE_S * 0.5);
 	if (!nb_ray)
 		ray->angle = fmod(game->plyr_data.angle - FOV_2, 2 * M_PI);
 	else
 		ray->angle += increment;
+    if (ray->angle < 0)
+        ray->angle += M_PI * 2;
+    else if (ray->angle > M_PI * 2)
+        ray->angle -= M_PI * 2;
 	ray->dir_x = cos(ray->angle);
 	ray->dir_y = sin(ray->angle);
 	if (fabs(ray->dir_x) > 0)
@@ -90,19 +94,19 @@ int	compute_ray(game_s *game)
 		ray.hit_wall = false;
 		init_ray(&ray, game, i);
 		dda(game, &ray);
-        // printf("after DDA\n");
-        // print_ray(&ray);
 		if(ray.colision_side == 1)
-			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) / 2) / ray.dir_x; 
+			wall_dist = (ray.pos_x - game->plyr_data.pos_x + (1 - ray.step_x) / 2) / ray.dir_x;
 		else
 			wall_dist = (ray.pos_y - game->plyr_data.pos_y + (1 - ray.step_y) / 2) / ray.dir_y;
+        // if (i <= WIN_W * 0.5 && i > WIN_W * 0.5 - 2)
+        // {
+        //     printf("ray_endY == %f : ray_endX ==  %f\n", ray.pos_y, ray.pos_x);
+        //     if (i == WIN_W * 0.5)
+        //         break;
+        // }
 		wall_dist = wall_dist * cos(game->plyr_data.angle - ray.angle);
-		// printf("valeur de wall_dist %f\n", wall_dist);
-		// if (i == WIN_W)
-		// {
-        	// printf("WALLDIST == %f\n", wall_dist);
-			// break;
-		// }
+        // printf("wall_dist == %f\n", wall_dist);
+        // print_ray(&ray);
 		draw_wall_all(game, &ray, i, wall_dist);
 		i++;
 	}

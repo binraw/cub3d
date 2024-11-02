@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:11:02 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:45:04 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	check_line_loop(char **map, size_t heigth, size_t *x, size_t *y)
 	{
 		if (*y > 0 && map[*y - 1][*x] == '0')
 			return (1);
-		if (*y < heigth && map[*y + 1][*x] == '0')
+		if (map[*y + 1] && *y < heigth && map[*y + 1][*x] == '0')
 			return (1);
 		(*x)++;
 	}

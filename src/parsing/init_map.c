@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/22 16:54:27 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:21:09 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-/*
-	. check if you got only one player in the map
-	. check if all characteres in file are allowed
-*/
 static int	valid_file_content(char *buffer)
 {
 	static int	player;
@@ -41,10 +37,10 @@ static int	valid_file_content(char *buffer)
 
 static int	format_line(char **line, size_t *length)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (line[0][i])
+	while (line[0] && line[0][i])
 	{
 		if (line[0][i] == '\n')
 			line[0][i] = '\0';
@@ -101,8 +97,8 @@ static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
 	game->map_data.map[*tab_size] = ft_strdup(buffer);
 	if (!game->map_data.map[*tab_size])
 		return (ft_perror("Crash malloc in line_analysis() in get_map()\n"));
+	format_line(&game->map_data.map[*tab_size], &game->map_data.width);
 	*tab_size += 1;
-	format_line(&game->map_data.map[*tab_size - 1], &game->map_data.width);
 	return (0);
 }
 

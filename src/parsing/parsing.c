@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/31 16:57:28 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/02 14:26:12 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	fill_player_data(game_s *game, char orientation)
 		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
 	}
-	// game->plyr_data.angle;
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -76,9 +75,10 @@ static int	get_plyr_pos(game_s *game)
 		{
 			if (is_player(game->map_data.map[y][x]))
 			{
-				game->plyr_data.pos_x = (float) x + TILE_S * 0.5;
-				game->plyr_data.pos_y = (float) y + TILE_S * 0.5;
 				fill_player_data(game, game->map_data.map[y][x]);
+				game->plyr_data.pos_x = (double) x;
+				game->plyr_data.pos_y = (double) y;
+                print_player(game);
 				return (0);
 			}
 			x++;
@@ -104,5 +104,8 @@ int	parsing(game_s *game, char *filepath)
 	close(fd);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
-	return (get_plyr_pos(game));
+    if (get_plyr_pos(game))
+        return (free_map_data(game), 1);
+    print_player(game);
+	return (0);
 }

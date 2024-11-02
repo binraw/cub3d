@@ -18,10 +18,51 @@ int get_texture_color(void *img_ptr, int x, int y, int texture_width)
 
     // Récupérer la couleur du pixel
     color = *(int *)(data + index); // Cast pour obtenir la couleur
- 
+
     return color;
 }
 
+void    draw_sky(game_s *game, int column_index, int wall_top)
+{
+    int y;
+    int sky_color;
+
+    // printf("rentre dans sky\n");
+    y = 0;
+    // printf("valeur tex_c : %d\n", game->texture.c_color[0]);
+    sky_color = (game->texture.c_color[0] << 16) | (game->texture.c_color[1] << 8) | game->texture.c_color[2];
+    // printf("valeur sky_color : %d\n", sky_color);
+    // printf("y = %d : wall top == %d\n", y, wall_top);
+    if (wall_top < WIN_H)
+    {
+        while (y < wall_top)
+        {
+            if (y >= 0 && y < WIN_H)
+            {
+                mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, sky_color);
+            }
+            y++;
+        }
+    }
+}
+
+void    draw_floor(game_s *game, int column_index, int wall_bottom)
+{
+    int y;
+    int floor_color;
+
+    y = 0;
+    floor_color = (game->texture.f_color[0] << 16) | (game->texture.f_color[1] << 8) | game->texture.f_color[2];
+    if (wall_bottom > 0)
+    {
+        y = wall_bottom;
+        while(y < WIN_H)
+        {
+            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, floor_color);
+            y++;
+        }
+    }
+}
 // x doit etre le point x ou le rayon touche le mur et pareil pour le y
 
 void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
@@ -34,12 +75,15 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
     int color;
     int texture_y;
 
-    wall_height = (int)(WIN_H / distance);
-    wall_top = (WIN_H / 2) - (wall_height / 2);
-    wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    
+    if (distance < 0)
+        wall_height = WIN_H;
+    else
+        wall_height = floor(WIN_H / distance);
+    wall_top = floor((WIN_H / 2) - (wall_height / 2));
+    wall_bottom = floor((WIN_H / 2) + (wall_height / 2));
+
     // Calcul de texture_x en fonction de l'orientation du mur
-    texture_x = (int)(ray->pos_x * game->img_data.width[0]) % game->img_data.width[0];
+    texture_x = (int) floor((ray->pos_x * game->img_data.width[0])) % game->img_data.width[0];
 
     y = wall_top;
     while (y < wall_bottom)
@@ -59,15 +103,19 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
 
 void draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance)
 {
-    const int	wall_height = (int)(WIN_H / distance);
-    const int	wall_top = (WIN_H / 2) - (wall_height / 2);
-    const int	wall_bottom = (WIN_H / 2) + (wall_height / 2);
+    int wall_height;
+    if (distance <= 0)
+        wall_height = WIN_H;
+    else
+        wall_height = floor(WIN_H / distance);
+    const int	wall_top = floor((WIN_H / 2) - (wall_height / 2));
+    const int	wall_bottom = floor((WIN_H / 2) + (wall_height / 2));
     int			texture_x;
     int			texture_y;
     int			color;
     int			y;
 
-    texture_x = (int) (ray->pos_x * game->img_data.width[1]) % game->img_data.width[1];
+    texture_x = (int) floor((ray->pos_x * game->img_data.width[1])) % game->img_data.width[1];
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -94,10 +142,13 @@ void draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance)
     int color;
     int texture_y;
 
-    wall_height = (int)(WIN_H / distance);
-    wall_top = (WIN_H / 2) - (wall_height / 2);
-    wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    texture_x = (int)(ray->pos_y * game->img_data.width[2]) % game->img_data.width[2];
+    if (distance <= 0)
+        wall_height = WIN_H;
+    else
+        wall_height = floor(WIN_H / distance);
+    wall_top = floor((WIN_H / 2) - (wall_height / 2));
+    wall_bottom = floor((WIN_H / 2) + (wall_height / 2));
+    texture_x = (int) floor((ray->pos_y * game->img_data.width[2])) % game->img_data.width[2];
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -114,7 +165,6 @@ void draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance)
     draw_floor(game, column_index, wall_bottom);
 }
 
-
 void draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance)
 {
     int wall_height;
@@ -125,10 +175,13 @@ void draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance)
     int color;
     int texture_y;
 
-    wall_height = (int)(WIN_H / distance);
-    wall_top = (WIN_H / 2) - (wall_height / 2);
-    wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    texture_x = (int)(ray->pos_y * game->img_data.width[3]) % game->img_data.width[3];
+    if (distance <= 0)
+        wall_height = WIN_H;
+    else
+        wall_height = floor(WIN_H / distance);
+    wall_top = floor((WIN_H / 2) - (wall_height / 2));
+    wall_bottom = floor((WIN_H / 2) + (wall_height / 2));
+    texture_x = (int) floor((ray->pos_y * game->img_data.width[3])) % game->img_data.width[3];
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -145,62 +198,29 @@ void draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance)
     draw_floor(game, column_index, wall_bottom);
 }
 
-void    draw_sky(game_s *game, int column_index, int wall_top)
-{
-    int y;
-    int sky_color;
 
-    // printf("rentre dans sky\n");
-    y = 0;
-    // printf("valeur tex_c : %d\n", game->texture.c_color[0]);
-    sky_color = (game->texture.c_color[0] << 16) | (game->texture.c_color[1] << 8) | game->texture.c_color[2];
-    // printf("valeur sky_color : %d\n", sky_color);
-    while (y < wall_top)
-	{
-		if (y >= 0 && y < WIN_H)
-		{
-            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, sky_color);
-        }
-		y++;
-	}
-}
-
-void    draw_floor(game_s *game, int column_index, int wall_bottom)
-{
-    int y;
-    int floor_color;
-
-    y = 0;
-    floor_color = (game->texture.f_color[0] << 16) | (game->texture.f_color[1] << 8) | game->texture.f_color[2];
-    y = wall_bottom;
-	while(y < WIN_H)
-	{
-		mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, floor_color);
-        y++;
-	}
-}
 
 void draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist)
 {
     // print_ray(ray);
-    if (ray->colision_side == 1) 
+    if (ray->colision_side == 1)
     {
-        if (ray->dir_x < 0) 
+        if (ray->dir_x < 0)
         {
             draw_wall_we(game, ray, i, wall_dist); // Ouest
-        } 
-        else 
+        }
+        else
         {
             draw_wall_ea(game, ray, i, wall_dist); // Est
         }
-    } 
-    else 
+    }
+    else
     {
         if (ray->dir_y < 0)
         {
             draw_wall_so(game, ray, i, wall_dist); // Sud
-        } 
-        else 
+        }
+        else
         {
             draw_wall_no(game, ray, i, wall_dist); // Nord
         }
