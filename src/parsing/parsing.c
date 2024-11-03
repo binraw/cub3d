@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/02 14:26:12 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/03 11:03:35 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ static int	get_plyr_pos(game_s *game)
 			if (is_player(game->map_data.map[y][x]))
 			{
 				fill_player_data(game, game->map_data.map[y][x]);
-				game->plyr_data.pos_x = (double) x;
-				game->plyr_data.pos_y = (double) y;
-                print_player(game);
+				game->plyr_data.pos_x = (double) x * TILE_S;
+				game->plyr_data.pos_y = (double) y * TILE_S;
+                // print_player(game);
 				return (0);
 			}
 			x++;
@@ -106,6 +106,6 @@ int	parsing(game_s *game, char *filepath)
 		return (free_map_data(game), 1);
     if (get_plyr_pos(game))
         return (free_map_data(game), 1);
-    print_player(game);
+    // print_player(game);
 	return (0);
 }

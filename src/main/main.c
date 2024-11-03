@@ -22,25 +22,26 @@ void	print_struct(game_s *game)
 
 void	print_player(game_s *game)
 {
-	printf("PLAYER DATA :\n");
+	printf("=== PLAYER DATA ===\n");
 	printf("pos_y == %f : pos_x = %f\n", game->plyr_data.pos_y, game->plyr_data.pos_x);
-	printf("dir_y == %f : dir_x = %f\n", game->plyr_data.dir_y, game->plyr_data.dir_x);
-	printf("angle == %f\n\n", game->plyr_data.angle);
+	// printf("dir_y == %f : dir_x = %f\n", game->plyr_data.dir_y, game->plyr_data.dir_x);
+	// printf("angle == %f\n\n", game->plyr_data.angle);
 }
 
 void	print_ray(ray_s *ray)
 {
-	
-    printf("r_angle == %f\n", ray->angle);
-    printf("r_col_side == %d\n", ray->colision_side);
-    printf("r_deltaX == %f\n", ray->delta_x);
-    printf("r_deltaY == %f\n", ray->delta_y);
-    printf("r_sideX == %f\n", ray->side_x);
-    printf("r_sideY == %f\n", ray->side_y);
-    printf("r_posX == %f\n", ray->pos_x);
-    printf("r_posY == %f\n", ray->pos_y);
-    printf("r_dirX == %f\n", ray->dir_x);
-    printf("r_dirY == %f\n", ray->dir_y);
+    printf("=== RAY ===\n");
+    // printf("r_angle == %f\n", ray->angle);
+    // printf("r_col_side == %d\n", ray->colision_side);
+    // printf("r_deltaX == %f\n", ray->delta_x);
+    // printf("r_deltaY == %f\n", ray->delta_y);
+    // printf("r_sideX == %f\n", ray->side_x);
+    // printf("r_sideY == %f\n", ray->side_y);
+    printf("r_posX == %d\n", (ray->pos_x * TILE_S));
+    printf("r_posY == %d\n", (ray->pos_y * TILE_S));
+    printf("wall_dist == %f\n", ray->wall_dist);
+    // printf("r_dirX == %f\n", ray->dir_x);
+    // printf("r_dirY == %f\n", ray->dir_y);
     printf("\n");
 }
 

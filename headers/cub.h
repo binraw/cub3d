@@ -44,8 +44,8 @@
     # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
 
 	# define ROT_SPEED	0.05
-	# define MOV_SPEED	0.1
-	# define TILE_S		1.0
+	# define MOV_SPEED	4
+	# define TILE_S		64
 
     /* ==== STRUCTURES  */
     typedef struct console
@@ -70,21 +70,18 @@
 	typedef struct ray
 	{
 		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
-		double	pos_x;
-		double	pos_y;
+		int		pos_x;
+		int		pos_y;
 		double	dir_x;
 		double	dir_y;
-		double	plane_x;
-		double	plane_y;
-        double  cam_x;
 		double	delta_x;
 		double	delta_y;
-		double	step_x;
-		double	step_y;
+		int		step_x;
+		int		step_y;
 		double	side_x;
 		double	side_y;
+		double	wall_dist;
 		bool	colision_side; // 0 == ligne vertical : 1 == ligne horizontale
-		bool	hit_wall;
 	} ray_s;
 
     typedef struct player
@@ -94,10 +91,7 @@
 		double	dir_x;
 		double	dir_y;
 		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
-		double	initial_angle;
 		bool	move_up;
-		double  plane_y;
-		double  plane_x;
 		bool	move_down;
 		bool	move_right;
 		bool	move_left;
@@ -173,13 +167,13 @@
 
 	/* === draw.c === */
 	int		get_texture_color(void *img_ptr, int x, int y, int texture_width);
-	void	draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance);
-	void	draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance);
-	void	draw_wall_we(game_s *game, ray_s *ray, int column_index, double distance);
-	void	draw_wall_ea(game_s *game, ray_s *ray, int column_index, double distance);
+	void	draw_wall_no(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void	draw_wall_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void	draw_wall_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void	draw_wall_ea(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 	void    draw_sky(game_s *game, int column_index, int wall_top);
 	void    draw_floor(game_s *game, int column_index, int wall_bottom);
-	void	draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist);
+	void	draw_wall_all(game_s *game, ray_s *ray, int i, int *end_x_y);
 
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
