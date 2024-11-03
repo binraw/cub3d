@@ -59,10 +59,9 @@ int main(int argc, char **argv)
     if (argc != 2)
 		return (ft_perror(USAGE), EXIT_FAILURE);
 	if (parsing(&game, argv[1]))
-		return (1);
+		return (EXIT_FAILURE);
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
-	// print_player(&game);
 	load_texture(&game); // rajouter pour init
 	raycaster(&game);
 	hook_management(&game);

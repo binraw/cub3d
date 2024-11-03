@@ -22,62 +22,52 @@ static int	get_color(void *img_ptr, int x, int y, int texture_width)
     return color;
 }
 
-static void	draw_sky(game_s *game, int column_index, int wall_top)
+static void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)
 {
     int y;
-    int sky_color;
+    int color;
 
     y = 0;
-    sky_color = (game->texture.c_color[0] << 16) | (game->texture.c_color[1] << 8) | game->texture.c_color[2];
+    color = (game->texture.c_color[0] << 16) | (game->texture.c_color[1] << 8) | game->texture.c_color[2];
     if (wall_top < WIN_H)
     {
         while (y < wall_top)
         {
-            if (y >= 0 && y < WIN_H)
-            {
-                mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, sky_color);
-            }
+            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, color);
             y++;
         }
     }
-}
-
-static void	draw_floor(game_s *game, int column_index, int wall_bottom)
-{
-    int y;
-    int floor_color;
-
     y = 0;
-    floor_color = (game->texture.f_color[0] << 16) | (game->texture.f_color[1] << 8) | game->texture.f_color[2];
+    color = (game->texture.f_color[0] << 16) | (game->texture.f_color[1] << 8) | game->texture.f_color[2];
     if (wall_bottom > 0)
     {
         y = wall_bottom;
         while(y < WIN_H)
         {
-            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, floor_color);
+            mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, color);
             y++;
         }
     }
 }
 
-static void	init_draw(game_s *game, double wall_dist, int colision_side, int *end_x_y)
+static void	init_draw(game_s *game, double w_dist, int col_side, int *end_x_y)
 {
 	static const int	mid_win = WIN_H * 0.5;
 
-    if (wall_dist <= 0)
+    if (w_dist <= 0)
         game->draw.wall_h = WIN_H;
     else
-        game->draw.wall_h = floor(WIN_H / wall_dist);
+        game->draw.wall_h = floor(WIN_H / w_dist);
     game->draw.wall_t = floor((mid_win) - (game->draw.wall_h * 0.5));
     game->draw.wall_b = floor((mid_win) + (game->draw.wall_h * 0.5));
-	if (colision_side == 1)
+	if (col_side == 1)
     	game->draw.txtr_x = (int) end_x_y[1] % game->img_data.width[3];
 	else
 		game->draw.txtr_x = (int) end_x_y[0] % game->img_data.width[3];
     game->draw.i = game->draw.wall_t;
 }
 
-void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y)
+void	draw_wall_no_so(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 {
     int txtr_y;
 
@@ -86,21 +76,23 @@ void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y)
     {
         if (game->draw.i >= 0 && game->draw.i < WIN_H)
         {
-            txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data.height[0]) / game->draw.wall_h;
+            txtr_y = ((game->draw.i - game->draw.wall_t) * \
+                    game->img_data.height[0]) / game->draw.wall_h;
             if (ray->dir_y < 0)
-				game->draw.color = get_color(game->img_data.img_text_so, game->draw.txtr_x, txtr_y, game->img_data.width[0]);
+				game->draw.color = get_color(game->img_data.img_text_so, \
+                            game->draw.txtr_x, txtr_y, game->img_data.width[0]);
             else
-				game->draw.color = get_color(game->img_data.img_text_no, game->draw.txtr_x, txtr_y, game->img_data.width[0]);
-				
-			mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, game->draw.i, game->draw.color);
+				game->draw.color = get_color(game->img_data.img_text_no, \
+                            game->draw.txtr_x, txtr_y, game->img_data.width[0]);
+			mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, \
+                                col_index, game->draw.i, game->draw.color);
         }
         game->draw.i++;
     }
-    draw_sky(game, column_index, game->draw.wall_t);
-    draw_floor(game, column_index, game->draw.wall_b);
+    draw_sky_floor(game, col_index, game->draw.wall_t, game->draw.wall_b);
 }
 
-void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y)
+void	draw_wall_ea_we(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 {
 	int	txtr_y;
 
@@ -116,12 +108,11 @@ void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y)
 							game->draw.txtr_x, txtr_y, game->img_data.width[3]);
 			else
 				game->draw.color = get_color(game->img_data.img_text_ea, \
-								game->draw.txtr_x, txtr_y, game->img_data.width[3]);
+							game->draw.txtr_x, txtr_y, game->img_data.width[3]);
             mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, \
-								column_index, game->draw.i, game->draw.color);
+								col_index, game->draw.i, game->draw.color);
         }
         game->draw.i++;
     }
-    draw_sky(game, column_index, game->draw.wall_t);
-    draw_floor(game, column_index, game->draw.wall_b);
+    draw_sky_floor(game, col_index, game->draw.wall_t, game->draw.wall_b);
 }

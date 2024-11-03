@@ -13,41 +13,40 @@
     # include <fcntl.h>
     # include <math.h>
 
-    /* ==== MACROS ==== */
+    /* ==== CONSTANTES ==== */
 
-    /* ** ERROR MESSAGES ** */
+    // ERROR MESSAGES //
 	# define USAGE	        "Need one filepath as argument\n"
     # define E_FILE_FORMAT	"A file format error is detected\n"
     # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
     # define E_INVALID_CHAR "Invalid char in the map\n"
     # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
 
-
-    /* ** PROG CONSTANTES ** */
+    // WINDOW WIDTH HEIGTH //
 	# define WIN_W		700	// largeur de la fenetre
 	# define WIN_H		700	// hauteur de la fenetre
-	# define NUM_RAYS	WIN_W	// nombre de rayon a tracer
 
+    // MLX PTR ACCESS //
 	# define MLX_PTR	game->console.mlx_ptr
 	# define WIN_PTR	game->console.win_ptr
 
-	// tous les angles sont donnes en radian
+	// PLAYER ORIENTATION //
 	# define ANGLE_N	4.71238898		// == (3 * M_PI) * 0.5
 	# define ANGLE_S	M_PI_2
 	# define ANGLE_E	0
 	# define ANGLE_W	M_PI
-	# define ANGLE_FOV	1.047197551		// == M_PI / 3 == angle champ de vision player total
-	# define FOV_2		0.5235987756	// == M_PI / 6 == ANGLE_FOV / 2
 
-    // ces deux macros permettent de centrer la position du player dans sa case
-    # define POS_Y(game)    (game)->plyr_data.pos_y - (TILE_S * 0.5)
-    # define POS_X(game)    (game)->plyr_data.pos_x - (TILE_S * 0.5)
+    // FIELD OF VIEW //
+	# define ANGLE_FOV	1.047197551		// == M_PI / 3 == 60 degrees
+	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
 
+    // MOVES SPEED //
 	# define ROT_SPEED	0.05
 	# define MOV_SPEED	4
 	# define TILE_S		64
 
-    /* ==== STRUCTURES  */
+    /* ==== STRUCTURES ==== */
+
     typedef struct console
     {
 		void	*mlx_ptr;
@@ -142,8 +141,8 @@
 	void	print_struct(game_s *game);
 	void	print_player(game_s *game);
 	void	print_ray(ray_s *ray);
-	
-	
+
+
 	/* === main.c === */
 	int		ft_perror(char *msg);
 
@@ -175,7 +174,7 @@
 
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
-	
+
 	/* === texture.c === */
 	void    load_texture(game_s *game);
 	void    init_texture_no(game_s *game);

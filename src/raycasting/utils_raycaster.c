@@ -2,10 +2,10 @@
 
 int move(game_s *game, double move_x, double move_y)
 {
-    double		map_grid_y;
-	double		map_grid_x;
-	double		new_x;
-	double		new_y;
+    int		map_grid_y;
+	int		map_grid_x;
+	double	new_x;
+	double	new_y;
 
     // printf("BEFORE : move_x == %f : move_y == %f\ngame->plyr_data.pos_x == %f : game->plyr_data.pos_y == %f\n", move_x, move_y, game->plyr_data.pos_x, game->plyr_data.pos_y);
     new_x = game->plyr_data.pos_x + move_x;
@@ -14,7 +14,7 @@ int move(game_s *game, double move_x, double move_y)
 	map_grid_x = round((double)new_x / TILE_S);
 	map_grid_y = round((double)new_y / TILE_S);
     // printf("grid_x == %f : grid_y == %f\n\n\n", map_grid_x, map_grid_y);
-	if (game->map_data.map[(int)map_grid_y][(int)map_grid_x] != '1')
+	if (game->map_data.map[map_grid_y][map_grid_x] != '1')
 	{
 		game->plyr_data.pos_x = new_x;
 		game->plyr_data.pos_y = new_y;

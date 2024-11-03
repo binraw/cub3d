@@ -24,7 +24,7 @@ DIR_OBJ		= .object/
 # ==== COMPILATION TOOLS ==== #
 LIB_FLAG	= -I$(DIR_LIBFT)hdr -I$(DIR_MLX)
 MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lm
-CFLAGS		= -g -I$(HDR_DIR) $(LIB_FLAG) # -Wall -Wextra -Werror
+CFLAGS		= -o3 -I$(HDR_DIR) $(LIB_FLAG) # -Wall -Wextra -Werror
 
 ### === SOURCES FILE === ###
 SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c \
@@ -36,7 +36,7 @@ SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c \
 					\
 					$(DIR_RAY)raycaster.c $(DIR_RAY)utils_raycaster.c \
 					$(DIR_RAY)texture.c  $(DIR_RAY)draw.c \
-					
+
 OBJS	= $(SRCS_FILE:$(DIR_SRC)%.c=$(DIR_OBJ)%.o)
 
 default: all

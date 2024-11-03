@@ -37,26 +37,26 @@ static void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 		ray->angle += M_PI * 2;
 	else if (ray->angle > M_PI * 2)
 		ray->angle -= M_PI * 2;
-
 	ray->dir_x = cos(ray->angle);
 	ray->dir_y = sin(ray->angle);
-
-	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
-	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
-
+	ray->pos_x = (int) (game->plyr_data.pos_x / TILE_S);
+	ray->pos_y = (int) (game->plyr_data.pos_y / TILE_S);
 	ray->delta_x = fabs(1 / ray->dir_x);
 	ray->delta_y = fabs(1 / ray->dir_y);
-
 	init_step(ray, game);
 	return ;
 }
 
+static bool	hit_wall(game_s *game, ray_s *ray)
+{
+    return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
+			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
+			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
+}
+
 static void	dda(game_s *game, ray_s *ray)
 {
-	bool	hit_wall;
-
-	hit_wall = false;
-	while (hit_wall == false)
+	while (hit_wall(game, ray) == false)
 	{
 		if (ray->side_x < ray->side_y)
 		{
@@ -69,12 +69,6 @@ static void	dda(game_s *game, ray_s *ray)
 			ray->side_y += ray->delta_y;
 			ray->pos_y += ray->step_y;
 			ray->colision_side = 0;
-		}
-		if (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
-			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
-			game->map_data.map[ray->pos_y][ray->pos_x] == '1')
-		{
-			hit_wall = true;
 		}
 	}
 }
@@ -91,11 +85,13 @@ int	raycaster(game_s *game)
 		init_ray(&ray, game, i);
 		dda(game, &ray);
 		if (ray.colision_side == 1)
-			ray.wall_dist = (ray.pos_x - game->plyr_data.pos_x / TILE_S + (1 - ray.step_x) / 2) / ray.dir_x;
+			ray.wall_dist = (ray.pos_x - game->plyr_data.pos_x / TILE_S + \
+                                            (1 - ray.step_x) / 2) / ray.dir_x;
 		else
-			ray.wall_dist = (ray.pos_y - game->plyr_data.pos_y / TILE_S + (1 - ray.step_y) / 2) / ray.dir_y;
+			ray.wall_dist = (ray.pos_y - game->plyr_data.pos_y / TILE_S + \
+                                            (1 - ray.step_y) / 2) / ray.dir_y;
 		end_x_y[0] = game->plyr_data.pos_x + ray.dir_x * ray.wall_dist * TILE_S;
-		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;	
+		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;
 		// if (i < WIN_W / 2 + 1 && i > WIN_W / 2 - 1)
 		// {
 		// 	print_player(game);
