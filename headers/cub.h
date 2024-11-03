@@ -13,38 +13,6 @@
     # include <fcntl.h>
     # include <math.h>
 
-    /* ==== CONSTANTES ==== */
-
-    // ERROR MESSAGES //
-	# define USAGE	        "Need one filepath as argument\n"
-    # define E_FILE_FORMAT	"A file format error is detected\n"
-    # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
-    # define E_INVALID_CHAR "Invalid char in the map\n"
-    # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
-
-    // WINDOW WIDTH HEIGTH //
-	# define WIN_W		700	// largeur de la fenetre
-	# define WIN_H		700	// hauteur de la fenetre
-
-    // MLX PTR ACCESS //
-	# define MLX_PTR	game->console.mlx_ptr
-	# define WIN_PTR	game->console.win_ptr
-
-	// PLAYER ORIENTATION //
-	# define ANGLE_N	4.71238898		// == (3 * M_PI) * 0.5
-	# define ANGLE_S	M_PI_2
-	# define ANGLE_E	0
-	# define ANGLE_W	M_PI
-
-    // FIELD OF VIEW //
-	# define ANGLE_FOV	1.047197551		// == M_PI / 3 == 60 degrees
-	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
-
-    // MOVES SPEED //
-	# define ROT_SPEED	0.05
-	# define MOV_SPEED	4
-	# define TILE_S		64
-
     /* ==== STRUCTURES ==== */
 
     typedef struct console
@@ -136,11 +104,48 @@
 		draw_s		draw;
     } game_s;
 
+/* ==== CONSTANTES ==== */
+
+    // ERROR MESSAGES //
+	# define USAGE	        "Need one filepath as argument\n"
+    # define E_FILE_FORMAT	"A file format error is detected\n"
+    # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
+    # define E_INVALID_CHAR "Invalid char in the map\n"
+    # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
+
+    // WINDOW WIDTH HEIGTH //
+	# define WIN_W		700	// largeur de la fenetre
+	# define WIN_H		700	// hauteur de la fenetre
+	# define MINIMAP_W	(WIN_W / 7)
+	# define MINIMAP_H	(WIN_H / 7)
+
+
+    // MLX PTR ACCESS //
+	# define MLX_PTR	game->console.mlx_ptr
+	# define WIN_PTR	game->console.win_ptr
+
+	// PLAYER ORIENTATION //
+	# define ANGLE_N	4.71238898		// == (3 * M_PI) * 0.5
+	# define ANGLE_S	M_PI_2
+	# define ANGLE_E	0
+	# define ANGLE_W	M_PI
+
+    // FIELD OF VIEW //
+	# define ANGLE_FOV	1.047197551		// == M_PI / 3 == 60 degrees
+	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
+
+    // MOVES SPEED //
+	# define ROT_SPEED	0.05
+	# define MOV_SPEED	4
+	# define TILE_S		64
+
+/* === PROTOTYPES === */
 
 	/* === Temporary function === */
 	void	print_struct(game_s *game);
 	void	print_player(game_s *game);
 	void	print_ray(ray_s *ray);
+	void    print_constante(game_s *game);
 
 
 	/* === main.c === */
@@ -189,6 +194,9 @@
 	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 
+
+    /* === mini_map.c*/
+    void    print_minimap(game_s *game, ray_s *ray);
 
 	// int	move(game_s *game , double move_x, double move_y);
 	int loop_hook(game_s *game);

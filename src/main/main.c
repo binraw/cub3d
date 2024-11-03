@@ -45,6 +45,16 @@ void	print_ray(ray_s *ray)
     printf("\n");
 }
 
+void    print_constante(game_s *game)
+{
+    printf("CONSTANTES\n");
+    printf("WIN_W == %d\n", WIN_W);
+    printf("WIN_H == %d\n", WIN_H);
+    printf("MINIMA_W == %d\n", MINIMAP_W);
+    printf("MINIMA_H == %d\n", MINIMAP_H);
+    printf("\n");
+}
+
 int	ft_perror(char *msg)
 {
 	write(2, "Error\n", 7);
