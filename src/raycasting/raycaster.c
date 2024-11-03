@@ -1,6 +1,6 @@
 #include "cub.h"
 
-void	init_step(ray_s *ray, game_s *game)
+static void	init_step(ray_s *ray, game_s *game)
 {
 	if (ray->dir_x < 0)
 	{
@@ -28,30 +28,30 @@ void	init_step(ray_s *ray, game_s *game)
 	}
 }
 
-void	init_ray(ray_s *ray, game_s *game, int nb_ray)
+static void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
 	static const double	increment = ANGLE_FOV / WIN_W;
 
 	ray->angle = game->plyr_data.angle - FOV_2 + nb_ray * increment;
-    if (ray->angle < 0)
-        ray->angle += M_PI * 2;
-    else if (ray->angle > M_PI * 2)
-        ray->angle -= M_PI * 2;
+	if (ray->angle < 0)
+		ray->angle += M_PI * 2;
+	else if (ray->angle > M_PI * 2)
+		ray->angle -= M_PI * 2;
 
 	ray->dir_x = cos(ray->angle);
 	ray->dir_y = sin(ray->angle);
 
 	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
 	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
-    
+
 	ray->delta_x = fabs(1 / ray->dir_x);
-    ray->delta_y = fabs(1 / ray->dir_y);
+	ray->delta_y = fabs(1 / ray->dir_y);
 
 	init_step(ray, game);
 	return ;
 }
 
-void	dda(game_s *game, ray_s *ray)
+static void	dda(game_s *game, ray_s *ray)
 {
 	bool	hit_wall;
 
@@ -79,10 +79,10 @@ void	dda(game_s *game, ray_s *ray)
 	}
 }
 
-int	compute_ray(game_s *game)
+int	raycaster(game_s *game)
 {
-    size_t	i;
-    ray_s	ray;
+	size_t	i;
+	ray_s	ray;
 	int		end_x_y[2];
 
 	i = 0;
@@ -90,38 +90,25 @@ int	compute_ray(game_s *game)
 	{
 		init_ray(&ray, game, i);
 		dda(game, &ray);
-		
-		
 		if (ray.colision_side == 1)
 			ray.wall_dist = (ray.pos_x - game->plyr_data.pos_x / TILE_S + (1 - ray.step_x) / 2) / ray.dir_x;
 		else
 			ray.wall_dist = (ray.pos_y - game->plyr_data.pos_y / TILE_S + (1 - ray.step_y) / 2) / ray.dir_y;
-		
-		
 		end_x_y[0] = game->plyr_data.pos_x + ray.dir_x * ray.wall_dist * TILE_S;
-		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;
-		
-		
-		if (i < WIN_W / 2 + 1 && i > WIN_W / 2 - 1)
-		{
-			print_player(game);
-			printf("\n");
-			print_ray(&ray);
-			printf("\n");
-			printf("end_y = %d : end_x = %d\n", end_x_y[1], end_x_y[0] % TILE_S);
-
-		}
-            // printf("end_y == %d : end_x == %d\n", end_x_y[1] / TILE_S, end_x_y[0] / TILE_S);
-		
-		
-		draw_wall_all(game, &ray, i, end_x_y);
+		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;	
+		// if (i < WIN_W / 2 + 1 && i > WIN_W / 2 - 1)
+		// {
+		// 	print_player(game);
+		// 	printf("\n");
+		// 	print_ray(&ray);
+		// 	printf("\n");
+		// 	printf("end_y = %d : end_x = %d\n", end_x_y[1], end_x_y[0] % TILE_S);
+		// }
+		if (ray.colision_side == 1)
+			draw_wall_ea_we(game, &ray, i, end_x_y);
+		else
+			draw_wall_no_so(game, &ray, i, end_x_y);
 		i++;
 	}
-	return (0);
-}
-
-int	raycaster(game_s *game)
-{
-	compute_ray(game);
 	return (0);
 }

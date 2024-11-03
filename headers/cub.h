@@ -69,7 +69,7 @@
 
 	typedef struct ray
 	{
-		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	angle;
 		int		pos_x;
 		int		pos_y;
 		double	dir_x;
@@ -81,16 +81,16 @@
 		double	side_x;
 		double	side_y;
 		double	wall_dist;
-		bool	colision_side; // 0 == ligne vertical : 1 == ligne horizontale
+		bool	colision_side;
 	} ray_s;
 
     typedef struct player
     {
-		double	pos_x; // necessaire pour naviguer dans tab
+		double	pos_x;
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
-		double	angle;	// angle du premier rayon -> angle player - A_FOV/2
+		double	angle;
 		bool	move_up;
 		bool	move_down;
 		bool	move_right;
@@ -104,8 +104,6 @@
         char	**map;
 		size_t	width;
 		size_t	heigth;
-		int		tile_size; // == WIN_WIDTH / map_width
-		bool	screen_change;
 	} map_s;
 
 	typedef struct img
@@ -118,14 +116,25 @@
 		void		*img_text_ea;
 	}	img_s;
 
+	typedef struct draw
+	{
+		int	wall_h;
+		int	wall_t;
+		int	wall_b;
+		int	txtr_x;
+		int	color;
+		int	i;
+	}	draw_s;
+
     typedef struct game_s
     {
 		console_s	console;
 		texture_s	texture;
-		map_s		map_data;
 		player_s	plyr_data;
+		map_s		map_data;
 		ray_s		ray_data;
 		img_s		img_data;
+		draw_s		draw;
     } game_s;
 
 
@@ -133,6 +142,8 @@
 	void	print_struct(game_s *game);
 	void	print_player(game_s *game);
 	void	print_ray(ray_s *ray);
+	
+	
 	/* === main.c === */
 	int		ft_perror(char *msg);
 
@@ -156,8 +167,15 @@
 	char	**duplicate_map(char **src, size_t nb_ptr);
 	int		alloc_tab(game_s *game, bool first_alloc);
 
+	/* === init_map.c === */
+	int		get_map(game_s *game, int fd);
+
+	/* === valid_map.c === */
+	int	check_map_validity(game_s *game);
+
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
+	
 	/* === texture.c === */
 	void    load_texture(game_s *game);
 	void    init_texture_no(game_s *game);
@@ -165,37 +183,16 @@
 	void    init_texture_we(game_s *game);
 	void    init_texture_ea(game_s *game);
 
-	/* === draw.c === */
-	int		get_texture_color(void *img_ptr, int x, int y, int texture_width);
-	void	draw_wall_no(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	draw_wall_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	draw_wall_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	draw_wall_ea(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void    draw_sky(game_s *game, int column_index, int wall_top);
-	void    draw_floor(game_s *game, int column_index, int wall_bottom);
-	void	draw_wall_all(game_s *game, ray_s *ray, int i, int *end_x_y);
-
-	/* === init_map.c === */
-	int		get_map(game_s *game, int fd);
-
-	/* === valid_map.c === */
-	int	check_map_validity(game_s *game);
-
-
-void update_player_rotation(game_s *game);
-void rotate_camera(game_s *game, float angle);
-
+	/* === raycaster.c === */
 	int	raycaster(game_s *game);
-	int compute_ray(game_s *game);
-	int	move(game_s *game , double move_x, double move_y);
+
+	/* === draw.c === */
+	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+
+
+	// int	move(game_s *game , double move_x, double move_y);
 	int loop_hook(game_s *game);
-	int update_movement(game_s *game);
-	int check_wall(double ray_x, double ray_y, game_s *game);
-	void draw_wall(game_s *game, double ray_x, double ray_y, int column_index, double distance);
-    // int init_pos_player(game_s *game, int y);
-    // int isclosed(game_s *game, int x);
-    // int isclosed_column(game_s *game, int x);
-    // int check_last_value(game_s *game, int y, size_t i);
-	int	ft_perror(char *msg);
+	// int update_movement(game_s *game);
 
 #endif
