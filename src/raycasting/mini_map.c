@@ -5,18 +5,18 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 {
 	int	curr_color;
 	int	tmp_x_y[2];
-	int	cell_w = game->map_data.width / MINIMAP_W;
-	int	cell_h = game->map_data.heigth / MINIMAP_W;
-	// print_constante(game);
-	// printf("game->map_data.width == %d : game->map_data.heigth == %d\n", game->map_data.width, game->map_data.heigth);
-	// printf("cell_w == %d : cell_h == %d\n", cell_w, cell_h);
+	const int	cell_w = MINIMAP_W / game->map_data.width;
+	const int	cell_h = MINIMAP_W / game->map_data.heigth;
 
 	if (is_floor)
 		curr_color = 0;
 	else
 		curr_color = 0xFFFFFF;
-	tmp_x_y[0] = start_x * cell_w;
-	tmp_x_y[1] = start_y * cell_h;
+	start_x *= cell_w;
+	start_y *= cell_h;
+	tmp_x_y[0] = start_x;
+	tmp_x_y[1] = start_y;
+
 	// print_constante(game);
 	while (start_y < tmp_x_y[1] + cell_h)
 	{

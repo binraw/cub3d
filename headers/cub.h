@@ -136,7 +136,7 @@
 
     // MOVES SPEED //
 	# define ROT_SPEED	0.05
-	# define MOV_SPEED	4
+	# define MOV_SPEED	7
 	# define TILE_S		64
 
 /* === PROTOTYPES === */

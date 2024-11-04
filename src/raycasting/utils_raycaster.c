@@ -7,13 +7,10 @@ int move(game_s *game, double move_x, double move_y)
 	double	new_x;
 	double	new_y;
 
-    // printf("BEFORE : move_x == %f : move_y == %f\ngame->plyr_data.pos_x == %f : game->plyr_data.pos_y == %f\n", move_x, move_y, game->plyr_data.pos_x, game->plyr_data.pos_y);
     new_x = game->plyr_data.pos_x + move_x;
 	new_y = game->plyr_data.pos_y + move_y;
-    // printf("AFTER : new_x == %f : new_y == %f\n", new_x, new_y);
-	map_grid_x = round((double)new_x / TILE_S);
-	map_grid_y = round((double)new_y / TILE_S);
-    // printf("grid_x == %f : grid_y == %f\n\n\n", map_grid_x, map_grid_y);
+	map_grid_x = (int) floor((double)new_x / TILE_S);
+	map_grid_y = (int) floor((double)new_y / TILE_S);
 	if (game->map_data.map[map_grid_y][map_grid_x] != '1')
 	{
 		game->plyr_data.pos_x = new_x;
@@ -44,29 +41,21 @@ int update_movement(game_s *game)
 
     if (game->plyr_data.move_up)
     {
-        // if (game->plyr_data.pos_y > 0 + TILE_S)
-        //     game->plyr_data.pos_y -= (double) MOV_SPEED;
         move_x = cos(game->plyr_data.angle) * MOV_SPEED;
         move_y = sin(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.move_down)
     {
-        // if (game->plyr_data.pos_y < game->map_data.heigth * TILE_S)
-        //     game->plyr_data.pos_y += (double) MOV_SPEED;
         move_x = -cos(game->plyr_data.angle) * MOV_SPEED;
         move_y = -sin(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.move_left)
     {
-        // if (game->plyr_data.pos_x > 0 + TILE_S)
-        //     game->plyr_data.pos_x -= (double) MOV_SPEED;
         move_x = sin(game->plyr_data.angle) * MOV_SPEED;
         move_y = -cos(game->plyr_data.angle) * MOV_SPEED;
     }
     if (game->plyr_data.move_right)
     {
-        // if (game->plyr_data.pos_x < game->map_data.width * TILE_S)
-        //     game->plyr_data.pos_x += (double) MOV_SPEED;
         move_x = -sin(game->plyr_data.angle) * MOV_SPEED;
         move_y = cos(game->plyr_data.angle) * MOV_SPEED;
     }

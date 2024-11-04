@@ -55,6 +55,8 @@ void    print_constante(game_s *game)
     printf("\n");
 }
 
+
+
 int	ft_perror(char *msg)
 {
 	write(2, "Error\n", 7);
@@ -63,10 +65,10 @@ int	ft_perror(char *msg)
 
 int main(int argc, char **argv)
 {
-    game_s game;
+	game_s game;
 
-    (void)argc;
-    if (argc != 2)
+	(void)argc;
+	if (argc != 2)
 		return (ft_perror(USAGE), EXIT_FAILURE);
 	if (parsing(&game, argv[1]))
 		return (EXIT_FAILURE);
@@ -76,7 +78,7 @@ int main(int argc, char **argv)
 	raycaster(&game);
 	hook_management(&game);
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
-    mlx_loop(game.console.mlx_ptr);
+	mlx_loop(game.console.mlx_ptr);
 	free_console(&game);
 	free_map_data(&game);
 	return (0);

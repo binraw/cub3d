@@ -11,7 +11,6 @@ void    load_texture(game_s *game)
     init_texture_ea(game);
 }
 
-
 void    init_texture_no(game_s *game)
 {
     int width;

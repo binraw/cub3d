@@ -1,5 +1,31 @@
 #include "cub.h"
 
+static bool	hit_wall(game_s *game, ray_s *ray)
+{
+    return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
+			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
+			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
+}
+
+static void	dda(game_s *game, ray_s *ray)
+{
+	while (hit_wall(game, ray) == false)
+	{
+		if (ray->side_x < ray->side_y) // hit horizontal
+		{
+			ray->side_x += ray->delta_x;
+			ray->pos_x += ray->step_x;
+			ray->colision_side = 1;
+		}
+		else // hit vertical
+		{
+			ray->side_y += ray->delta_y;
+			ray->pos_y += ray->step_y;
+			ray->colision_side = 0;
+		}
+	}
+}
+
 static void	init_step(ray_s *ray, game_s *game)
 {
 	if (ray->dir_x < 0)
@@ -45,32 +71,6 @@ static void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 	ray->delta_y = fabs(1 / ray->dir_y);
 	init_step(ray, game);
 	return ;
-}
-
-static bool	hit_wall(game_s *game, ray_s *ray)
-{
-    return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
-			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
-			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
-}
-
-static void	dda(game_s *game, ray_s *ray)
-{
-	while (hit_wall(game, ray) == false)
-	{
-		if (ray->side_x < ray->side_y) // hit horizontal
-		{
-			ray->side_x += ray->delta_x;
-			ray->pos_x += ray->step_x;
-			ray->colision_side = 1;
-		}
-		else // hit vertical
-		{
-			ray->side_y += ray->delta_y;
-			ray->pos_y += ray->step_y;
-			ray->colision_side = 0;
-		}
-	}
 }
 
 int	raycaster(game_s *game)
