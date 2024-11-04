@@ -36,32 +36,21 @@ void rotate_player(game_s *game)
 
 int update_movement(game_s *game)
 {
-    double move_x;
-    double move_y;
-
-    if (game->plyr_data.move_up)
-    {
-        move_x = cos(game->plyr_data.angle) * MOV_SPEED;
-        move_y = sin(game->plyr_data.angle) * MOV_SPEED;
-    }
-    if (game->plyr_data.move_down)
-    {
-        move_x = -cos(game->plyr_data.angle) * MOV_SPEED;
-        move_y = -sin(game->plyr_data.angle) * MOV_SPEED;
-    }
-    if (game->plyr_data.move_left)
-    {
-        move_x = sin(game->plyr_data.angle) * MOV_SPEED;
-        move_y = -cos(game->plyr_data.angle) * MOV_SPEED;
-    }
-    if (game->plyr_data.move_right)
-    {
-        move_x = -sin(game->plyr_data.angle) * MOV_SPEED;
-        move_y = cos(game->plyr_data.angle) * MOV_SPEED;
-    }
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
         rotate_player(game);
-    return (move(game, move_x, move_y));
+    if (game->plyr_data.move_up)
+        return (move(game, cos(game->plyr_data.angle) * MOV_SPEED, \
+                            sin(game->plyr_data.angle) * MOV_SPEED));
+    if (game->plyr_data.move_down)
+        return (move(game, -cos(game->plyr_data.angle) * MOV_SPEED, \
+                            -sin(game->plyr_data.angle) * MOV_SPEED));
+    if (game->plyr_data.move_left)
+        return (move(game, sin(game->plyr_data.angle) * MOV_SPEED, \
+                            -cos(game->plyr_data.angle) * MOV_SPEED));
+    if (game->plyr_data.move_right)
+        return (move(game, -sin(game->plyr_data.angle) * MOV_SPEED, \
+                            cos(game->plyr_data.angle) * MOV_SPEED));
+    return (0);
 }
 
 int loop_hook(game_s *game)
@@ -70,7 +59,6 @@ int loop_hook(game_s *game)
         game->plyr_data.move_left || game->plyr_data.move_right || \
         game->plyr_data.rotate_l || game->plyr_data.rotate_r)
     {
-
         if (update_movement(game) == 1)
             return (0);
         raycaster(game);

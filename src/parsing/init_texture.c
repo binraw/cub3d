@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/29 09:32:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:39:16 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,9 @@ int	get_textures(game_s *game, const int fd)
 		}
 		free(buffer);
 	}
+    game->draw.ceiling_c = (game->texture.c_color[0] << 16) | \
+                (game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
+    game->draw.floor_c = (game->texture.f_color[0] << 16) | \
+                (game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
 	return (0);
 }

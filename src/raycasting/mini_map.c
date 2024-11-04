@@ -5,8 +5,8 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 {
 	int	curr_color;
 	int	tmp_x_y[2];
-	const int	cell_w = MINIMAP_W / game->map_data.width;
-	const int	cell_h = MINIMAP_W / game->map_data.heigth;
+	const int	cell_w = (WIN_W / 7) / game->map_data.width;
+	const int	cell_h = (WIN_H / 7) / game->map_data.heigth;
 
 	if (is_floor)
 		curr_color = 0;

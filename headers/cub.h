@@ -27,8 +27,6 @@
 		char	*text_so;
 		char	*text_we;
 		char	*text_ea;
-		char	*text_f;
-		char	*text_c;
 		int		f_color[3];
 		int		c_color[3];
 		int     all_text;
@@ -48,7 +46,7 @@
 		double	side_x;
 		double	side_y;
 		double	wall_dist;
-		bool	colision_side;
+		bool	colision_side; // 0 == ea we : 1 == no so
 	} ray_s;
 
     typedef struct player
@@ -75,12 +73,14 @@
 
 	typedef struct img
 	{
-		int			height[4];
-		int			width[4];
-		void		*img_text_no;
-		void		*img_text_so;
-		void		*img_text_we;
-		void		*img_text_ea;
+		int     height;
+		int     width;
+		void    *img_ptr;
+        char    *data;
+		int		bpp; // bits par pixel
+		int		s_line; // taille de chaque ligne
+		int		endian; // ordre de stockage
+		int		index;
 	}	img_s;
 
 	typedef struct draw
@@ -90,6 +90,8 @@
 		int	wall_b;
 		int	txtr_x;
 		int	color;
+		int	floor_c; // color floor value after bit_shift init in parsing init_textures
+		int	ceiling_c; // color ceiling value after bit_shift init in parsing init_textures
 		int	i;
 	}	draw_s;
 
@@ -100,7 +102,7 @@
 		player_s	plyr_data;
 		map_s		map_data;
 		ray_s		ray_data;
-		img_s		img_data;
+		img_s		img_data[4]; // 0 = NORTH : 1 = SOUTH : 2 = WEST : 3 = EAST
 		draw_s		draw;
     } game_s;
 
@@ -116,8 +118,6 @@
     // WINDOW WIDTH HEIGTH //
 	# define WIN_W		700	// largeur de la fenetre
 	# define WIN_H		700	// hauteur de la fenetre
-	# define MINIMAP_W	(WIN_W / 7)
-	# define MINIMAP_H	(WIN_H / 7)
 
 
     // MLX PTR ACCESS //
@@ -181,11 +181,11 @@
 	int		get_textures(game_s *game, int fd);
 
 	/* === texture.c === */
-	void    load_texture(game_s *game);
-	void    init_texture_no(game_s *game);
-	void    init_texture_so(game_s *game);
-	void    init_texture_we(game_s *game);
-	void    init_texture_ea(game_s *game);
+	int    load_texture(game_s *game);
+	int    init_texture_no(game_s *game);
+	int    init_texture_so(game_s *game);
+	int    init_texture_we(game_s *game);
+	int    init_texture_ea(game_s *game);
 
 	/* === raycaster.c === */
 	int	raycaster(game_s *game);
