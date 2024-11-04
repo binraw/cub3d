@@ -19,7 +19,7 @@ static int	get_color(void *img_ptr, int x, int y, int texture_width)
     // Récupérer la couleur du pixel
     color = *(int *)(data + index); // Cast pour obtenir la couleur
 
-    return color;
+    return (color);
 }
 
 static void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)

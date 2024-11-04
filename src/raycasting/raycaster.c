@@ -39,8 +39,8 @@ static void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 		ray->angle -= M_PI * 2;
 	ray->dir_x = cos(ray->angle);
 	ray->dir_y = sin(ray->angle);
-	ray->pos_x = (int) (game->plyr_data.pos_x / TILE_S);
-	ray->pos_y = (int) (game->plyr_data.pos_y / TILE_S);
+	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
+	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
 	ray->delta_x = fabs(1 / ray->dir_x);
 	ray->delta_y = fabs(1 / ray->dir_y);
 	init_step(ray, game);
@@ -58,13 +58,13 @@ static void	dda(game_s *game, ray_s *ray)
 {
 	while (hit_wall(game, ray) == false)
 	{
-		if (ray->side_x < ray->side_y)
+		if (ray->side_x < ray->side_y) // hit horizontal
 		{
 			ray->side_x += ray->delta_x;
 			ray->pos_x += ray->step_x;
 			ray->colision_side = 1;
 		}
-		else
+		else // hit vertical
 		{
 			ray->side_y += ray->delta_y;
 			ray->pos_y += ray->step_y;
@@ -86,20 +86,13 @@ int	raycaster(game_s *game)
 		dda(game, &ray);
 		if (ray.colision_side == 1)
 			ray.wall_dist = (ray.pos_x - game->plyr_data.pos_x / TILE_S + \
-                                            (1 - ray.step_x) / 2) / ray.dir_x;
+										(1 - ray.step_x) * 0.5) / ray.dir_x;
 		else
 			ray.wall_dist = (ray.pos_y - game->plyr_data.pos_y / TILE_S + \
-                                            (1 - ray.step_y) / 2) / ray.dir_y;
+										(1 - ray.step_y) * 0.5) / ray.dir_y;
 		end_x_y[0] = game->plyr_data.pos_x + ray.dir_x * ray.wall_dist * TILE_S;
 		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;
-		// if (i < WIN_W / 2 + 1 && i > WIN_W / 2 - 1)
-		// {
-		// 	print_player(game);
-		// 	printf("\n");
-		// 	print_ray(&ray);
-		// 	printf("\n");
-		// 	printf("end_y = %d : end_x = %d\n", end_x_y[1], end_x_y[0] % TILE_S);
-		// }
+		ray.wall_dist = ray.wall_dist * cos(game->plyr_data.angle - ray.angle);
 		if (ray.colision_side == 1)
 			draw_wall_ea_we(game, &ray, i, end_x_y);
 		else
