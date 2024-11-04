@@ -92,7 +92,9 @@ int	raycaster(game_s *game)
 										(1 - ray.step_y) * 0.5) / ray.dir_y;
 		end_x_y[0] = game->plyr_data.pos_x + ray.dir_x * ray.wall_dist * TILE_S;
 		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;
+
 		ray.wall_dist = ray.wall_dist * cos(game->plyr_data.angle - ray.angle);
+		
 		if (ray.colision_side == 1)
 			draw_wall_ea_we(game, &ray, i, end_x_y);
 		else

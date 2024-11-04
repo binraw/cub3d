@@ -57,7 +57,7 @@ static void	init_draw(game_s *game, double w_dist, int col_side, int *end_x_y)
     if (w_dist <= 0)
         game->draw.wall_h = WIN_H;
     else
-        game->draw.wall_h = floor(WIN_H / w_dist);
+        game->draw.wall_h = (int) WIN_H / w_dist;
     game->draw.wall_t = floor((mid_win) - (game->draw.wall_h * 0.5));
     game->draw.wall_b = floor((mid_win) + (game->draw.wall_h * 0.5));
 	if (col_side == 1)
