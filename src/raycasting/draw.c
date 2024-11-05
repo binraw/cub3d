@@ -9,11 +9,8 @@ int get_texture_color(void *img_ptr, int x, int y, int texture_width)
     int color;
     int index;
 
-    // printf("rentre dans la recup de texture pour afficher le bon pixel \n");
-    // Obtenir les données de l'image
     data = mlx_get_data_addr(img_ptr, &bpp, &size_line, &endian);
 
-    // Calculer l'index du pixel
     index = (y * size_line + x * (bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
 
     // Récupérer la couleur du pixel
@@ -37,10 +34,7 @@ void draw_wall_no(game_s *game, ray_s *ray, int column_index, double distance)
     wall_height = (int)(WIN_H / distance);
     wall_top = (WIN_H / 2) - (wall_height / 2);
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    
-    // Calcul de texture_x en fonction de l'orientation du mur
-    texture_x = (int)(ray->pos_x * game->img_data.width[0]) % game->img_data.width[0];
-
+    texture_x = (int)((ray->pos_x - floor(ray->pos_x)) * game->img_data.width[0]);
     y = wall_top;
     while (y < wall_bottom)
     {
@@ -70,13 +64,17 @@ void draw_wall_so(game_s *game, ray_s *ray, int column_index, double distance)
     wall_height = (int)(WIN_H / distance);
     wall_top = (WIN_H / 2) - (wall_height / 2);
     wall_bottom = (WIN_H / 2) + (wall_height / 2);
-    texture_x = (int)(ray->pos_x * game->img_data.width[1]) % game->img_data.width[1];
+    printf("value ray->pos_x : %f\n", ray->pos_x);
+    // texture_x = (int)(ray->pos_x * game->img_data.width[1]) % game->img_data.width[1];
+    // texture_x = (int)((ray->pos_x - floor(ray->pos_x)) * game->img_data.width[0]);
+    texture_x =  (int)(ray->pos_x * game->img_data.height[0]) % game->img_data.width[0];
     y = wall_top;
     while (y < wall_bottom)
     {
         if (y >= 0 && y < WIN_H)
         {
             texture_y = ((y - wall_top) * game->img_data.height[1]) / wall_height;
+            
             color = get_texture_color(game->img_data.img_text_so, texture_x, texture_y, game->img_data.width[1]);
 
             mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, column_index, y, color);
@@ -185,7 +183,7 @@ void    draw_floor(game_s *game, int column_index, int wall_bottom)
 
 void draw_wall_all(game_s *game, ray_s *ray, int i, float wall_dist)
 {
-    print_ray(ray);
+    // print_ray(ray);
     if (ray->colision_side == 1) 
     {
         if (ray->dir_x < 0) 

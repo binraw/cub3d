@@ -117,7 +117,7 @@
 
 	typedef struct img
 	{
-		int			height[4];
+		int			height[4]; 
 		int			width[4];
 		void		*img_text_no;
 		void		*img_text_so;

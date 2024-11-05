@@ -2,10 +2,6 @@
 
 void	init_step(ray_s *ray, game_s *game)
 {
-	// printf("dir_x: %f, dir_y: %f, delta_x: %f, delta_y: %f\n", ray->dir_x, ray->dir_y, ray->delta_x, ray->delta_y);
-	// printf("step_x: %f, step_y: %f\n", ray->step_x, ray->step_y);
-	// printf("side_x: %f, side_y: %f\n", ray->side_x, ray->side_y);
-
 	if (ray->dir_x < 0)
 	{
 		ray->step_x = -1;
@@ -14,7 +10,7 @@ void	init_step(ray_s *ray, game_s *game)
 	else
 	{
 		ray->step_x = 1;
-		ray->side_x = (ray->pos_x + 1 - game->plyr_data.pos_x) * ray->delta_x;
+		ray->side_x = (ray->pos_x + 1.0 - game->plyr_data.pos_x) * ray->delta_x;
 	}
 	if (ray->dir_y < 0)
 	{
@@ -24,16 +20,15 @@ void	init_step(ray_s *ray, game_s *game)
 	else
 	{
 		ray->step_y = 1;
-		ray->side_y = (ray->pos_y + 1 - game->plyr_data.pos_y) * ray->delta_y;
+		ray->side_y = (ray->pos_y + 1.0 - game->plyr_data.pos_y) * ray->delta_y;
 	}
 }
 
 void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-	ray->pos_x = game->plyr_data.pos_x - TILE_S * 0.5; // on enleve la moitie de la taille de la tuile
-	ray->pos_y = game->plyr_data.pos_y - TILE_S * 0.5; // pour lancer les rayons depuis le centre de la case
-	// ray->pos_x = game->plyr_data.pos_x + TILE_S; // on enleve la moitie de la taille de la tuile
-	// ray->pos_y = game->plyr_data.pos_y + TILE_S;
+	double offset = (TILE_S / WIN_W) * nb_ray;
+	ray->pos_x = game->plyr_data.pos_x + TILE_S * 0.5 + offset;
+	ray->pos_y = game->plyr_data.pos_y + TILE_S * 0.5 + offset; 
 	if (!nb_ray)
 		ray->angle = fmod(game->plyr_data.angle - FOV_2, 2 * M_PI); // angle player - la moitie de l'angle FOV (tout en radian) FOV_2 == 30 degres
 	else
@@ -55,10 +50,10 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 
 void	dda(game_s *game, ray_s *ray)
 {
+	// printf("AVANT  ray->pos_x == %f ray->pos_y == %f\n", ray->pos_x, ray->pos_y);
+	// printf("AVANT  ray->delta_x == %f ray->delta_y == %f\n", ray->delta_x, ray->delta_y);
 	while (ray->hit_wall == false)
 	{
-		// printf("HERE\n");
-		// printf("side_x : %f\n side_y : %f\n", ray->side_x, ray->side_y);
 		if (ray->side_x < ray->side_y)
 		{
 			ray->side_x += ray->delta_x;
@@ -78,6 +73,7 @@ void	dda(game_s *game, ray_s *ray)
 			ray->hit_wall = true;
 		}
 	}
+	// printf("ray->pos_x == %f ray->pos_y == %f\n", ray->pos_x, ray->pos_y);
 }
 
 int	compute_ray(game_s *game)
