@@ -1,34 +1,5 @@
 #include "cub.h"
 
-// static int	get_color(game_s *game, ray_s *ray, int txtr_y, int index)
-// {
-//     if (ray->colision_side == 1 && ray->dir_x < 0) // west
-//     {
-//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[2].height) / game->draw.wall_h;
-//         index = (txtr_y * game->img_data[2].s_line + game->draw.txtr_x * (game->img_data[2].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-//         game->draw.color = *(int *)(game->img_data[2].data + index);
-//     }
-//     else if (ray->colision_side == 1) // east
-//     {
-//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[3].height) / game->draw.wall_h;
-//         index = (txtr_y * game->img_data[3].s_line + game->draw.txtr_x * (game->img_data[3].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-//         game->draw.color = *(int *)(game->img_data[3].data + index);
-//     }
-//     else if (ray->dir_y < 0) // south wall
-//     {
-//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[1].height) / game->draw.wall_h;
-//         index = (txtr_y * game->img_data[1].s_line + game->draw.txtr_x * (game->img_data[1].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-//         game->draw.color = *(int *)(game->img_data[1].data + index);
-//     }
-//     else // north wall
-//     {
-//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[0].height) / game->draw.wall_h;
-//         index = (txtr_y * game->img_data[0].s_line + game->draw.txtr_x * (game->img_data[0].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-//         game->draw.color = *(int *)(game->img_data[0].data + index);
-//     }
-//     return (0);
-// }
-
 static int	get_color(game_s *game, ray_s *ray)
 {
     if (ray->colision_side == 1 && ray->dir_x < 0) // west
