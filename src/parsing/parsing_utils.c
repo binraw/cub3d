@@ -6,7 +6,7 @@
 /*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:35 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:02:37 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:21:59 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int	alloc_tab(game_s *game, bool first_alloc)
 		tmp = ft_realloc(game->map_data.map, (game->map_data.heigth + 10) * \
 						sizeof(char *), game->map_data.heigth * sizeof(char *));
 		if (!tmp)
-			return (free_ptrtab(game->map_data.map), \
-					ft_perror("Crash realloc in get_map()\n"), 1);
+			return (ft_perror("Crash realloc in get_map()\n"), 1);
 		game->map_data.map = tmp;
 		game->map_data.heigth += 10;
 	}

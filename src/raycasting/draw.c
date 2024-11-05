@@ -1,5 +1,15 @@
 #include "cub.h"
 
+void utils_color(game_s *game, ray_s *ray, int nb)
+{
+    int txtr_y;
+    int index;
+
+    txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
+    index = (txtr_y * game->img_data[nb].s_line + game->draw.txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+    game->draw.color = *(int *)(game->img_data[nb].data + index);
+}
+
 static int	get_color(game_s *game, ray_s *ray)
 {
     if (ray->colision_side == 1 && ray->dir_x < 0) // west
@@ -11,18 +21,6 @@ static int	get_color(game_s *game, ray_s *ray)
     else // north wall
         utils_color(game, ray, 0);
     return (0);
-}
-
-void utils_color(game_s *game, ray_s *ray, int nb)
-{
-    int txtr_y;
-    int index;
-
-    txtr_y = 0;
-    index = 0;
-    txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
-    index = (txtr_y * game->img_data[nb].s_line + game->draw.txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-    game->draw.color = *(int *)(game->img_data[nb].data + index);
 }
 
 static void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)
@@ -59,9 +57,9 @@ static void	init_draw(game_s *game, double w_dist, ray_s *ray, int *end_x_y)
     if (w_dist <= 0)
             game->draw.wall_h = WIN_H;
     else
-        game->draw.wall_h = (int) WIN_H / w_dist;
-    game->draw.wall_t = floor((mid_win) - (game->draw.wall_h * 0.5));
-    game->draw.wall_b = floor((mid_win) + (game->draw.wall_h * 0.5));
+        game->draw.wall_h = (int) (WIN_H / w_dist);
+    game->draw.wall_t = (int) (floor((mid_win) - (game->draw.wall_h >> 1)));
+    game->draw.wall_b = (int) (floor((mid_win) + (game->draw.wall_h >> 1)));
 	if (ray->colision_side == 1)
     {
         if (ray->dir_y < 0) // south

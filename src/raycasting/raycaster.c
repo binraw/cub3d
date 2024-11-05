@@ -35,7 +35,7 @@ int	raycaster(game_s *game)
 	i = 0;
 	while (i < WIN_W)
 	{
-		game->plyr_data.camera_x = 2 * i / (double)WIN_W - 1;
+		game->plyr_data.camera_x = 2 * i / (double) WIN_W - 1;
 		init_ray(&ray, game, i);
 		dda(game, &ray);
 		init_wall_dist(game, &ray, end_x_y);

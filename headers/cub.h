@@ -139,8 +139,8 @@
 	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
 
     // MOVES SPEED //
-	# define ROT_SPEED	0.05
-	# define MOV_SPEED	7
+	# define ROT_SPEED	0.1
+	# define MOV_SPEED	10
 	# define TILE_S		64
 
 /* === PROTOTYPES === */
@@ -188,10 +188,6 @@
 
 	/* === texture.c === */
 	int    load_texture(game_s *game);
-	int    init_texture_no(game_s *game);
-	int    init_texture_so(game_s *game);
-	int    init_texture_we(game_s *game);
-	int    init_texture_ea(game_s *game);
 
 	/* === raycaster.c === */
 	int		loop_hook(game_s *game);
@@ -207,7 +203,6 @@
 	/* === draw.c === */
 	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	utils_color(game_s *game, ray_s *ray, int nb);
 
 
     /* === mini_map.c*/

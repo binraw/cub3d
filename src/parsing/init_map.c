@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/02 13:21:09 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/05 15:14:25 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	get_map(game_s *game, const int fd)
 	{
 		if (tab_size == game->map_data.heigth)
 			if (alloc_tab(game, false))
-				return (free(buffer), 1);
+				return (1);
 		buffer = get_next_line(fd);
 		if (!buffer)
 			break ;

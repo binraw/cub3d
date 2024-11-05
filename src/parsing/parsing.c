@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/05 09:21:23 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:25:12 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,27 @@ static void	fill_player_data(game_s *game, char orientation)
 		game->plyr_data.angle = ANGLE_N;
 		game->plyr_data.dir_x = 0;
 		game->plyr_data.dir_y = -1;
-		game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
-		game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 	}
 	else if (orientation == 'S')
 	{
 		game->plyr_data.angle = ANGLE_S;
 		game->plyr_data.dir_x = 0;
 		game->plyr_data.dir_y = 1;
-		game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
-		game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 	}
 	else if (orientation == 'E')
 	{
 		game->plyr_data.angle = ANGLE_E;
 		game->plyr_data.dir_x = 1;
 		game->plyr_data.dir_y = 0;
-		game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
-		game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 	}
 	else
 	{
 		game->plyr_data.angle = ANGLE_W;
 		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
-		game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
-		game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 	}
+	game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
+	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -83,12 +77,9 @@ static int	get_plyr_pos(game_s *game)
 		{
 			if (is_player(game->map_data.map[y][x]))
 			{
-				game->plyr_data.pos_x = (double) x;
-				game->plyr_data.pos_y = (double) y;
 				fill_player_data(game, game->map_data.map[y][x]);
-				game->plyr_data.pos_x = (double) x * TILE_S + TILE_S * 0.5;
-				game->plyr_data.pos_y = (double) y * TILE_S + TILE_S * 0.5;
-                // print_player(game);
+				game->plyr_data.pos_x = (double) (x * TILE_S + (TILE_S >> 1));
+				game->plyr_data.pos_y = (double) (y * TILE_S + (TILE_S >> 1));
 				return (0);
 			}
 			x++;
@@ -116,6 +107,5 @@ int	parsing(game_s *game, char *filepath)
 		return (free_map_data(game), 1);
     if (get_plyr_pos(game))
         return (free_map_data(game), 1);
-    // print_player(game);
 	return (0);
 }
