@@ -63,12 +63,10 @@ static void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 		ray->angle += M_PI * 2;
 	else if (ray->angle > M_PI * 2)
 		ray->angle -= M_PI * 2;
-	ray->dir_x = cos(ray->angle);
-	ray->dir_y = sin(ray->angle);
+	ray->dir_x = game->plyr_data.dir_x + game->plyr_data.plane_x * game->plyr_data.camera_x;
+	ray->dir_y = game->plyr_data.dir_y + game->plyr_data.plane_y * game->plyr_data.camera_x;
 	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
 	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
-	// ray->pos_x = (int) game->plyr_data.pos_x >> 6;
-	// ray->pos_y = (int) game->plyr_data.pos_y >> 6;
 	ray->delta_x = fabs(1 / ray->dir_x);
 	ray->delta_y = fabs(1 / ray->dir_y);
 	init_step(ray, game);
@@ -84,12 +82,12 @@ int	raycaster(game_s *game)
 	i = 0;
 	while (i < WIN_W)
 	{
+		game->plyr_data.camera_x = 2 * i / (double)WIN_W - 1;
 		init_ray(&ray, game, i);
 		dda(game, &ray);
 		init_wall_dist(game, &ray);
 		end_x_y[0] = game->plyr_data.pos_x + ray.dir_x * ray.wall_dist * TILE_S;
 		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;
-		ray.wall_dist = ray.wall_dist * cos(game->plyr_data.angle - ray.angle);
 		if (ray.colision_side == 1)
 			draw_wall_ea_we(game, &ray, i, end_x_y);
 		else

@@ -32,6 +32,8 @@ void rotate_player(game_s *game)
         game->plyr_data.angle -= M_PI * 2;
     game->plyr_data.dir_x = cos(game->plyr_data.angle);
     game->plyr_data.dir_y = sin(game->plyr_data.angle);
+    game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
+    game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 }
 
 int update_movement(game_s *game)

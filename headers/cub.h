@@ -55,6 +55,9 @@
 		double	pos_y;
 		double	dir_x;
 		double	dir_y;
+		double	plane_x;
+		double	plane_y;
+		double	camera_x;
 		double	angle;
 		bool	move_up;
 		bool	move_down;
