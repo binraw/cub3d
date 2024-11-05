@@ -1,32 +1,57 @@
 #include "cub.h"
 
-static int	get_color(game_s *game, ray_s *ray, int txtr_y, int index)
+// static int	get_color(game_s *game, ray_s *ray, int txtr_y, int index)
+// {
+//     if (ray->colision_side == 1 && ray->dir_x < 0) // west
+//     {
+//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[2].height) / game->draw.wall_h;
+//         index = (txtr_y * game->img_data[2].s_line + game->draw.txtr_x * (game->img_data[2].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+//         game->draw.color = *(int *)(game->img_data[2].data + index);
+//     }
+//     else if (ray->colision_side == 1) // east
+//     {
+//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[3].height) / game->draw.wall_h;
+//         index = (txtr_y * game->img_data[3].s_line + game->draw.txtr_x * (game->img_data[3].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+//         game->draw.color = *(int *)(game->img_data[3].data + index);
+//     }
+//     else if (ray->dir_y < 0) // south wall
+//     {
+//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[1].height) / game->draw.wall_h;
+//         index = (txtr_y * game->img_data[1].s_line + game->draw.txtr_x * (game->img_data[1].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+//         game->draw.color = *(int *)(game->img_data[1].data + index);
+//     }
+//     else // north wall
+//     {
+//         txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[0].height) / game->draw.wall_h;
+//         index = (txtr_y * game->img_data[0].s_line + game->draw.txtr_x * (game->img_data[0].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+//         game->draw.color = *(int *)(game->img_data[0].data + index);
+//     }
+//     return (0);
+// }
+
+static int	get_color(game_s *game, ray_s *ray)
 {
     if (ray->colision_side == 1 && ray->dir_x < 0) // west
-    {
-        txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[2].height) / game->draw.wall_h;
-        index = (txtr_y * game->img_data[2].s_line + game->draw.txtr_x * (game->img_data[2].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-        game->draw.color = *(int *)(game->img_data[2].data + index);
-    }
+        utils_color(game, ray, 2);
     else if (ray->colision_side == 1) // east
-    {
-        txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[3].height) / game->draw.wall_h;
-        index = (txtr_y * game->img_data[3].s_line + game->draw.txtr_x * (game->img_data[3].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-        game->draw.color = *(int *)(game->img_data[3].data + index);
-    }
+        utils_color(game, ray, 3);
     else if (ray->dir_y < 0) // south wall
-    {
-        txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[1].height) / game->draw.wall_h;
-        index = (txtr_y * game->img_data[1].s_line + game->draw.txtr_x * (game->img_data[1].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-        game->draw.color = *(int *)(game->img_data[1].data + index);
-    }
+        utils_color(game, ray, 1);
     else // north wall
-    {
-        txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[0].height) / game->draw.wall_h;
-        index = (txtr_y * game->img_data[0].s_line + game->draw.txtr_x * (game->img_data[0].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-        game->draw.color = *(int *)(game->img_data[0].data + index);
-    }
+        utils_color(game, ray, 0);
     return (0);
+}
+
+void utils_color(game_s *game, ray_s *ray, int nb)
+{
+    int txtr_y;
+    int index;
+
+    txtr_y = 0;
+    index = 0;
+    txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
+    index = (txtr_y * game->img_data[nb].s_line + game->draw.txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+    game->draw.color = *(int *)(game->img_data[nb].data + index);
 }
 
 static void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)
@@ -85,15 +110,12 @@ static void	init_draw(game_s *game, double w_dist, ray_s *ray, int *end_x_y)
 
 void	draw_wall_no_so(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 {
-    int txtr_y;
-    int index;
-
     init_draw(game, ray->wall_dist, ray, end_x_y);
     while (game->draw.i < game->draw.wall_b)
     {
         if (game->draw.i >= 0 && game->draw.i < WIN_H)
         {
-            get_color(game, ray, 0, 0);
+            get_color(game, ray);
 			mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, \
                                 col_index, game->draw.i, game->draw.color);
         }
@@ -104,15 +126,12 @@ void	draw_wall_no_so(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 
 void	draw_wall_ea_we(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 {
-	int	txtr_y;
-    int index;
-
 	init_draw(game, ray->wall_dist, ray, end_x_y);
     while (game->draw.i < game->draw.wall_b)
     {
         if (game->draw.i >= 0 && game->draw.i < WIN_H)
         {
-            get_color(game, ray, 0, 0);
+            get_color(game, ray);
             mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, \
                                 col_index, game->draw.i, game->draw.color);
         }

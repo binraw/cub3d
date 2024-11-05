@@ -11,7 +11,7 @@ int move(game_s *game, double move_x, double move_y)
 	new_y = game->plyr_data.pos_y + move_y;
 	map_grid_x = (int) floor((double)new_x / TILE_S);
 	map_grid_y = (int) floor((double)new_y / TILE_S);
-	if (game->map_data.map[map_grid_y][map_grid_x] != '1')
+	if (game->map_data.map[map_grid_y][map_grid_x] != '1' && game->map_data.map[map_grid_y][map_grid_x] != ' ')
 	{
 		game->plyr_data.pos_x = new_x;
 		game->plyr_data.pos_y = new_y;
@@ -38,16 +38,16 @@ int update_movement(game_s *game)
 {
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
         rotate_player(game);
-    if (game->plyr_data.move_up)
+    else if (game->plyr_data.move_up)
         return (move(game, cos(game->plyr_data.angle) * MOV_SPEED, \
                             sin(game->plyr_data.angle) * MOV_SPEED));
-    if (game->plyr_data.move_down)
+    else if (game->plyr_data.move_down)
         return (move(game, -cos(game->plyr_data.angle) * MOV_SPEED, \
                             -sin(game->plyr_data.angle) * MOV_SPEED));
-    if (game->plyr_data.move_left)
+    else if (game->plyr_data.move_left)
         return (move(game, sin(game->plyr_data.angle) * MOV_SPEED, \
                             -cos(game->plyr_data.angle) * MOV_SPEED));
-    if (game->plyr_data.move_right)
+    else if (game->plyr_data.move_right)
         return (move(game, -sin(game->plyr_data.angle) * MOV_SPEED, \
                             cos(game->plyr_data.angle) * MOV_SPEED));
     return (0);

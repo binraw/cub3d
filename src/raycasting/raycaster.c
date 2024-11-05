@@ -67,6 +67,8 @@ static void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 	ray->dir_y = sin(ray->angle);
 	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
 	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
+	// ray->pos_x = (int) game->plyr_data.pos_x >> 6;
+	// ray->pos_y = (int) game->plyr_data.pos_y >> 6;
 	ray->delta_x = fabs(1 / ray->dir_x);
 	ray->delta_y = fabs(1 / ray->dir_y);
 	init_step(ray, game);
@@ -84,17 +86,10 @@ int	raycaster(game_s *game)
 	{
 		init_ray(&ray, game, i);
 		dda(game, &ray);
-		if (ray.colision_side == 1)
-			ray.wall_dist = (ray.pos_x - game->plyr_data.pos_x / TILE_S + \
-										(1 - ray.step_x) * 0.5) / ray.dir_x;
-		else
-			ray.wall_dist = (ray.pos_y - game->plyr_data.pos_y / TILE_S + \
-										(1 - ray.step_y) * 0.5) / ray.dir_y;
+		init_wall_dist(game, &ray);
 		end_x_y[0] = game->plyr_data.pos_x + ray.dir_x * ray.wall_dist * TILE_S;
 		end_x_y[1] = game->plyr_data.pos_y + ray.dir_y * ray.wall_dist * TILE_S;
-
 		ray.wall_dist = ray.wall_dist * cos(game->plyr_data.angle - ray.angle);
-		
 		if (ray.colision_side == 1)
 			draw_wall_ea_we(game, &ray, i, end_x_y);
 		else
@@ -103,4 +98,13 @@ int	raycaster(game_s *game)
 	}
 	print_minimap(game, &ray);
 	return (0);
+}
+void	init_wall_dist(game_s *game, ray_s *ray)
+{
+	if (ray->colision_side == 1)
+			ray->wall_dist = (ray->pos_x - game->plyr_data.pos_x / TILE_S + \
+										(1 - ray->step_x) * 0.5) / ray->dir_x;
+		else
+			ray->wall_dist = (ray->pos_y - game->plyr_data.pos_y / TILE_S + \
+										(1 - ray->step_y) * 0.5) / ray->dir_y;
 }

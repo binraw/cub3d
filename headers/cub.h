@@ -189,10 +189,12 @@
 
 	/* === raycaster.c === */
 	int	raycaster(game_s *game);
+	void	init_wall_dist(game_s *game, ray_s *ray);
 
 	/* === draw.c === */
 	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void utils_color(game_s *game, ray_s *ray, int nb);
 
 
     /* === mini_map.c*/
