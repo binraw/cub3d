@@ -57,6 +57,11 @@ int update_movement(game_s *game)
 
 int loop_hook(game_s *game)
 {
+    if (game->plyr_data.write == 0)
+    {
+        raycaster(game);
+        game->plyr_data.write = 1;
+    }
     if (game->plyr_data.move_up || game->plyr_data.move_down || \
         game->plyr_data.move_left || game->plyr_data.move_right || \
         game->plyr_data.rotate_l || game->plyr_data.rotate_r)

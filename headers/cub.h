@@ -51,6 +51,7 @@
 
     typedef struct player
     {
+		bool	write;
 		double	pos_x;
 		double	pos_y;
 		double	dir_x;

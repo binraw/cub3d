@@ -73,10 +73,13 @@ int main(int argc, char **argv)
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
 	load_texture(&game); // rajouter pour init
-	raycaster(&game);
+	// raycaster(&game);
 	hook_management(&game);
+	game.plyr_data.write = 0;
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
-	if (!game.console.win_ptr)
+	// if (!game.console.win_ptr)
+	// 	destroy_all(&game);
+	if (!game.console.mlx_ptr)
 		destroy_all(&game);
 	mlx_loop(game.console.mlx_ptr);
 	destroy_all(&game);
