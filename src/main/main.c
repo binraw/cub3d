@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 	load_texture(&game); // rajouter pour init
 	// raycaster(&game);
 	hook_management(&game);
-	game.plyr_data.write = 0;
+	// game.plyr_data.write = 0;
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
 	// if (!game.console.win_ptr)
 	// 	destroy_all(&game);

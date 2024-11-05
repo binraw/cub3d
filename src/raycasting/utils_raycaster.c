@@ -1,83 +1,82 @@
+
+
+
+
 #include "cub.h"
 
-int move(game_s *game, double move_x, double move_y)
+static void	find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
 {
-    int		map_grid_y;
-	int		map_grid_x;
-	double	new_x;
-	double	new_y;
+	end_x_y[0] = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist * \
+										game->img_data[nb_txtr].width;
+	end_x_y[1] = game->plyr_data.pos_y + ray->dir_y * ray->wall_dist * \
+										game->img_data[nb_txtr].height;
+}
 
-    new_x = game->plyr_data.pos_x + move_x;
-	new_y = game->plyr_data.pos_y + move_y;
-	map_grid_x = (int) floor((double)new_x / TILE_S);
-	map_grid_y = (int) floor((double)new_y / TILE_S);
-	if (game->map_data.map[map_grid_y][map_grid_x] != '1' && game->map_data.map[map_grid_y][map_grid_x] != ' ')
+static void	init_step(ray_s *ray, game_s *game)
+{
+	if (ray->dir_x < 0)
 	{
-		game->plyr_data.pos_x = new_x;
-		game->plyr_data.pos_y = new_y;
-        return (0);
+		ray->step_x = -1;
+		ray->side_x = (game->plyr_data.pos_x / TILE_S - ray->pos_x) \
+														* ray->delta_x;
 	}
-    return (1);
+	else
+	{
+		ray->step_x = 1;
+		ray->side_x = (ray->pos_x + 1.0 - game->plyr_data.pos_x / TILE_S) \
+															* ray->delta_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_y = (game->plyr_data.pos_y / TILE_S - ray->pos_y) \
+														* ray->delta_y;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->side_y = (ray->pos_y + 1.0 - game->plyr_data.pos_y / TILE_S) \
+															* ray->delta_y;
+	}
 }
 
-void rotate_player(game_s *game)
+void	init_wall_dist(game_s *game, ray_s *ray, int *end_x_y)
 {
-    if (game->plyr_data.rotate_l)
-        game->plyr_data.angle -= ROT_SPEED;
-    if (game->plyr_data.rotate_r)
-        game->plyr_data.angle += ROT_SPEED;
-    if (game->plyr_data.angle < 0)
-        game->plyr_data.angle += M_PI * 2;
-    if (game->plyr_data.angle > M_PI * 2)
-        game->plyr_data.angle -= M_PI * 2;
-    game->plyr_data.dir_x = cos(game->plyr_data.angle);
-    game->plyr_data.dir_y = sin(game->plyr_data.angle);
-    game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
-    game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
+	if (ray->colision_side == 1)
+	{
+		ray->wall_dist = (ray->pos_x - game->plyr_data.pos_x / TILE_S + \
+									(1 - ray->step_x) * 0.5) / ray->dir_x;
+		if (ray->dir_y < 0)
+			find_ray_impact(game, ray, end_x_y, 1);
+		else
+			find_ray_impact(game, ray, end_x_y, 0);
+	}
+	else
+	{
+		ray->wall_dist = (ray->pos_y - game->plyr_data.pos_y / TILE_S + \
+										(1 - ray->step_y) * 0.5) / ray->dir_y;
+		if (ray->dir_x < 0)
+			find_ray_impact(game, ray, end_x_y, 3);
+		else
+			find_ray_impact(game, ray, end_x_y, 2);
+	}
 }
 
-int update_movement(game_s *game)
+void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 {
-    if (game->plyr_data.rotate_l || game->plyr_data.rotate_r)
-        rotate_player(game);
-    else if (game->plyr_data.move_up)
-        return (move(game, cos(game->plyr_data.angle) * MOV_SPEED, \
-                            sin(game->plyr_data.angle) * MOV_SPEED));
-    else if (game->plyr_data.move_down)
-        return (move(game, -cos(game->plyr_data.angle) * MOV_SPEED, \
-                            -sin(game->plyr_data.angle) * MOV_SPEED));
-    else if (game->plyr_data.move_left)
-        return (move(game, sin(game->plyr_data.angle) * MOV_SPEED, \
-                            -cos(game->plyr_data.angle) * MOV_SPEED));
-    else if (game->plyr_data.move_right)
-        return (move(game, -sin(game->plyr_data.angle) * MOV_SPEED, \
-                            cos(game->plyr_data.angle) * MOV_SPEED));
-    return (0);
-}
+	static const double	increment = ANGLE_FOV / WIN_W;
 
-int loop_hook(game_s *game)
-{
-    if (game->plyr_data.write == 0)
-    {
-        raycaster(game);
-        game->plyr_data.write = 1;
-    }
-    if (game->plyr_data.move_up || game->plyr_data.move_down || \
-        game->plyr_data.move_left || game->plyr_data.move_right || \
-        game->plyr_data.rotate_l || game->plyr_data.rotate_r)
-    {
-        if (update_movement(game) == 1)
-            return (0);
-        raycaster(game);
-    }
-    return (0);
+	ray->angle = game->plyr_data.angle - FOV_2 + nb_ray * increment;
+	if (ray->angle < 0)
+		ray->angle += M_PI * 2;
+	else if (ray->angle > M_PI * 2)
+		ray->angle -= M_PI * 2;
+	ray->dir_x = game->plyr_data.dir_x + game->plyr_data.plane_x * game->plyr_data.camera_x;
+	ray->dir_y = game->plyr_data.dir_y + game->plyr_data.plane_y * game->plyr_data.camera_x;
+	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
+	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
+	ray->delta_x = fabs(1 / ray->dir_x);
+	ray->delta_y = fabs(1 / ray->dir_y);
+	init_step(ray, game);
+	return ;
 }
-
-// Si un joueur fait face à un angle de 0 radians (vers la droite), se déplacer à gauche signifie :
-// Angle 0 :
-// sin(0) = 0 et cos(0) = 1
-// Mouvement à gauche : move_x -= 0 (pas de changement) et move_y += 1 (déplacement vers le haut).
-// Si le joueur fait face à un angle de 90 degrés (ou π/2 radians, vers le haut), se déplacer à gauche signifie :
-// Angle π/2 :
-// sin(π/2) = 1 et cos(π/2) = 0
-// Mouvement à gauche : move_x -= 1 (déplacement vers la gauche) et move_y += 0 (pas de changement en y).

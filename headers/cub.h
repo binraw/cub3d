@@ -181,7 +181,7 @@
 	int		get_map(game_s *game, int fd);
 
 	/* === valid_map.c === */
-	int	check_map_validity(game_s *game);
+	int		check_map_validity(game_s *game);
 
 	/* === init_texture.c === */
 	int		get_textures(game_s *game, int fd);
@@ -194,20 +194,26 @@
 	int    init_texture_ea(game_s *game);
 
 	/* === raycaster.c === */
-	int	raycaster(game_s *game);
-	void	init_wall_dist(game_s *game, ray_s *ray);
+	int		loop_hook(game_s *game);
+	void	init_wall_dist(game_s *game, ray_s *ray, int *end_x_y);
+
+	/* === utils_raycaster.c === */
+	void	init_ray(ray_s *ray, game_s *game, int nb_ray);
+	void	init_wall_dist(game_s *game, ray_s *ray, int *end_x_y);
+
+	/* === move.c === */
+	int		update_movement(game_s *game);
 
 	/* === draw.c === */
 	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void utils_color(game_s *game, ray_s *ray, int nb);
+	void	utils_color(game_s *game, ray_s *ray, int nb);
 
 
     /* === mini_map.c*/
     void    print_minimap(game_s *game, ray_s *ray);
 
 	// int	move(game_s *game , double move_x, double move_y);
-	int loop_hook(game_s *game);
 	// int update_movement(game_s *game);
 
 #endif
