@@ -5,13 +5,19 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 {
 	int	curr_color;
 	int	tmp_x_y[2];
+	int pos_x;
+	int pos_y;
 	const int	cell_w = (WIN_W / 7) / game->map_data.width;
 	const int	cell_h = (WIN_H / 7) / game->map_data.heigth;
 
-	if (is_floor)
+	pos_x = (int) (game->plyr_data.pos_x / TILE_S);
+	pos_y = (int) (game->plyr_data.pos_y / TILE_S);
+	if (is_floor && (start_x != pos_x || start_y != pos_y))
+		curr_color = 200;
+	else if (is_floor && start_x == pos_x && start_y == pos_y)
 		curr_color = 0;
 	else
-		curr_color = 0xFFFFFF;
+		curr_color = 850606;
 	start_x *= cell_w;
 	start_y *= cell_h;
 	tmp_x_y[0] = start_x;

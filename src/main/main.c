@@ -76,7 +76,6 @@ int main(int argc, char **argv)
 	hook_management(&game);
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
 	mlx_loop(game.console.mlx_ptr);
-	free_console(&game);
-	free_map_data(&game);
+	destroy_all(&game);
 	return (0);
 }

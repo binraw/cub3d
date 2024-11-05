@@ -51,6 +51,7 @@
 
     typedef struct player
     {
+		bool	write;
 		double	pos_x;
 		double	pos_y;
 		double	dir_x;
@@ -153,7 +154,7 @@
 
 	/* === main.c === */
 	int		ft_perror(char *msg);
-	int		destroy_img(game_s *game);
+	
 
 	/* === init_console.c === */
 	int		init_console(game_s *game);
@@ -164,6 +165,7 @@
 	void	free_textures(game_s *game);
 	void	free_ptrtab(char **tab);
 	void	free_map_data(game_s *game);
+	int	destroy_all(game_s *game);
 
 	/* === parsing.c === */
 	int		parsing(game_s *game, char *filepath);
