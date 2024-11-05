@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:35 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:02:37 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:17:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ int	alloc_tab(game_s *game, bool first_alloc)
 	{
 		game->map_data.map = ft_calloc(10, sizeof(char *));
 		if (!game->map_data.map)
-			return (ft_perror("Crash malloc in get_map()\n"));
+			return (ft_perror("Crash malloc in get_map()\n"), 1);
 		game->map_data.heigth = 10;
 		return (0);
 	}
 	else
 	{
 		tmp = ft_realloc(game->map_data.map, (game->map_data.heigth + 10) * \
-						sizeof(char *), game->map_data.heigth * sizeof(char *));
+						sizeof(char *), game->map_data.heigth * sizeof(char *)); // ici error si NULL
 		if (!tmp)
-			return (free_ptrtab(game->map_data.map), \
+			return (free_ptrtab_map(game->map_data.map, game->map_data.heigth), \
 					ft_perror("Crash realloc in get_map()\n"), 1);
 		game->map_data.map = tmp;
 		game->map_data.heigth += 10;

@@ -13,7 +13,7 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 	pos_x = (int) (game->plyr_data.pos_x / TILE_S);
 	pos_y = (int) (game->plyr_data.pos_y / TILE_S);
 	if (is_floor && (start_x != pos_x || start_y != pos_y))
-		curr_color = 200;
+		curr_color = 20000;
 	else if (is_floor && start_x == pos_x && start_y == pos_y)
 		curr_color = 0;
 	else

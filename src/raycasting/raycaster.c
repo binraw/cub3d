@@ -45,7 +45,7 @@ int	raycaster(game_s *game)
 			draw_wall_no_so(game, &ray, i, end_x_y);
 		i++;
 	}
-	// print_minimap(game, &ray);
+	print_minimap(game, &ray);
 	return (0);
 }
 

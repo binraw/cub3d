@@ -164,6 +164,7 @@
 	void	free_console(game_s *game);
 	void	free_textures(game_s *game);
 	void	free_ptrtab(char **tab);
+	void	free_ptrtab_map(char **tab, size_t len);
 	void	free_map_data(game_s *game);
 	int	destroy_all(game_s *game);
 

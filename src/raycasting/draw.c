@@ -82,6 +82,7 @@ static void	init_draw(game_s *game, double w_dist, ray_s *ray, int *end_x_y)
 void	draw_wall_no_so(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 {
     init_draw(game, ray->wall_dist, ray, end_x_y);
+
     while (game->draw.i < game->draw.wall_b)
     {
         if (game->draw.i >= 0 && game->draw.i < WIN_H)

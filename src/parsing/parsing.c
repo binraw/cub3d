@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/05 09:21:23 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:21:39 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	parsing(game_s *game, char *filepath)
 	if (get_textures(game, fd))
 		return (free_textures(game), close(fd), 1);
 	if (get_map(game, fd))
-		return (free_map_data(game), close(fd), 1);
+		return (free_textures(game), 1);
 	close(fd);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);

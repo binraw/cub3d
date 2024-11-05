@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/04 18:39:16 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/05 15:22:26 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 	while (buff_f[i] && (buff_f[i] == ' ' || buff_f[i] == '\t'))
 		i++;
 	*buff_t = ft_substr(buff_f, i, ft_strlen_texture(buff_f) - i);
-	// *buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i + 1);
 	if (!*buff_t)
 		return (ft_perror("crash malloc in fill_direction\n"));
 	game->texture.all_text += 1;

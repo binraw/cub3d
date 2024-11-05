@@ -7,12 +7,34 @@ void	free_ptrtab(char **tab)
 	size_t	i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 	{
-		free(tab[i]);
+		if (tab[i])
+			free(tab[i]);
 		i++;
 	}
-	free(tab);
+	if (tab)
+		free(tab);
+	return ;
+}
+
+void	free_ptrtab_map(char **tab, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	if (!tab)
+		return ;
+	while (i < len)
+	{
+		if (tab[i])
+			free(tab[i]);
+		i++;
+	}
+	if (tab)
+		free(tab);
 	return ;
 }
 
@@ -32,7 +54,7 @@ void	free_textures(game_s *game)
 void	free_map_data(game_s *game)
 {
 	free_textures(game);
-	free_ptrtab(game->map_data.map);
+	free_ptrtab_map(game->map_data.map, game->map_data.heigth);
 }
 
 void	free_console(game_s *game)
