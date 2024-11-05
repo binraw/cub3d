@@ -1,65 +1,70 @@
 #include "cub.h"
 
 
-void    load_texture(game_s *game)
+int    load_texture(game_s *game) // convert xpm to img and get data from img
 {
-    ft_memset(game->img_data.width, -1, 4 * sizeof(int));
-	ft_memset(game->img_data.height, -1, 4 * sizeof(int));
-    init_texture_no(game);
-    init_texture_so(game);
-    init_texture_we(game);
-    init_texture_ea(game);
+    if (init_texture_no(game) || init_texture_so(game) || \
+        init_texture_we(game) || init_texture_ea(game))
+        return (1);
+    return (0);
 }
 
-
-void    init_texture_no(game_s *game)
+int init_texture_no(game_s *game)
 {
-    int width;
-    int height;
-
-    game->img_data.img_text_no = mlx_xpm_file_to_image(game->console.mlx_ptr, game->texture.text_no, &width, &height);
-    if (!game->img_data.img_text_no) // probleme car \n dans le nom de la texture
-    {
-        fprintf(stderr, "Erreur : Échec du chargement de l'image %s\n", game->texture.text_no);
-         return ; // free et exit le programme
-    }
-    game->img_data.width[0] = width;
-    game->img_data.height[0] = height;
-    printf("valeur de width no et sa height : %d %d\n", game->img_data.width[0], game->img_data.height[0]);
+    game->img_data[0].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
+                            game->texture.text_no, &game->img_data[0].width, \
+                            &game->img_data[0].height);
+    if (!game->img_data[0].img_ptr)
+        return (ft_perror("Invalid texture north file\n"), 1);
+    game->img_data[0].data = mlx_get_data_addr(game->img_data[0].img_ptr, \
+                            &game->img_data[0].bpp, &game->img_data[0].s_line, \
+                            &game->img_data[0].endian);
+    if (!game->img_data[0].data)
+        return (free_textures(game), ft_perror("Failed get north data\n"), 1);
+    return (0);
 }
 
-void    init_texture_so(game_s *game)
+int    init_texture_so(game_s *game)
 {
-    int width;
-    int height;
-
-    game->img_data.img_text_so = mlx_xpm_file_to_image(game->console.mlx_ptr, game->texture.text_so, &width, &height);
-    if (!game->img_data.img_text_so)
-        return ; // free et exit le programme
-    game->img_data.width[1] = width;
-    game->img_data.height[1] = height;
+    game->img_data[1].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
+                            game->texture.text_so, &game->img_data[1].width, \
+                            &game->img_data[1].height);
+    if (!game->img_data[1].img_ptr)
+        return (ft_perror("Invalid texture north file\n"), 1);
+    game->img_data[1].data = mlx_get_data_addr(game->img_data[1].img_ptr, \
+                            &game->img_data[1].bpp, &game->img_data[1].s_line, \
+                            &game->img_data[1].endian);
+    if (!game->img_data[1].data)
+        return (free_textures(game), ft_perror("Failed get north data\n"), 1);
+    return (0);
 }
 
-void    init_texture_we(game_s *game)
+int    init_texture_we(game_s *game)
 {
-    int width;
-    int height;
-
-    game->img_data.img_text_we = mlx_xpm_file_to_image(game->console.mlx_ptr, game->texture.text_we, &width, &height);
-    if (!game->img_data.img_text_we)
-        return ; // free et exit le programme
-    game->img_data.width[2] = width;
-    game->img_data.height[2] = height;
+    game->img_data[2].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
+                            game->texture.text_we, &game->img_data[2].width, \
+                            &game->img_data[2].height);
+    if (!game->img_data[2].img_ptr)
+        return (ft_perror("Invalid texture north file\n"), 1);
+    game->img_data[2].data = mlx_get_data_addr(game->img_data[2].img_ptr, \
+                            &game->img_data[2].bpp, &game->img_data[2].s_line, \
+                            &game->img_data[2].endian);
+    if (!game->img_data[2].data)
+        return (free_textures(game), ft_perror("Failed get north data\n"), 1);
+    return (0);
 }
 
-void    init_texture_ea(game_s *game)
+int    init_texture_ea(game_s *game)
 {
-    int width;
-    int height;
-
-    game->img_data.img_text_ea = mlx_xpm_file_to_image(game->console.mlx_ptr, game->texture.text_ea, &width, &height);
-    if (!game->img_data.img_text_ea)
-        return ; // free et exit le programme
-    game->img_data.width[3] = width;
-    game->img_data.height[3] = height;
+    game->img_data[3].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
+                            game->texture.text_ea, &game->img_data[3].width, \
+                            &game->img_data[3].height);
+    if (!game->img_data[3].img_ptr)
+        return (ft_perror("Invalid texture north file\n"), 1);
+    game->img_data[3].data = mlx_get_data_addr(game->img_data[3].img_ptr, \
+                            &game->img_data[3].bpp, &game->img_data[3].s_line, \
+                            &game->img_data[3].endian);
+    if (!game->img_data[3].data)
+        return (free_textures(game), ft_perror("Failed get north data\n"), 1);
+    return (0);
 }

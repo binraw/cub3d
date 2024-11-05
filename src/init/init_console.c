@@ -2,6 +2,8 @@
 
 int	init_console(game_s *game)
 {
+    if (WIN_H == 0|| WIN_W == 0)
+        return (ft_perror("Window width or heigth is set to 0\n"));
 	game->console.mlx_ptr = mlx_init();
 	if (!game->console.mlx_ptr)
 		return (ft_perror("mlx alloc failed\n"));

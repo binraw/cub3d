@@ -1,9 +1,5 @@
 
 
-
-
-
-
 #include "cub.h"
 
 void	free_ptrtab(char **tab)

@@ -36,7 +36,8 @@ SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c \
 					\
 					$(DIR_RAY)raycaster.c $(DIR_RAY)utils_raycaster.c \
 					$(DIR_RAY)texture.c  $(DIR_RAY)draw.c \
-					
+					$(DIR_RAY)mini_map.c
+
 OBJS	= $(SRCS_FILE:$(DIR_SRC)%.c=$(DIR_OBJ)%.o)
 
 default: all

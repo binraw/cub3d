@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/10/31 16:41:46 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/05 06:50:09 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	fill_player_data(game_s *game, char orientation)
 		game->plyr_data.dir_x = -1;
 		game->plyr_data.dir_y = 0;
 	}
-	// game->plyr_data.angle;
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -79,6 +78,9 @@ static int	get_plyr_pos(game_s *game)
 				game->plyr_data.pos_x = (double) x;
 				game->plyr_data.pos_y = (double) y;
 				fill_player_data(game, game->map_data.map[y][x]);
+				game->plyr_data.pos_x = (double) x * TILE_S + TILE_S * 0.5;
+				game->plyr_data.pos_y = (double) y * TILE_S + TILE_S * 0.5;
+                // print_player(game);
 				return (0);
 			}
 			x++;
@@ -104,5 +106,8 @@ int	parsing(game_s *game, char *filepath)
 	close(fd);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
-	return (get_plyr_pos(game));
+    if (get_plyr_pos(game))
+        return (free_map_data(game), 1);
+    // print_player(game);
+	return (0);
 }

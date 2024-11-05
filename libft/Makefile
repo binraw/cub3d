@@ -5,7 +5,7 @@ SRC_DIR		= ./src
 HDR_DIR		= ./hdr
 BUILD_DIR	= .build
 
-CFLAGS = -Wall -Wextra -Werror -I$(HDR_DIR)
+CFLAGS = -Wall -Wextra -Werror -I$(HDR_DIR) -g
 
 SRC =		ft_atoi.c \
 			ft_bzero.c \

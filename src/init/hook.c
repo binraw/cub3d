@@ -44,8 +44,6 @@ static int	key_down(int code, game_s *game)
 	return (0);
 }
 
-
-
 void	hook_management(game_s *game)
 {
 	mlx_hook(game->console.win_ptr, DestroyNotify, StructureNotifyMask, \
