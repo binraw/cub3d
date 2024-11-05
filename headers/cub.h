@@ -153,6 +153,7 @@
 
 	/* === main.c === */
 	int		ft_perror(char *msg);
+	int	destroy_img(game_s *game);
 
 	/* === init_console.c === */
 	int		init_console(game_s *game);

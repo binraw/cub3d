@@ -42,3 +42,15 @@ void	free_console(game_s *game)
 	free(game->console.mlx_ptr);
 	return ;
 }
+
+int	destroy_img(game_s *game)
+{
+	mlx_destroy_image(game->console.mlx_ptr, game->img_data[0].img_ptr);
+	mlx_destroy_image(game->console.mlx_ptr, game->img_data[1].img_ptr);
+	mlx_destroy_image(game->console.mlx_ptr, game->img_data[2].img_ptr);
+	mlx_destroy_image(game->console.mlx_ptr, game->img_data[3].img_ptr);
+	free_map_data(game);
+	free_console(game);
+	exit(EXIT_SUCCESS);
+	return (0);
+}
