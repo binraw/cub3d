@@ -39,10 +39,7 @@ int	raycaster(game_s *game)
 		init_ray(&ray, game, i);
 		dda(game, &ray);
 		init_wall_dist(game, &ray, end_x_y);
-		if (ray.colision_side == 1)
-			draw_wall_ea_we(game, &ray, i, end_x_y);
-		else
-			draw_wall_no_so(game, &ray, i, end_x_y);
+		draw_column(game, &ray, i, end_x_y);
 		i++;
 	}
 	// print_minimap(game, &ray);

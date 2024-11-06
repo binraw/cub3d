@@ -1,29 +1,34 @@
 #include "cub.h"
 
-void utils_color(game_s *game, ray_s *ray, int nb)
+static inline int utils_color(game_s *game, ray_s *ray, int nb, int *end_x_y)
 {
     int txtr_y;
+    int txtr_x;
     int index;
 
+	if (ray->colision_side == 1)
+		txtr_x = end_x_y[1] % game->img_data[nb].width;
+	else
+		txtr_x = end_x_y[0] % game->img_data[nb].width;
     txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
-    index = (txtr_y * game->img_data[nb].s_line + game->draw.txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-    game->draw.color = *(int *)(game->img_data[nb].data + index);
+    index = (txtr_y * game->img_data[nb].s_line + txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
+    return (*(int *)(game->img_data[nb].data + index));
 }
 
-static int	get_color(game_s *game, ray_s *ray)
+static inline int	get_color(game_s *game, ray_s *ray, int *end_x_y)
 {
     if (ray->colision_side == 1 && ray->dir_x < 0) // west
-        utils_color(game, ray, 2);
+        return (utils_color(game, ray, 2, end_x_y));
     else if (ray->colision_side == 1) // east
-        utils_color(game, ray, 3);
+        return (utils_color(game, ray, 3, end_x_y));
     else if (ray->dir_y < 0) // south wall
-        utils_color(game, ray, 1);
+        return (utils_color(game, ray, 1, end_x_y));
     else // north wall
-        utils_color(game, ray, 0);
+        return (utils_color(game, ray, 0, end_x_y));
     return (0);
 }
 
-static void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)
+static inline void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)
 {
     int y;
 
@@ -50,59 +55,23 @@ static void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wal
     }
 }
 
-static void	init_draw(game_s *game, double w_dist, ray_s *ray, int *end_x_y)
+void	draw_column(game_s *game, ray_s *ray, int col_index, int *end_x_y)
 {
-	static const int	mid_win = WIN_H * 0.5;
+	static const int	mid_win = WIN_H >> 1;
 
-    if (w_dist <= 0)
+    if (ray->wall_dist <= 0)
             game->draw.wall_h = WIN_H;
     else
-        game->draw.wall_h = (int) (WIN_H / w_dist);
+        game->draw.wall_h = (int) (WIN_H / ray->wall_dist);
     game->draw.wall_t = (int) (floor((mid_win) - (game->draw.wall_h >> 1)));
     game->draw.wall_b = (int) (floor((mid_win) + (game->draw.wall_h >> 1)));
-	if (ray->colision_side == 1)
-    {
-        if (ray->dir_y < 0) // south
-    	    game->draw.txtr_x = (int) end_x_y[1] % game->img_data[1].width;
-        else // north
-    	    game->draw.txtr_x = (int) end_x_y[1] % game->img_data[0].width;
-    }
-	else
-    {
-        if (ray->dir_x < 0) // west
-		    game->draw.txtr_x = (int) end_x_y[0] % game->img_data[2].width;
-        else // east
-		    game->draw.txtr_x = (int) end_x_y[0] % game->img_data[3].width;
-    }
-    game->draw.i = game->draw.wall_t;
-}
-
-void	draw_wall_no_so(game_s *game, ray_s *ray, int col_index, int *end_x_y)
-{
-    init_draw(game, ray->wall_dist, ray, end_x_y);
+	game->draw.i = game->draw.wall_t;
     while (game->draw.i < game->draw.wall_b)
     {
         if (game->draw.i >= 0 && game->draw.i < WIN_H)
         {
-            get_color(game, ray);
-			mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, \
-                                col_index, game->draw.i, game->draw.color);
-        }
-        game->draw.i++;
-    }
-    draw_sky_floor(game, col_index, game->draw.wall_t, game->draw.wall_b);
-}
-
-void	draw_wall_ea_we(game_s *game, ray_s *ray, int col_index, int *end_x_y)
-{
-	init_draw(game, ray->wall_dist, ray, end_x_y);
-    while (game->draw.i < game->draw.wall_b)
-    {
-        if (game->draw.i >= 0 && game->draw.i < WIN_H)
-        {
-            get_color(game, ray);
-            mlx_pixel_put(game->console.mlx_ptr, game->console.win_ptr, \
-                                col_index, game->draw.i, game->draw.color);
+			mlx_pixel_put(MLX_PTR, WIN_PTR, col_index, game->draw.i, \
+										get_color(game, ray, end_x_y));
         }
         game->draw.i++;
     }

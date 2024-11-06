@@ -84,7 +84,7 @@
 		int		bpp; // bits par pixel
 		int		s_line; // taille de chaque ligne
 		int		endian; // ordre de stockage
-		int		index;
+		// int		index;
 	}	img_s;
 
 	typedef struct draw
@@ -92,8 +92,6 @@
 		int	wall_h;
 		int	wall_t;
 		int	wall_b;
-		int	txtr_x;
-		int	color;
 		int	floor_c; // color floor value after bit_shift init in parsing init_textures
 		int	ceiling_c; // color ceiling value after bit_shift init in parsing init_textures
 		int	i;
@@ -201,8 +199,8 @@
 	int		update_movement(game_s *game);
 
 	/* === draw.c === */
-	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void	draw_column(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	// void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 
 
     /* === mini_map.c*/

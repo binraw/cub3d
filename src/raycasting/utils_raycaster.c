@@ -45,7 +45,7 @@ void	init_wall_dist(game_s *game, ray_s *ray, int *end_x_y)
 	if (ray->colision_side == 1)
 	{
 		ray->wall_dist = (ray->pos_x - game->plyr_data.pos_x / TILE_S + \
-									(1 - ray->step_x) * 0.5) / ray->dir_x;
+									((1 - ray->step_x) >> 1)) / ray->dir_x;
 		if (ray->dir_y < 0)
 			find_ray_impact(game, ray, end_x_y, 1);
 		else
@@ -54,7 +54,7 @@ void	init_wall_dist(game_s *game, ray_s *ray, int *end_x_y)
 	else
 	{
 		ray->wall_dist = (ray->pos_y - game->plyr_data.pos_y / TILE_S + \
-										(1 - ray->step_y) * 0.5) / ray->dir_y;
+									((1 - ray->step_y) >> 1)) / ray->dir_y;
 		if (ray->dir_x < 0)
 			find_ray_impact(game, ray, end_x_y, 3);
 		else
@@ -71,8 +71,10 @@ void	init_ray(ray_s *ray, game_s *game, int nb_ray)
 		ray->angle += M_PI * 2;
 	else if (ray->angle > M_PI * 2)
 		ray->angle -= M_PI * 2;
-	ray->dir_x = game->plyr_data.dir_x + game->plyr_data.plane_x * game->plyr_data.camera_x;
-	ray->dir_y = game->plyr_data.dir_y + game->plyr_data.plane_y * game->plyr_data.camera_x;
+	ray->dir_x = game->plyr_data.dir_x + game->plyr_data.plane_x * \
+											game->plyr_data.camera_x;
+	ray->dir_y = game->plyr_data.dir_y + game->plyr_data.plane_y * \
+											game->plyr_data.camera_x;
 	ray->pos_x = (int) game->plyr_data.pos_x / TILE_S;
 	ray->pos_y = (int) game->plyr_data.pos_y / TILE_S;
 	ray->delta_x = fabs(1 / ray->dir_x);
