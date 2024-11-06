@@ -6,7 +6,6 @@ int	raycaster(game_s *game);
 
 void	print_struct(game_s *game)
 {
-	// display map + textures
     printf("%s\n", game->texture.text_no);
 	printf("%s\n", game->texture.text_so);
 	printf("%s\n", game->texture.text_ea);
@@ -72,13 +71,9 @@ int main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
-	load_texture(&game); // rajouter pour init
-	// raycaster(&game);
+	load_texture(&game);
 	hook_management(&game);
-	// game.plyr_data.write = 0;
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
-	// if (!game.console.win_ptr)
-	// 	destroy_all(&game);
 	if (!game.console.mlx_ptr)
 		destroy_all(&game);
 	mlx_loop(game.console.mlx_ptr);

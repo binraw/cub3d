@@ -11,13 +11,13 @@ static void	dda(game_s *game, ray_s *ray)
 {
 	while (hit_wall(game, ray) == false)
 	{
-		if (ray->side_x < ray->side_y) // hit horizontal
+		if (ray->side_x < ray->side_y)
 		{
 			ray->side_x += ray->delta_x;
 			ray->pos_x += ray->step_x;
 			ray->colision_side = 1;
 		}
-		else // hit vertical
+		else
 		{
 			ray->side_y += ray->delta_y;
 			ray->pos_y += ray->step_y;

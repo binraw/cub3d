@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/05 15:21:39 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:47:17 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static int	get_plyr_pos(game_s *game)
 				fill_player_data(game, game->map_data.map[y][x]);
 				game->plyr_data.pos_x = (double) x * TILE_S + TILE_S * 0.5;
 				game->plyr_data.pos_y = (double) y * TILE_S + TILE_S * 0.5;
-                // print_player(game);
 				return (0);
 			}
 			x++;
@@ -116,6 +115,5 @@ int	parsing(game_s *game, char *filepath)
 		return (free_map_data(game), 1);
     if (get_plyr_pos(game))
         return (free_map_data(game), 1);
-    // print_player(game);
 	return (0);
 }

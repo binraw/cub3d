@@ -2,13 +2,13 @@
 
 static int	get_color(game_s *game, ray_s *ray)
 {
-    if (ray->colision_side == 1 && ray->dir_x < 0) // west
+    if (ray->colision_side == 1 && ray->dir_x < 0)
         utils_color(game, ray, 2);
-    else if (ray->colision_side == 1) // east
+    else if (ray->colision_side == 1)
         utils_color(game, ray, 3);
-    else if (ray->dir_y < 0) // south wall
+    else if (ray->dir_y < 0)
         utils_color(game, ray, 1);
-    else // north wall
+    else
         utils_color(game, ray, 0);
     return (0);
 }
@@ -64,16 +64,16 @@ static void	init_draw(game_s *game, double w_dist, ray_s *ray, int *end_x_y)
     game->draw.wall_b = floor((mid_win) + (game->draw.wall_h * 0.5));
 	if (ray->colision_side == 1)
     {
-        if (ray->dir_y < 0) // south
+        if (ray->dir_y < 0)
     	    game->draw.txtr_x = (int) end_x_y[1] % game->img_data[1].width;
-        else // north
+        else
     	    game->draw.txtr_x = (int) end_x_y[1] % game->img_data[0].width;
     }
 	else
     {
-        if (ray->dir_x < 0) // west
+        if (ray->dir_x < 0)
 		    game->draw.txtr_x = (int) end_x_y[0] % game->img_data[2].width;
-        else // east
+        else
 		    game->draw.txtr_x = (int) end_x_y[0] % game->img_data[3].width;
     }
     game->draw.i = game->draw.wall_t;

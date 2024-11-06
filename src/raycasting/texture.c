@@ -1,7 +1,7 @@
 #include "cub.h"
 
 
-int    load_texture(game_s *game) // convert xpm to img and get data from img
+int    load_texture(game_s *game)
 {
     if (init_texture_no(game) || init_texture_so(game) || \
         init_texture_we(game) || init_texture_ea(game))
@@ -11,7 +11,6 @@ int    load_texture(game_s *game) // convert xpm to img and get data from img
         }
     return (0);
 }
-
 
 int init_texture_no(game_s *game)
 {

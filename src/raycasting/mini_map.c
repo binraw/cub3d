@@ -22,8 +22,6 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 	start_y *= cell_h;
 	tmp_x_y[0] = start_x;
 	tmp_x_y[1] = start_y;
-
-	// print_constante(game);
 	while (start_y < tmp_x_y[1] + cell_h)
 	{
 		while (start_x < tmp_x_y[0] + cell_w)
@@ -46,9 +44,9 @@ void    print_minimap(game_s *game, ray_s *ray)
 		while (game->map_data.map[y][x])
 		{
 			if (game->map_data.map[y][x] != ' ' && game->map_data.map[y][x] != '1')
-				print_case(game, 1, x, y); // floor
+				print_case(game, 1, x, y);
 			else if (game->map_data.map[y][x] == '1')
-				print_case(game, 0, x, y); // waal
+				print_case(game, 0, x, y);
 			x++;
 		}
 		x = 0;

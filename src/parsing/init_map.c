@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/05 15:22:33 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:34:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,7 @@ int	get_map(game_s *game, const int fd)
 	{
 		if (tab_size == game->map_data.heigth)
 			if (alloc_tab(game, false))
-			{
 				return (1);
-			}
 		buffer = get_next_line(fd);
 		if (!buffer)
 			break ;
@@ -126,7 +124,7 @@ int	get_map(game_s *game, const int fd)
 		free(buffer);
 	}
 	if (tab_size == 0)
-		return (ft_perror("Map is undefined\n"));
+		return (free_ptrtab(game->map_data.map), ft_perror("Map undefined\n"));
 	else if (tab_size < 3)
 		return (ft_perror("Invalid map description\n"));
 	game->map_data.heigth = tab_size;
