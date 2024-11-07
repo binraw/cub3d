@@ -1,13 +1,27 @@
 #include "cub.h"
 
-static bool	hit_wall(game_s *game, ray_s *ray)
+static inline bool	hit_wall(game_s *game, ray_s *ray)
 {
     return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
 			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
 			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
 }
 
-static void	dda(game_s *game, ray_s *ray)
+static inline void	init_wall_dist(game_s *game, ray_s *ray)
+{
+	if (ray->colision_side == 1)
+	{
+		ray->wall_dist = (ray->pos_x - game->plyr_data.pos_x / TILE_S + \
+									((1 - ray->step_x) >> 1)) / ray->dir_x;
+	}
+	else
+	{
+		ray->wall_dist = (ray->pos_y - game->plyr_data.pos_y / TILE_S + \
+									((1 - ray->step_y) >> 1)) / ray->dir_y;
+	}
+}
+
+static inline void	dda(game_s *game, ray_s *ray)
 {
 	while (hit_wall(game, ray) == false)
 	{
@@ -26,11 +40,10 @@ static void	dda(game_s *game, ray_s *ray)
 	}
 }
 
-int	raycaster(game_s *game)
+static inline int	raycaster(game_s *game)
 {
 	size_t	i;
 	ray_s	ray;
-	int		end_x_y[2];
 
 	i = 0;
 	while (i < WIN_W)
@@ -38,8 +51,8 @@ int	raycaster(game_s *game)
 		game->plyr_data.camera_x = 2 * i / (double) WIN_W - 1;
 		init_ray(&ray, game, i);
 		dda(game, &ray);
-		init_wall_dist(game, &ray, end_x_y);
-		draw_column(game, &ray, i, end_x_y);
+		init_wall_dist(game, &ray);
+		draw_column(game, &ray, i);
 		i++;
 	}
 	print_minimap(game, &ray);
