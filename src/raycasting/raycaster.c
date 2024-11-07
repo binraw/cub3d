@@ -35,17 +35,15 @@ int	raycaster(game_s *game)
 	i = 0;
 	while (i < WIN_W)
 	{
-		game->plyr_data.camera_x = 2 * i / (double)WIN_W - 1;
+		game->plyr_data.camera_x = 2 * i / (double) WIN_W - 1;
 		init_ray(&ray, game, i);
 		dda(game, &ray);
 		init_wall_dist(game, &ray, end_x_y);
-		if (ray.colision_side == 1)
-			draw_wall_ea_we(game, &ray, i, end_x_y);
-		else
-			draw_wall_no_so(game, &ray, i, end_x_y);
+		draw_column(game, &ray, i, end_x_y);
 		i++;
 	}
 	print_minimap(game, &ray);
+	mlx_put_image_to_window(MLX_PTR, WIN_PTR, game->img.img_ptr, 0, 0);
 	return (0);
 }
 

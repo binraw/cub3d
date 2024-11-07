@@ -71,11 +71,9 @@ int main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
-	load_texture(&game);
+	load_texture(&game); // rajouter pour init
 	hook_management(&game);
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
-	if (!game.console.mlx_ptr)
-		destroy_all(&game);
 	mlx_loop(game.console.mlx_ptr);
 	destroy_all(&game);
 	return (0);

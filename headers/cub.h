@@ -21,6 +21,7 @@
 		void	*win_ptr;
     } console_s;
 
+
 	typedef struct texture
 	{
 		char	*text_no;
@@ -84,7 +85,7 @@
 		int		bpp; // bits par pixel
 		int		s_line; // taille de chaque ligne
 		int		endian; // ordre de stockage
-		int		index;
+		// int		index;
 	}	img_s;
 
 	typedef struct draw
@@ -92,8 +93,6 @@
 		int	wall_h;
 		int	wall_t;
 		int	wall_b;
-		int	txtr_x;
-		int	color;
 		int	floor_c; // color floor value after bit_shift init in parsing init_textures
 		int	ceiling_c; // color ceiling value after bit_shift init in parsing init_textures
 		int	i;
@@ -108,6 +107,7 @@
 		ray_s		ray_data;
 		img_s		img_data[4]; // 0 = NORTH : 1 = SOUTH : 2 = WEST : 3 = EAST
 		draw_s		draw;
+		img_s		img;
     } game_s;
 
 /* ==== CONSTANTES ==== */
@@ -139,8 +139,8 @@
 	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
 
     // MOVES SPEED //
-	# define ROT_SPEED	0.05
-	# define MOV_SPEED	7
+	# define ROT_SPEED	0.1
+	# define MOV_SPEED	10
 	# define TILE_S		64
 
 /* === PROTOTYPES === */
@@ -189,10 +189,6 @@
 
 	/* === texture.c === */
 	int    load_texture(game_s *game);
-	int    init_texture_no(game_s *game);
-	int    init_texture_so(game_s *game);
-	int    init_texture_we(game_s *game);
-	int    init_texture_ea(game_s *game);
 
 	/* === raycaster.c === */
 	int		loop_hook(game_s *game);
@@ -206,9 +202,9 @@
 	int		update_movement(game_s *game);
 
 	/* === draw.c === */
-	void	draw_wall_no_so(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
-	void	utils_color(game_s *game, ray_s *ray, int nb);
+	void	draw_column(game_s *game, ray_s *ray, int column_index, int *end_x_y);
+	void    my_mlx_pixel_put(img_s *data, int x, int y, int color);
+	// void	draw_wall_ea_we(game_s *game, ray_s *ray, int column_index, int *end_x_y);
 
 
     /* === mini_map.c*/

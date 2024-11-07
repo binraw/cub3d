@@ -1,18 +1,7 @@
 #include "cub.h"
 
 
-int    load_texture(game_s *game)
-{
-    if (init_texture_no(game) || init_texture_so(game) || \
-        init_texture_we(game) || init_texture_ea(game))
-        {
-            destroy_all(game);
-            return (1);
-        }
-    return (0);
-}
-
-int init_texture_no(game_s *game)
+static int	init_texture_no(game_s *game)
 {
     game->img_data[0].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
                             game->texture.text_no, &game->img_data[0].width, \
@@ -27,7 +16,7 @@ int init_texture_no(game_s *game)
     return (0);
 }
 
-int    init_texture_so(game_s *game)
+static int	init_texture_so(game_s *game)
 {
     game->img_data[1].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
                             game->texture.text_so, &game->img_data[1].width, \
@@ -42,7 +31,7 @@ int    init_texture_so(game_s *game)
     return (0);
 }
 
-int    init_texture_we(game_s *game)
+static int	init_texture_we(game_s *game)
 {
     game->img_data[2].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
                             game->texture.text_we, &game->img_data[2].width, \
@@ -57,7 +46,7 @@ int    init_texture_we(game_s *game)
     return (0);
 }
 
-int    init_texture_ea(game_s *game)
+static int	init_texture_ea(game_s *game)
 {
     game->img_data[3].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
                             game->texture.text_ea, &game->img_data[3].width, \
@@ -71,3 +60,16 @@ int    init_texture_ea(game_s *game)
         return (free_textures(game), ft_perror("Failed get east data\n"), 1);
     return (0);
 }
+
+int	load_texture(game_s *game) // convert xpm to img and get data from img
+{
+    if (init_texture_no(game) || init_texture_so(game) || \
+        init_texture_we(game) || init_texture_ea(game))
+	{
+		destroy_all(game);
+		return (1);
+	}
+    return (0);
+}
+
+
