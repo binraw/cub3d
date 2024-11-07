@@ -1,3 +1,5 @@
+
+
 #include "cub.h"
 
 static inline int utils_color(game_s *game, ray_s *ray, int nb, int *end_x_y)
@@ -6,22 +8,32 @@ static inline int utils_color(game_s *game, ray_s *ray, int nb, int *end_x_y)
     int txtr_x;
     int index;
 
-	if (ray->colision_side == 1)
+    // Calcul de txtr_x basé sur la position d'impact du rayon, avec partie décimale seulement
+    if (ray->colision_side == 1)  // Si la collision est sur un mur vertical
     {
-        end_x_y[1] = end_x_y[1] % TILE_S;
-        txtr_x = (end_x_y[1] * game->img_data[nb].width) / TILE_S;
-        // txtr_x = end_x_y[1] % game->img_data[nb].width;
+        float wall_hit_y = (game->plyr_data.pos_y / TILE_S) + ray->wall_dist * ray->dir_y;
+        wall_hit_y -= floor(wall_hit_y);  // Garder uniquement la partie décimale pour l'alignement de la texture
+        txtr_x = (int)(wall_hit_y * game->img_data[nb].width);
     }
-		
-	else
+    else  // Si la collision est sur un mur horizontal
     {
-        end_x_y[0] = end_x_y[0] % TILE_S;
-        txtr_x = (end_x_y[0] * game->img_data[nb].width) / TILE_S;
+        float wall_hit_x = (game->plyr_data.pos_x / TILE_S) + ray->wall_dist * ray->dir_x;
+        wall_hit_x -= floor(wall_hit_x);  // Garder uniquement la partie décimale
+        txtr_x = (int)(wall_hit_x * game->img_data[nb].width);
     }
-		// txtr_x = end_x_y[0] % game->img_data[nb].width;
+
+    // Calcul de txtr_y basé sur la hauteur projetée du mur
     txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
-    index = (txtr_y * game->img_data[nb].s_line + txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-    return (*(int *)(game->img_data[nb].data + index));
+
+    // Vérification des bornes de l'index pour éviter tout dépassement de mémoire
+    index = (txtr_y * game->img_data[nb].s_line + txtr_x * (game->img_data[nb].bpp / 8));
+    if (index < 0)
+        index = 0;
+    if (index >= game->img_data[nb].s_line * game->img_data[nb].height)
+        index = game->img_data[nb].s_line * game->img_data[nb].height - 1;
+
+    int color = *(int*)(game->img_data[nb].data + index);
+    return color;
 }
 
 static inline int	get_color(game_s *game, ray_s *ray, int *end_x_y)

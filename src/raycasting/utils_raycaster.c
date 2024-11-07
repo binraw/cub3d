@@ -6,12 +6,41 @@
 
 static void	find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
 {
-	end_x_y[0] = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist * \
-										game->img_data[nb_txtr].width;
-	printf("valeur de end [0] : %d\n", end_x_y[0]);
+	static int i = 0;
+
+	if (ray->dir_x <= 0)
+	{
+		end_x_y[0] = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist * \
+											game->img_data[nb_txtr].width;
+
+	}
+	else
+	{
+		end_x_y[0] = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist * \
+											game->img_data[nb_txtr].width;
+
+	}
 	end_x_y[1] = game->plyr_data.pos_y + ray->dir_y * ray->wall_dist * \
 										game->img_data[nb_txtr].height;
+	if (++i > WIN_W * 0.5)
+		printf("pos_x == %f : pos_y == %f\n", ray->dir_x, ray->dir_y);
 }
+
+// static void	find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
+// {
+//     // Position d'impact en coordonnées de la texture
+//     float hit_x = game->plyr_data.pos_x + ray->dir_x * (ray->wall_dist * TILE_S);
+//     float hit_y = game->plyr_data.pos_y + ray->dir_y * (ray->wall_dist * TILE_S);
+
+//     // Trouver la coordonnée correcte dans la texture, indépendamment de TILE_S
+//     if (ray->colision_side == 1)
+//         end_x_y[0] = (int)((hit_x - (int)(hit_x / TILE_S) ) /  game->img_data[nb_txtr].width);
+//     else
+//         end_x_y[0] = (int)((hit_y - (int)(hit_y / TILE_S) ) /  game->img_data[nb_txtr].width);
+
+//     // On n'utilise que end_x_y[0] pour la coordonnée X, car end_x_y[1] sera utilisé dans utils_color
+//     end_x_y[1] = 0;
+// }
 
 // static void find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
 // {
