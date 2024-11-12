@@ -1,28 +1,108 @@
 #include "cub.h"
 
+// static inline int utils_color(game_s *game, ray_s *ray, int nb, int *end_x_y)
+// {
+//     int txtr_y;
+//     int txtr_x;
+//     int index;
+
+
+// 	if (ray->colision_side == 1)
+//     {
+//         // if(end_x_y[1] < 0)
+//         //     end_x_y[1] = 64;
+//        int wall_y = (int)end_x_y[1] % TILE_S;
+//         txtr_x = (wall_y * game->img_data[nb].width) / TILE_S;
+//     }
+// 	else
+//     {
+
+//          int wall_x = (int)end_x_y[0] % TILE_S;
+//         if (end_x_y[0] < 0)
+//             printf("Valeur de end_x_y[0]: %d\n", end_x_y[0]);
+//             // txtr_x = (end_x_y[0] * game->img_data[nb].width);
+//         txtr_x = (wall_x * game->img_data[nb].width) / TILE_S;
+//     }
+
+//     // if (ray->colision_side == 1)
+//     // {
+//     //     // if(end_x_y[1] < 0)
+//     //     //     end_x_y[1] = 64;
+//     //     end_x_y[1] = end_x_y[1] % TILE_S;
+//     //     txtr_x = (int)(end_x_y[1] * game->img_data[nb].width) / TILE_S;
+//     // }
+// 	// else
+//     // {
+
+//     //     end_x_y[0] = abs(end_x_y[0] % TILE_S);
+//     //     if (end_x_y[0] < 0)
+//     //         printf("Valeur de end_x_y[0]: %d\n", end_x_y[0]);
+//     //         // txtr_x = (end_x_y[0] * game->img_data[nb].width);
+//     //     txtr_x = (int)(end_x_y[0] * game->img_data[nb].width) / TILE_S;
+//     // }
+
+//     // if (ray->colision_side == 1)
+//     // {
+//     //     float wall_hit_y = game->plyr_data.pos_y + ray->wall_dist * ray->dir_y;
+//     //     wall_hit_y -= floor(wall_hit_y);  // On garde seulement la partie décimale pour la texture
+//     //     txtr_x = (int)(wall_hit_y * game->img_data[nb].width);  // Calcule txtr_x proportionnellement à la texture
+//     // }
+//     // else
+//     // {
+//     //     float wall_hit_x = game->plyr_data.pos_x + ray->wall_dist * ray->dir_x;
+//     //     wall_hit_x -= floor(wall_hit_x);  // Partie décimale seulement
+//     //     txtr_x = (int)(wall_hit_x * game->img_data[nb].width);
+//     // }
+
+
+//     txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
+//     index = (txtr_y * game->img_data[nb].s_line + txtr_x * (game->img_data[nb].bpp / 8));
+//     if (index < 0)
+//         index = 0;
+//     if (index >= game->img_data[nb].s_line * game->img_data[nb].height)
+//         index = game->img_data[nb].s_line * game->img_data[nb].height - 1;
+//     int color = *(int *)(game->img_data[nb].data + index);
+//     return (color);
+// }
+
 static inline int utils_color(game_s *game, ray_s *ray, int nb, int *end_x_y)
 {
     int txtr_y;
     int txtr_x;
     int index;
 
-	if (ray->colision_side == 1)
+    // Calcul de txtr_x basé sur la position d'impact du rayon, avec partie décimale seulement
+    if (ray->colision_side == 1)  // Si la collision est sur un mur vertical
     {
-        end_x_y[1] = end_x_y[1] % TILE_S;
-        txtr_x = (end_x_y[1] * game->img_data[nb].width) / TILE_S;
-        // txtr_x = end_x_y[1] % game->img_data[nb].width;
+        float wall_hit_y = game->plyr_data.pos_y + ray->wall_dist * ray->dir_y;
+        wall_hit_y -= floor(wall_hit_y);  // Garder uniquement la partie décimale pour l'alignement de la texture
+        txtr_x = (int)(wall_hit_y * game->img_data[nb].width);
     }
-		
-	else
+    else  // Si la collision est sur un mur horizontal
     {
-        end_x_y[0] = end_x_y[0] % TILE_S;
-        txtr_x = (end_x_y[0] * game->img_data[nb].width) / TILE_S;
+        float wall_hit_x = game->plyr_data.pos_x + ray->wall_dist * ray->dir_x;
+        wall_hit_x -= floor(wall_hit_x);  // Garder uniquement la partie décimale
+        txtr_x = (int)(wall_hit_x * game->img_data[nb].width);
     }
-		// txtr_x = end_x_y[0] % game->img_data[nb].width;
+
+    // Calcul de txtr_y basé sur la hauteur projetée du mur
     txtr_y = ((game->draw.i - game->draw.wall_t) * game->img_data[nb].height) / game->draw.wall_h;
-    index = (txtr_y * game->img_data[nb].s_line + txtr_x * (game->img_data[nb].bpp / 8)); // bpp / 8 pour obtenir le nombre d'octets par pixel
-    return (*(int *)(game->img_data[nb].data + index));
+
+    // Vérification des bornes de l'index pour éviter tout dépassement de mémoire
+    index = (txtr_y * game->img_data[nb].s_line + txtr_x * (game->img_data[nb].bpp / 8));
+    if (index < 0)
+        index = 0;
+    if (index >= game->img_data[nb].s_line * game->img_data[nb].height)
+        index = game->img_data[nb].s_line * game->img_data[nb].height - 1;
+
+    int color = *(int *)(game->img_data[nb].data + index);
+    return color;
 }
+
+
+
+
+
 
 static inline int	get_color(game_s *game, ray_s *ray, int *end_x_y)
 {
@@ -36,10 +116,12 @@ static inline int	get_color(game_s *game, ray_s *ray, int *end_x_y)
         return (utils_color(game, ray, 0, end_x_y));
     return (0);
 }
+
 inline void    my_mlx_pixel_put(img_s *data, int x, int y, int color)
 {
     ((int *)data->data)[y * (data->s_line >> 2) + x] = color;
 }
+
 
 static inline void	draw_sky_floor(game_s *game, int column_index, int wall_top, int wall_bottom)
 {
@@ -51,9 +133,6 @@ static inline void	draw_sky_floor(game_s *game, int column_index, int wall_top, 
         while (y < wall_top)
         {
             my_mlx_pixel_put(&game->img, column_index, y, game->draw.ceiling_c);
-            // mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, \
-            //                             game->draw.ceiling_c);
-        
             y++;
         }
     }
@@ -64,8 +143,6 @@ static inline void	draw_sky_floor(game_s *game, int column_index, int wall_top, 
         while(y < WIN_H)
         {
             my_mlx_pixel_put(&game->img, column_index, y, game->draw.floor_c);
-            // mlx_pixel_put(MLX_PTR, WIN_PTR, column_index, y, \
-            //                                 game->draw.floor_c);
             y++;
         }
     }
@@ -88,8 +165,6 @@ void	draw_column(game_s *game, ray_s *ray, int col_index, int *end_x_y)
         if (game->draw.i >= 0 && game->draw.i < WIN_H)
         {
             my_mlx_pixel_put(&game->img, col_index, game->draw.i, get_color(game, ray, end_x_y));
-			// mlx_pixel_put(MLX_PTR, WIN_PTR, col_index, game->draw.i, \
-			// 							get_color(game, ray, end_x_y));
         }
         game->draw.i++;
     }

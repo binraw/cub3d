@@ -139,8 +139,8 @@
 	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
 
     // MOVES SPEED //
-	# define ROT_SPEED	0.1
-	# define MOV_SPEED	10
+	# define ROT_SPEED	0.05
+	# define MOV_SPEED	1
 	# define TILE_S		64
 
 /* === PROTOTYPES === */

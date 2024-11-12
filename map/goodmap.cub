@@ -1,7 +1,7 @@
-NO ./assets/bluestone.xpm
-SO ./assets/wall1.xpm
-WE ./assets/wall2.xpm
-EA ./assets/wall3.xpm
+NO ./assets/wall3.xpm
+SO ./assets/bluestone.xpm
+WE ./assets/wall1.xpm
+EA ./assets/wall2.xpm
 F 220,100,0
 C 225,30,0
 

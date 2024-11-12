@@ -1,7 +1,7 @@
-NO ./assets/wall2.xpm
-SO ./assets/wall1.xpm
+NO ./assets/wall1.xpm
+SO ./assets/wall2.xpm
 WE ./assets/guy.xpm
-EA ./assets/wall3.xpm
+EA ./assets/guy.xpm
 
 F 0,153,76
 

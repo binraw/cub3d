@@ -7,29 +7,12 @@
 static void	find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
 {
 	end_x_y[0] = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist * \
-										game->img_data[nb_txtr].width;
-	printf("valeur de end [0] : %d\n", end_x_y[0]);
+									game->img_data[nb_txtr].width;
 	end_x_y[1] = game->plyr_data.pos_y + ray->dir_y * ray->wall_dist * \
-										game->img_data[nb_txtr].height;
+									game->img_data[nb_txtr].height;
 }
 
-// static void find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
-// {
-//     // Calcul de la position de l'impact du rayon dans le monde
-//     double impact_x = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist;
-//     double impact_y = game->plyr_data.pos_y + ray->dir_y * ray->wall_dist;
 
-//     // Calcul des coordonnées de l'impact sur la tuile (position locale)
-//     int local_x = (int)impact_x % TILE_S;
-//     int local_y = (int)impact_y % TILE_S;
-
-//     // Mise à l'échelle pour obtenir les coordonnées de texture
-//     end_x_y[0] = (local_x * game->img_data[nb_txtr].width) / TILE_S;
-//     end_x_y[1] = (local_y * game->img_data[nb_txtr].height) / TILE_S;
-
-//     // Affichage des valeurs pour le débogage
-//     printf("Valeur de end_x_y[0]: %d, end_x_y[1]: %d\n", end_x_y[0], end_x_y[1]);
-// }
 
 static void	init_step(ray_s *ray, game_s *game)
 {
