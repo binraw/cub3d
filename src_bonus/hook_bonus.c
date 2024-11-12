@@ -1,10 +1,6 @@
-#include "cub.h"
 
-static int	close_win(game_s *game, int key_code)
-{
-	(void) key_code;
-	return (mlx_loop_end(game->console.mlx_ptr));
-}
+
+#include "cub.h"
 
 static int	key_up(int code, game_s *game)
 {
@@ -44,11 +40,39 @@ static int	key_down(int code, game_s *game)
 	return (0);
 }
 
+static int	mouse_hook(int x, int y, game_s *game)
+{
+	static int  old_x = WIN_W >> 1;
+    static int  count;
+
+	change_mouse_pos(game, x, y);
+	if (x >= old_x - 5 && x <= old_x + 5 && !count)
+    {
+        count = 1;
+		return (0);
+    }
+    if ((x != old_x && !count) || x == old_x)
+        return (0);
+    if (x < old_x)
+    {
+	    game->plyr_data.rotate_m = 1;
+		rotate_player(game, 1);
+    }
+	else if (x > old_x)
+    {
+	    game->plyr_data.rotate_m = 2;
+		rotate_player(game, 2);
+    }
+	old_x = x;
+	return (0);
+}
+
 void	hook_management(game_s *game)
 {
 	mlx_hook(game->console.win_ptr, DestroyNotify, StructureNotifyMask, \
 														close_win, game);
     mlx_hook(game->console.win_ptr, KeyPress, KeyPressMask, key_down, game);
     mlx_hook(game->console.win_ptr, KeyRelease, KeyReleaseMask, key_up, game);
+    mlx_hook(WIN_PTR, MotionNotify, PointerMotionMask, mouse_hook, game);
 	return ;
 }

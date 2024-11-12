@@ -68,6 +68,7 @@
 		bool	move_left;
 		bool	rotate_r;
 		bool	rotate_l;
+        int     rotate_m;
     } player_s;
 
 	typedef struct map
@@ -125,7 +126,7 @@
     # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
 
     // COLOR //
-    # define RED        0x870707
+    # define RED        0Xc70404
     // WINDOW WIDTH HEIGTH //
 	# define WIN_W		700
 	# define WIN_H		700
@@ -150,7 +151,7 @@
 	# define TILE_S		64
 
     // MINIMAP //
-    #define MINI_TILE_S 10
+    #define M_TILE_S    10
 
 /* === PROTOTYPES === */
 
@@ -210,7 +211,16 @@
 	void	draw_column(game_s *game, ray_s *ray, int column_index	);
 	void    my_mlx_pixel_put(img_s *data, int x, int y, int color);
 
-    /* === mini_map.c*/
+    /* === mini_map.c === */
     void    print_minimap(game_s *game, ray_s *ray);
+
+    /***=== BONUS FILES ===***/
+    /* === move_bonus.c === */
+    void	rotate_player(game_s *game, int is_mouse);
+
+    /* === hook_utils_bonus.c === */
+    bool is_movement(game_s *game);
+    int	close_win(game_s *game, int key_code);
+    int	change_mouse_pos(game_s *game, int x, int y);
 
 #endif

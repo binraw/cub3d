@@ -5,8 +5,8 @@ static inline void	print_case(game_s *game, int color)
 {
 	static int	y;
 	static int	x;
-	const int	tmp_y = y + MINI_TILE_S;
-	const int	tmp_x = x + MINI_TILE_S;
+	const int	tmp_y = y + M_TILE_S;
+	const int	tmp_x = x + M_TILE_S;
 
 	while (y < tmp_y)
 	{
@@ -17,16 +17,16 @@ static inline void	print_case(game_s *game, int color)
 		}
 		y++;
 		if (y < tmp_y)
-			x = tmp_x - MINI_TILE_S;
+			x = tmp_x - M_TILE_S;
 	}
-	if (y == MINI_TILE_S * 10 && x == MINI_TILE_S * 10)
+	if (y == M_TILE_S * (M_TILE_S + 1) && x == M_TILE_S * (M_TILE_S + 1))
 	{
 		y = 0;
 		x = 0;
 	}
-	if (y == tmp_y && x < MINI_TILE_S * 10)
-		y -= MINI_TILE_S;
-	if (y == tmp_y && x == MINI_TILE_S * 10)
+	else if (y == tmp_y && x < M_TILE_S * (M_TILE_S + 1))
+		y -= M_TILE_S;
+	else if (y == tmp_y && x == M_TILE_S * (M_TILE_S + 1))
 		x = 0;
 }
 
@@ -49,18 +49,19 @@ static inline int	color_choice(game_s *game, int x, int y, const int *ply_x_y)
 
 void	print_minimap(game_s *game, ray_s *ray)
 {
+    static const int    m_tile_s = (M_TILE_S >> 1);
 	int			x;
 	int			y;
 	const int	ply_x_y[2] = {(int) game->plyr_data.pos_x / TILE_S, \
 							(int) game->plyr_data.pos_y / TILE_S};
 
-	x = ply_x_y[0] - 5;
-	y = ply_x_y[1] - 5;
-	while (y < ply_x_y[1] + 5)
+	x = ply_x_y[0] - m_tile_s;
+	y = ply_x_y[1] - m_tile_s;
+	while (y <= ply_x_y[1] + m_tile_s)
 	{
-		while (x < ply_x_y[0] + 5)
+		while (x <= ply_x_y[0] + m_tile_s)
 			print_case(game, color_choice(game, x++, y, ply_x_y));
-		x = ply_x_y[0] - 5;
+		x = ply_x_y[0] - m_tile_s;
 		y++;
 	}
 }
