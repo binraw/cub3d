@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/12 08:00:25 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/12 08:00:27 by rtruvelo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 static inline bool	hit_wall(game_s *game, ray_s *ray)
 {
-    return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
+	return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
 			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
 			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
 }
@@ -60,20 +72,20 @@ static inline int	raycaster(game_s *game)
 	return (0);
 }
 
-int loop_hook(game_s *game)
+int	loop_hook(game_s *game)
 {
-    if (game->plyr_data.write == 0)
-    {
-        raycaster(game);
-        game->plyr_data.write = 1;
-    }
-    if (game->plyr_data.move_up || game->plyr_data.move_down || \
-        game->plyr_data.move_left || game->plyr_data.move_right || \
-        game->plyr_data.rotate_l || game->plyr_data.rotate_r)
-    {
-        if (update_movement(game) == 1)
-            return (0);
-        raycaster(game);
-    }
-    return (0);
+	if (game->plyr_data.write == 0)
+	{
+		raycaster(game);
+		game->plyr_data.write = 1;
+	}
+	if (game->plyr_data.move_up || game->plyr_data.move_down || \
+		game->plyr_data.move_left || game->plyr_data.move_right || \
+		game->plyr_data.rotate_l || game->plyr_data.rotate_r)
+	{
+		if (update_movement(game) == 1)
+			return (0);
+		raycaster(game);
+	}
+	return (0);
 }

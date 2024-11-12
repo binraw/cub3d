@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/12 08:01:37 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/12 08:01:38 by rtruvelo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 static int	close_win(game_s *game, int key_code)
@@ -48,8 +60,7 @@ void	hook_management(game_s *game)
 {
 	mlx_hook(game->console.win_ptr, DestroyNotify, StructureNotifyMask, \
 														close_win, game);
-    mlx_hook(game->console.win_ptr, KeyPress, KeyPressMask, key_down, game);
-    mlx_hook(game->console.win_ptr, KeyRelease, KeyReleaseMask, key_up, game);
+	mlx_hook(game->console.win_ptr, KeyPress, KeyPressMask, key_down, game);
+	mlx_hook(game->console.win_ptr, KeyRelease, KeyReleaseMask, key_up, game);
 	return ;
 }
-

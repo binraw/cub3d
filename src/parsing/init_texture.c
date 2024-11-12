@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/06 08:08:18 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/12 07:33:09 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,6 @@ static int	fill_colors(char *buffer, int *colors)
 					ft_perror("Invalid colors value in file\n"));
 	}
 	return (free_ptrtab(tmp), 0);
-}
-
-size_t	ft_strlen_texture(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0' && str[i] != '\n')
-	{
-		i++;
-	}
-	return (i);
 }
 
 static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
@@ -141,9 +127,9 @@ int	get_textures(game_s *game, const int fd)
 		}
 		free(buffer);
 	}
-    game->draw.ceiling_c = (game->texture.c_color[0] << 16) | \
-                (game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
-    game->draw.floor_c = (game->texture.f_color[0] << 16) | \
-                (game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
+	game->draw.ceiling_c = (game->texture.c_color[0] << 16) | \
+				(game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
+	game->draw.floor_c = (game->texture.f_color[0] << 16) | \
+				(game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
 	return (0);
 }

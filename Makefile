@@ -27,16 +27,16 @@ MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lm
 CFLAGS		= -g -I$(HDR_DIR) $(LIB_FLAG) #-Wall -Wextra -Werror
 
 ### === SOURCES FILE === ###
-SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c \
+SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c $(DIR_MAIN)destroy.c\
 					\
 					$(DIR_INIT)init_console.c $(DIR_INIT)hook.c \
 					\
-					$(DIR_PARS)parsing.c $(DIR_PARS)parsing_utils.c \
+					$(DIR_PARS)parsing.c $(DIR_PARS)parsing_utils.c $(DIR_PARS)utils_texture.c \
 					$(DIR_PARS)init_map.c $(DIR_PARS)init_texture.c $(DIR_PARS)valid_map.c \
 					\
 					$(DIR_RAY)raycaster.c $(DIR_RAY)utils_raycaster.c \
 					$(DIR_RAY)texture.c  $(DIR_RAY)draw.c \
-					$(DIR_RAY)move.c \
+					$(DIR_RAY)move.c $(DIR_RAY)utils_draw.c \
 					$(DIR_RAY)mini_map.c
 
 OBJS	= $(SRCS_FILE:$(DIR_SRC)%.c=$(DIR_OBJ)%.o)
