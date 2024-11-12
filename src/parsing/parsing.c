@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:44:15 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:01:49 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int	parsing(game_s *game, char *filepath)
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
     if (get_plyr_pos(game))
-        return (free_map_data(game), 1);
+    	return (free_map_data(game), 1);
 	return (0);
 }

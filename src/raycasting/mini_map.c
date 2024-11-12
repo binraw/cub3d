@@ -26,8 +26,7 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 	{
 		while (start_x < tmp_x_y[0] + cell_w)
 		{
-			my_mlx_pixel_put(&game->img,  start_x,start_y, curr_color);
-			// mlx_pixel_put(MLX_PTR, WIN_PTR, start_x, start_y, curr_color);
+			my_mlx_pixel_put(&game->img, start_x, start_y, curr_color);
 			start_x += 1;
 		}
 		start_x = tmp_x_y[0];

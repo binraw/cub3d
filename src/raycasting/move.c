@@ -1,27 +1,29 @@
+
+
 #include "cub.h"
 
-static int	move(game_s *game, double move_x, double move_y)
+static inline int	move(game_s *game, double move_x, double move_y)
 {
     int		map_grid_y;
 	int		map_grid_x;
 	double	new_x;
 	double	new_y;
 
-    new_x = game->plyr_data.pos_x + move_x;
-	new_y = game->plyr_data.pos_y + move_y;
+    new_x = game->plyr_data.pos_x + move_x * 1.2;
+	new_y = game->plyr_data.pos_y + move_y * 1.2;
 	map_grid_x = (int) floor((double)new_x / TILE_S);
 	map_grid_y = (int) floor((double)new_y / TILE_S);
 	if (game->map_data.map[map_grid_y][map_grid_x] != '1' && \
         game->map_data.map[map_grid_y][map_grid_x] != ' ')
 	{
-		game->plyr_data.pos_x = new_x;
-		game->plyr_data.pos_y = new_y;
+		game->plyr_data.pos_x = game->plyr_data.pos_x + move_x;
+		game->plyr_data.pos_y = game->plyr_data.pos_y + move_y;
         return (0);
 	}
     return (1);
 }
 
-static void	rotate_player(game_s *game)
+static inline void	rotate_player(game_s *game)
 {
     if (game->plyr_data.rotate_l)
         game->plyr_data.angle -= ROT_SPEED;

@@ -1,7 +1,5 @@
 #include "../headers/cub.h"
 
-int	raycaster(game_s *game);
-
 /* === ONLY FOR DEBUG === */
 
 void	print_struct(game_s *game)
@@ -44,13 +42,13 @@ void	print_ray(ray_s *ray)
     printf("\n");
 }
 
-void    print_constante(game_s *game)
-{
-    printf("CONSTANTES\n");
-    printf("WIN_W == %d\n", WIN_W);
-    printf("WIN_H == %d\n", WIN_H);
-    printf("\n");
-}
+// void    print_constante(game_s *game)
+// {
+//     printf("CONSTANTES\n");
+//     printf("WIN_W == %d\n", WIN_W);
+//     printf("WIN_H == %d\n", WIN_H);
+//     printf("\n");
+// }
 
 
 

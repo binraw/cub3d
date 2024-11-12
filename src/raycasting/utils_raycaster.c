@@ -4,17 +4,7 @@
 
 #include "cub.h"
 
-static void	find_ray_impact(game_s *game, ray_s *ray, int *end_x_y, int nb_txtr)
-{
-	end_x_y[0] = game->plyr_data.pos_x + ray->dir_x * ray->wall_dist * \
-									game->img_data[nb_txtr].width;
-	end_x_y[1] = game->plyr_data.pos_y + ray->dir_y * ray->wall_dist * \
-									game->img_data[nb_txtr].height;
-}
-
-
-
-static void	init_step(ray_s *ray, game_s *game)
+static inline void	init_step(ray_s *ray, game_s *game)
 {
 	if (ray->dir_x < 0)
 	{
@@ -39,28 +29,6 @@ static void	init_step(ray_s *ray, game_s *game)
 		ray->step_y = 1;
 		ray->side_y = (ray->pos_y + 1.0 - game->plyr_data.pos_y / TILE_S) \
 															* ray->delta_y;
-	}
-}
-
-void	init_wall_dist(game_s *game, ray_s *ray, int *end_x_y)
-{
-	if (ray->colision_side == 1)
-	{
-		ray->wall_dist = (ray->pos_x - game->plyr_data.pos_x / TILE_S + \
-									((1 - ray->step_x) >> 1)) / ray->dir_x;
-		if (ray->dir_y < 0)
-			find_ray_impact(game, ray, end_x_y, 1);
-		else
-			find_ray_impact(game, ray, end_x_y, 0);
-	}
-	else
-	{
-		ray->wall_dist = (ray->pos_y - game->plyr_data.pos_y / TILE_S + \
-									((1 - ray->step_y) >> 1)) / ray->dir_y;
-		if (ray->dir_x < 0)
-			find_ray_impact(game, ray, end_x_y, 3);
-		else
-			find_ray_impact(game, ray, end_x_y, 2);
 	}
 }
 
