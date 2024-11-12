@@ -1,55 +1,66 @@
 
 #include "cub.h"
 
-void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
+static inline void	print_case(game_s *game, int color)
 {
-	int	curr_color;
-	int	tmp_x_y[2];
-	int pos_x;
-	int pos_y;
-	const int	cell_w = (WIN_W / 7) / game->map_data.width;
-	const int	cell_h = (WIN_H / 7) / game->map_data.heigth;
+	static int	y;
+	static int	x;
+	const int	tmp_y = y + MINI_TILE_S;
+	const int	tmp_x = x + MINI_TILE_S;
 
-	pos_x = (int) (game->plyr_data.pos_x / TILE_S);
-	pos_y = (int) (game->plyr_data.pos_y / TILE_S);
-	if (is_floor && (start_x != pos_x || start_y != pos_y))
-		curr_color = 20000;
-	else if (is_floor && start_x == pos_x && start_y == pos_y)
-		curr_color = 0;
-	else
-		curr_color = 850606;
-	start_x *= cell_w;
-	start_y *= cell_h;
-	tmp_x_y[0] = start_x;
-	tmp_x_y[1] = start_y;
-	while (start_y < tmp_x_y[1] + cell_h)
+	while (y < tmp_y)
 	{
-		while (start_x < tmp_x_y[0] + cell_w)
+		while (x < tmp_x)
 		{
-			my_mlx_pixel_put(&game->img, start_x, start_y, curr_color);
-			start_x += 1;
-		}
-		start_x = tmp_x_y[0];
-		start_y++;
-	}
-}
-
-void    print_minimap(game_s *game, ray_s *ray)
-{
-	size_t	y = 0;
-	size_t	x = 0;
-
-	while (game->map_data.map[y])
-	{
-		while (game->map_data.map[y][x])
-		{
-			if (game->map_data.map[y][x] != ' ' && game->map_data.map[y][x] != '1')
-				print_case(game, 1, x, y);
-			else if (game->map_data.map[y][x] == '1')
-				print_case(game, 0, x, y);
+			my_mlx_pixel_put(&game->img, x, y, color);
 			x++;
 		}
+		y++;
+		if (y < tmp_y)
+			x = tmp_x - MINI_TILE_S;
+	}
+	if (y == MINI_TILE_S * 10 && x == MINI_TILE_S * 10)
+	{
+		y = 0;
 		x = 0;
+	}
+	if (y == tmp_y && x < MINI_TILE_S * 10)
+		y -= MINI_TILE_S;
+	if (y == tmp_y && x == MINI_TILE_S * 10)
+		x = 0;
+}
+
+static inline int	color_choice(game_s *game, int x, int y, const int *ply_x_y)
+{
+	const size_t	height = game->map_data.heigth;
+	const size_t	width = game->map_data.width;
+
+	if (x == ply_x_y[0] && y == ply_x_y[1])
+		return (RED);
+	if (y >= 0 && y < height && x >= 0 && x < width && \
+			game->map_data.map[y][x] != '1' && game->map_data.map[y][x] != ' ')
+		return (game->draw.floor_c >> 1);
+	else if (y >= 0 && y < height && x >= 0 && \
+								x < width && game->map_data.map[y][x] == '1')
+		return (game->draw.ceiling_c >> 1);
+	else
+		return (game->draw.floor_c >> 2);
+}
+
+void	print_minimap(game_s *game, ray_s *ray)
+{
+	int			x;
+	int			y;
+	const int	ply_x_y[2] = {(int) game->plyr_data.pos_x / TILE_S, \
+							(int) game->plyr_data.pos_y / TILE_S};
+
+	x = ply_x_y[0] - 5;
+	y = ply_x_y[1] - 5;
+	while (y < ply_x_y[1] + 5)
+	{
+		while (x < ply_x_y[0] + 5)
+			print_case(game, color_choice(game, x++, y, ply_x_y));
+		x = ply_x_y[0] - 5;
 		y++;
 	}
 }

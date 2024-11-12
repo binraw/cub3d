@@ -2,6 +2,8 @@
 #ifndef CUB_H
 # define CUB_H
 
+    /* === INCLUDES === */
+
     # include "libft.h"
     # include "get_next_line.h"
     # include "mlx.h"
@@ -105,11 +107,11 @@
     {
 		console_s	console;
 		texture_s	texture;
-		player_s	plyr_data;
 		map_s		map_data;
+		player_s	plyr_data;
+		draw_s		draw;
 		ray_s		ray_data;
 		img_s		img_data[4];
-		draw_s		draw;
 		img_s		img;
     } game_s;
 
@@ -122,6 +124,8 @@
     # define E_INVALID_CHAR "Invalid char in the map\n"
     # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
 
+    // COLOR //
+    # define RED        0x870707
     // WINDOW WIDTH HEIGTH //
 	# define WIN_W		700
 	# define WIN_H		700
@@ -141,9 +145,12 @@
 	# define FOV_2		0.5235987756	// == M_PI / 6 == 30 degrees
 
     // MOVES SPEED //
-	# define ROT_SPEED	0.025
+	# define ROT_SPEED	0.03
 	# define MOV_SPEED	3
 	# define TILE_S		64
+
+    // MINIMAP //
+    #define MINI_TILE_S 10
 
 /* === PROTOTYPES === */
 
@@ -155,7 +162,7 @@
 
 	/* === main.c === */
 	int		ft_perror(char *msg);
-	
+
 	/* === init_console.c === */
 	int		init_console(game_s *game);
 	void	hook_management(game_s *game);

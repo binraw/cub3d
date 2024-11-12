@@ -1,7 +1,5 @@
 
 
-
-
 #include "cub.h"
 
 static inline void	init_step(ray_s *ray, game_s *game)
