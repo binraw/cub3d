@@ -108,7 +108,6 @@ clean_bonus:
 	$(RM) $(DIR_OBJ_B)
 
 fclean_bonus: clean_bonus
-	$(MAKE) -C ./libft fclean
 	$(RM) $(B_NAME)
 
 re_bonus: fclean_bonus bonus
