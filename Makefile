@@ -63,23 +63,24 @@ OBJS		= $(SRCS_FILE:$(DIR_SRC)%.c=$(DIR_OBJ)%.o)
 BONUS_OBJ	= $(SRC_BONUS:$(DIR_B_SRC)%.c=$(DIR_OBJ_B)%.o)
 
 ### === COMPILATION RULES === ###
-default: all
-all: $(MLX) $(LIBFT) $(NAME)
+default:	all
+all:		$(MLX) $(LIBFT) $(NAME)
+bonus:		$(MLX) $(LIBFT) $(B_NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) -o $@ $^ -L$(DIR_MLX) $(MLX_FLAGS)
 	@echo "**** CUBD3D READY ****"
 
-bonus: $(BONUS_OBJ) $(LIBFT) $(MLX)
+$(B_NAME): $(BONUS_OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) -o $(B_NAME) $^ -L$(DIR_MLX) $(MLX_FLAGS)
 	@echo "**** CUBD3D_BONUS READY ****"
 
-$(DIR_OBJ)%.o: $(DIR_SRC)%.c $(HDR_DIR)*.h Makefile $(LIBFT)
+$(DIR_OBJ)%.o: $(DIR_SRC)%.c $(HDR_DIR)cub.h Makefile $(LIBFT)
 	@echo "Compiling $< to $@"
 	$(MD) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(DIR_OBJ_B)%.o: $(DIR_B_SRC)%.c $(HDR_DIR)*.h Makefile $(LIBFT)
+$(DIR_OBJ_B)%.o: $(DIR_B_SRC)%.c $(HDR_DIR)cub_bonus.h Makefile $(LIBFT)
 	@echo "Compiling bonus $< to $@"
 	$(MD) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
