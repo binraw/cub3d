@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:24:41 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:16:37 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	hook_management(t_game *game)
 														close_win, game);
 	mlx_hook(game->console.win_ptr, KeyPress, KeyPressMask, key_down, game);
 	mlx_hook(game->console.win_ptr, KeyRelease, KeyReleaseMask, key_up, game);
-	mlx_hook(WIN_PTR, MotionNotify, PointerMotionMask, mouse_hook, game);
+	mlx_hook(game->console.win_ptr, MotionNotify,
+		PointerMotionMask, mouse_hook, game);
 	return ;
 }

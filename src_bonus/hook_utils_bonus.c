@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:56:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:14:46 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	change_mouse_pos(t_game *game, int x, int y)
 	if (x > WIN_W - 20)
 	{
 		x = 20;
-		mlx_mouse_move(MLX_PTR, WIN_PTR, x, y);
+		mlx_mouse_move(game->console.mlx_ptr, game->console.win_ptr, x, y);
 	}
 	if (x < 20)
 	{
 		x = WIN_W - 20;
-		mlx_mouse_move(MLX_PTR, WIN_PTR, x, y);
+		mlx_mouse_move(game->console.mlx_ptr, game->console.win_ptr, x, y);
 	}
 	return (x);
 }
