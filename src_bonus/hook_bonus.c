@@ -1,6 +1,6 @@
 
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 static int	key_up(int code, game_s *game)
 {

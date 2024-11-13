@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 static inline int	move(game_s *game, double move_x, double move_y)
 {

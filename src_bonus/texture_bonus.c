@@ -1,4 +1,4 @@
-#include "cub.h"
+#include "cub_bonus.h"
 
 
 static int	init_texture_no(game_s *game)

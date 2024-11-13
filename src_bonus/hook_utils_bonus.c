@@ -1,5 +1,5 @@
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 int	close_win(game_s *game, int key_code)
 {

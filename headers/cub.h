@@ -215,12 +215,4 @@
     /* === mini_map.c === */
     void    print_minimap(game_s *game, ray_s *ray);
 
-    /***=== BONUS FILES ===***/
-    /* === move_bonus.c === */
-    void	rot_player(game_s *game, int is_mouse);
-
-    /* === hook_utils_bonus.c === */
-    bool is_movement(game_s *game);
-    int	change_mouse_pos(game_s *game, int x, int y);
-
 #endif

@@ -1,4 +1,4 @@
-#include "../headers/cub.h"
+#include "cub_bonus.h"
 
 /* === ONLY FOR DEBUG === */
 
