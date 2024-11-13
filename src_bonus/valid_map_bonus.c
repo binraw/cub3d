@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:27:03 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	check_column_loop(char **map, size_t heigth, size_t *x, size_t *y)
 	return (0);
 }
 
-static int	check_columns(char **map, size_t heigth, size_t width)
+static int	check_columns(char **map, size_t heigth)
 {
 	size_t	x;
 	size_t	y;
@@ -120,8 +120,7 @@ int	check_map_validity(t_game *game)
 {
 	if (check_lines(game->map_data.map, game->map_data.heigth))
 		return (1);
-	if (check_columns(game->map_data.map, game->map_data.heigth, \
-											game->map_data.width))
+	if (check_columns(game->map_data.map, game->map_data.heigth))
 		return (1);
 	return (0);
 }

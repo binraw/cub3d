@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:13:58 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,22 @@ static bool	not_dup_is_digit(char **buff, int *colors)
 	return (true);
 }
 
-static int	fill_colors(char *buffer, int *colors)
+static int	fill_colors(char *buffer, int *colors, int tab_size)
 {
 	char	**tmp;
 	int		i;
 
 	i = 1;
+	tab_size = 0;
 	while (buffer[i] && buffer[i] == ' ')
 		i++;
 	tmp = ft_split(&buffer[i], ',');
 	if (!tmp)
 		return (ft_perror("crash malloc in fill_color\n"));
+	while (tmp[tab_size])
+		tab_size++;
 	if (not_dup_is_digit(tmp, colors) == false)
-		return (free_ptrtab(tmp), 1);
+		return (free_map(tmp, tab_size), 1);
 	i = -1;
 	while (tmp[++i] && tmp[i][0])
 	{
@@ -60,16 +63,15 @@ static int	fill_colors(char *buffer, int *colors)
 			return (ft_perror("Invalid colors format in file\n"));
 		colors[i] = ft_atoi(tmp[i]);
 		if (colors[i] < 0 || colors[i] > 255)
-			return (free_ptrtab(tmp), \
+			return (free_map(tmp, tab_size), \
 					ft_perror("Invalid colors value in file\n"));
 	}
-	return (free_ptrtab(tmp), 0);
+	return (free_map(tmp, tab_size), 0);
 }
 
 static int	fill_direction(char *buff_f, char **buff_t, t_game *game)
 {
 	size_t	i;
-	int		fd;
 
 	i = 2;
 	if (*buff_t != NULL)
@@ -97,12 +99,14 @@ static int	line_analysis(t_game *game, char *buffer)
 	else if (buffer[0] == 'F')
 	{
 		game->texture.all_text += 1;
-		return (fill_colors(buffer, game->texture.f_color));
+		return (fill_colors(buffer, game->texture.f_color, \
+										game->map_data.heigth));
 	}
 	else if (buffer[0] == 'C')
 	{
 		game->texture.all_text += 1;
-		return (fill_colors(buffer, game->texture.c_color));
+		return (fill_colors(buffer, game->texture.c_color, \
+										game->map_data.heigth));
 	}
 	return (0);
 }

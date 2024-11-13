@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:05:41 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:29:11 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static inline void	print_case(t_game *game, int color)
 
 static inline int	color_choice(t_game *game, int x, int y, const int *ply_x_y)
 {
-	const size_t	height = game->map_data.heigth;
-	const size_t	width = game->map_data.width;
+	const int	height = (int)game->map_data.heigth;
+	const int	width = (int)game->map_data.width;
 
 	if (x == ply_x_y[0] && y == ply_x_y[1])
 		return (RED);
@@ -58,7 +58,7 @@ static inline int	color_choice(t_game *game, int x, int y, const int *ply_x_y)
 		return (game->draw.floor_c >> 2);
 }
 
-void	print_minimap(t_game *game, t_ray *ray)
+void	print_minimap(t_game *game)
 {
 	static const int	m_tile_s = (M_TILE_S >> 1);
 	int					x;

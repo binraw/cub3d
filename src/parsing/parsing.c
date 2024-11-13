@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:18:12 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	fill_player_data(t_game *game, char orientation)
 	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 }
 
-static void	init_data_angle(t_game *game, float angle, int x, int y)
+void	init_data_angle(t_game *game, float angle, int x, int y)
 {
 	game->plyr_data.angle = angle;
 	game->plyr_data.dir_x = x;
@@ -92,7 +92,7 @@ int	parsing(t_game *game, char *filepath)
 	if (get_textures(game, fd))
 		return (free_textures(game), close(fd), 1);
 	if (get_map(game, fd))
-		return (free_textures(game), 1);
+		return (close(fd), free_textures(game), 1);
 	close(fd);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);

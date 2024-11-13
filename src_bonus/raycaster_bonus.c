@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:12:48 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 14:15:19 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:29:27 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static inline bool	hit_wall(t_game *game, t_ray *ray)
 {
-	return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
-			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
+	return (ray->pos_x <= 0 || ray->pos_x >= (int)game->map_data.width || \
+			ray->pos_y <= 0 || ray->pos_y >= (int)game->map_data.heigth || \
 			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
 }
 
@@ -67,7 +67,7 @@ static inline int	raycaster(t_game *game)
 		draw_column(game, &ray, i);
 		i++;
 	}
-	print_minimap(game, &ray);
+	print_minimap(game);
 	mlx_put_image_to_window(game->console.mlx_ptr, game->console.win_ptr,
 		game->img.img_ptr, 0, 0);
 	return (0);

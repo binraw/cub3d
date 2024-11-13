@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:23:14 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:27:44 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int	destroy_all(t_game *game)
 void	destroy_bad_line(t_game *game, char	*buffer)
 {
 	if (game->map_data.map)
-		free_ptrtab(game->map_data.map);
+		free_map(game->map_data.map, game->map_data.heigth);
 	free(buffer);
 }

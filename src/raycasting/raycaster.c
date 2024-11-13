@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:25 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 14:03:49 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:24:09 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static inline bool	hit_wall(t_game *game, t_ray *ray)
 {
-	return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
-			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
+	return (ray->pos_x <= 0 || ray->pos_x >= (int)game->map_data.width || \
+			ray->pos_y <= 0 || ray->pos_y >= (int)game->map_data.heigth || \
 			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
 }
 

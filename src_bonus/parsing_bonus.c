@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:17:55 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	fill_player_data(t_game *game, char orientation)
 	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 }
 
-static void	init_data_angle(t_game *game, float angle, int x, int y)
+void	init_data_angle(t_game *game, float angle, int x, int y)
 {
 	game->plyr_data.angle = angle;
 	game->plyr_data.dir_x = x;

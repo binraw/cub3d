@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:35 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 15:41:55 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**duplicate_map(char **src, size_t nb_ptr)
 	{
 		tmp[i] = ft_strdup(src[i]);
 		if (tmp[i] == NULL)
-			return (free_ptrtab(tmp), \
+			return (free_map(tmp, nb_ptr), \
 					ft_perror("Crash strdup in duplicate_map()\n"), NULL);
 		i++;
 	}

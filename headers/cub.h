@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 14:04:07 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:20:18 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,46 +129,45 @@ typedef struct t_game
 # define ANGLE_S	M_PI_2
 # define ANGLE_E	0
 # define ANGLE_W	M_PI
-# define ANGLE_FOV	1.047197551	
+# define ANGLE_FOV	1.047197551
 # define FOV_2		0.5235987756
 # define ROT_SPEED	0.03
 # define MOV_SPEED	3
 # define TILE_S		64
 # define M_TILE_S    10
 
-static void	init_data_angle(t_game *game, float angle, int x, int y);
-int			ft_perror(char *msg);
-int			init_console(t_game *game);
-void		hook_management(t_game *game);
-int			init_console_mlx(t_game *game);
-void		free_console(t_game *game);
-void		free_textures(t_game *game);
-void		free_ptrtab(char **tab);
-void		free_ptrtab_map(char **tab, size_t len);
-void		free_map_data(t_game *game);
-int			destroy_all(t_game *game);
-int			parsing(t_game *game, char *filepath);
-size_t		ft_strlen_texture(const char *str);
-bool		is_valid_char(char c);
-bool		is_empty_line(char *buffer);
-bool		is_player(char c);
-char		**duplicate_map(char **src, size_t nb_ptr);
-int			alloc_tab(t_game *game, bool first_alloc);
-int			get_map(t_game *game, int fd);
-int			format_line(char **line, size_t *length);
-int			check_map_validity(t_game *game);
-int			get_textures(t_game *game, int fd);
-int			load_texture(t_game *game);
-int			loop_hook(t_game *game);
-void		init_ray(t_ray *ray, t_game *game, int nb_ray);
-int			update_movement(t_game *game);
-void		draw_column(t_game *game, t_ray *ray, int column_index	);
-void		my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
-int			define_index(t_game *game, int nb, int index);
-int			utils_color(t_game *game, t_ray *ray, int nb, int y_start);
-void		print_minimap(t_game *game, t_ray *ray);
-void		write_pixel_minimap(t_game *game, int start_x,
-				int start_y, int curr_color);
-void		destroy_bad_line(t_game *game, char	*buffer);
+void	init_data_angle(t_game *game, float angle, int x, int y);
+int		ft_perror(char *msg);
+int		init_console(t_game *game);
+void	hook_management(t_game *game);
+int		init_console_mlx(t_game *game);
+void	free_console(t_game *game);
+void	free_textures(t_game *game);
+void	free_map(char **tab, size_t len);
+void	free_map_data(t_game *game);
+int		destroy_all(t_game *game);
+int		parsing(t_game *game, char *filepath);
+size_t	ft_strlen_texture(const char *str);
+bool	is_valid_char(char c);
+bool	is_empty_line(char *buffer);
+bool	is_player(char c);
+char	**duplicate_map(char **src, size_t nb_ptr);
+int		alloc_tab(t_game *game, bool first_alloc);
+int		get_map(t_game *game, int fd);
+int		format_line(char **line, size_t *length);
+int		check_map_validity(t_game *game);
+int		get_textures(t_game *game, int fd);
+int		load_texture(t_game *game);
+int		loop_hook(t_game *game);
+void	init_ray(t_ray *ray, t_game *game, int nb_ray);
+int		update_movement(t_game *game);
+void	draw_column(t_game *game, t_ray *ray, int column_index	);
+void	my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
+int		define_index(t_game *game, int nb, int index);
+int		utils_color(t_game *game, t_ray *ray, int nb, int y_start);
+void	print_minimap(t_game *game, t_ray *ray);
+void	write_pixel_minimap(t_game *game, int start_x,
+			int start_y, int curr_color);
+void	destroy_bad_line(t_game *game, char	*buffer);
 
 #endif

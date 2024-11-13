@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:05:05 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 14:13:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:31:21 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,40 +136,39 @@ typedef struct t_game
 # define TILE_S		64
 # define M_TILE_S    10
 
-int			ft_perror(char *msg);
-int			init_console(t_game *game);
-void		hook_management(t_game *game);
-int			init_console_mlx(t_game *game);
-void		free_console(t_game *game);
-void		free_textures(t_game *game);
-void		free_ptrtab(char **tab);
-void		free_ptrtab_map(char **tab, size_t len);
-void		free_map_data(t_game *game);
-int			destroy_all(t_game *game);
-int			parsing(t_game *game, char *filepath);
-bool		is_valid_char(char c);
-bool		is_empty_line(char *buffer);
-bool		is_player(char c);
-char		**duplicate_map(char **src, size_t nb_ptr);
-int			alloc_tab(t_game *game, bool first_alloc);
-static void	init_data_angle(t_game *game, float angle, int x, int y);
-int			get_map(t_game *game, int fd);
-int			check_map_validity(t_game *game);
-int			get_textures(t_game *game, int fd);
-int			load_texture(t_game *game);
-size_t		ft_strlen_texture(const char *str);
-int			loop_hook(t_game *game);
-void		init_ray(t_ray *ray, t_game *game, int nb_ray);
-int			define_index(t_game *game, int nb, int index);
-int			utils_color(t_game *game, t_ray *ray, int nb, int y_start);
-int			update_movement(t_game *game);
-void		draw_column(t_game *game, t_ray *ray, int column_index	);
-void		my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
-void		print_minimap(t_game *game, t_ray *ray);
-void		rotate_player(t_game *game, int is_mouse);
-bool		is_movement(t_game *game);
-int			close_win(t_game *game, int key_code);
-int			change_mouse_pos(t_game *game, int x, int y);
-void		destroy_bad_line(t_game *game, char	*buffer);
+int		ft_perror(char *msg);
+int		init_console(t_game *game);
+void	hook_management(t_game *game);
+int		init_console_mlx(t_game *game);
+void	free_console(t_game *game);
+void	free_textures(t_game *game);
+void	free_map(char **tab, size_t len);
+void	free_map_data(t_game *game);
+int		destroy_all(t_game *game);
+int		parsing(t_game *game, char *filepath);
+bool	is_valid_char(char c);
+bool	is_empty_line(char *buffer);
+bool	is_player(char c);
+char	**duplicate_map(char **src, size_t nb_ptr);
+int		alloc_tab(t_game *game, bool first_alloc);
+void	init_data_angle(t_game *game, float angle, int x, int y);
+int		get_map(t_game *game, int fd);
+int		check_map_validity(t_game *game);
+int		get_textures(t_game *game, int fd);
+int		load_texture(t_game *game);
+size_t	ft_strlen_texture(const char *str);
+int		loop_hook(t_game *game);
+void	init_ray(t_ray *ray, t_game *game, int nb_ray);
+int		define_index(t_game *game, int nb, int index);
+int		utils_color(t_game *game, t_ray *ray, int nb, int y_start);
+int		update_movement(t_game *game);
+void	draw_column(t_game *game, t_ray *ray, int column_index	);
+void	my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
+void	print_minimap(t_game *game);
+void	rotate_player(t_game *game, int is_mouse);
+bool	is_movement(t_game *game);
+int		close_win(t_game *game, int key_code);
+int		change_mouse_pos(t_game *game, int x, int y);
+void	destroy_bad_line(t_game *game, char	*buffer);
 
 #endif

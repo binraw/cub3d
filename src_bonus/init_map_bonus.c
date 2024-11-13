@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:25:51 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static int	format_line(char **line, size_t *length)
 		i++;
 	}
 	i -= 1;
-	if (i > *length)
-		*length = i;
+	if (i > (int)*length)
+		*length = (size_t)i;
 	return (0);
 }
 
@@ -124,7 +124,7 @@ int	get_map(t_game *game, const int fd)
 		free(buffer);
 	}
 	if (tab_size == 0)
-		return (free_ptrtab(game->map_data.map), ft_perror("Map undefined\n"));
+		return (free_map(game->map_data.map, tab_size), ft_perror("Empty\n"));
 	else if (tab_size < 3)
 		return (ft_perror("Invalid map description\n"));
 	game->map_data.heigth = tab_size;

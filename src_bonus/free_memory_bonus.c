@@ -3,34 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:21:59 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:14:34 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-void	free_ptrtab(char **tab)
-{
-	size_t	i;
-
-	i = 0;
-	if (!tab)
-		return ;
-	while (tab[i])
-	{
-		if (tab[i])
-			free(tab[i]);
-		i++;
-	}
-	if (tab)
-		free(tab);
-	return ;
-}
-
-void	free_ptrtab_map(char **tab, size_t len)
+void	free_map(char **tab, size_t len)
 {
 	size_t	i;
 
@@ -64,5 +46,5 @@ void	free_textures(t_game *game)
 void	free_map_data(t_game *game)
 {
 	free_textures(game);
-	free_ptrtab_map(game->map_data.map, game->map_data.heigth);
+	free_map(game->map_data.map, game->map_data.heigth);
 }
