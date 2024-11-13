@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:25 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:00:27 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:50:39 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static inline int	raycaster(game_s *game)
 		draw_column(game, &ray, i);
 		i++;
 	}
-	print_minimap(game, &ray);
 	mlx_put_image_to_window(MLX_PTR, WIN_PTR, game->img.img_ptr, 0, 0);
 	return (0);
 }

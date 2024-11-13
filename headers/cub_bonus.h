@@ -1,6 +1,6 @@
 
-#ifndef CUB_H
-# define CUB_H
+#ifndef CUB_BONUS_H
+# define CUB_BONUS_H
 
     /* === INCLUDES === */
 
@@ -167,7 +167,6 @@
 	/* === init_console.c === */
 	int		init_console(game_s *game);
 	void	hook_management(game_s *game);
-	int init_console_mlx(game_s *game);
 
 	/* === free_memory.c === */
 	void	free_console(game_s *game);
@@ -179,8 +178,6 @@
 
 	/* === parsing.c === */
 	int		parsing(game_s *game, char *filepath);
-	static void	init_data_angle(game_s *game, float angle, int x, int y);
-	size_t	ft_strlen_texture(const char *str);
 
 	/* === parsing_utils.c === */
 	bool	is_valid_char(char c);
@@ -213,20 +210,17 @@
 	/* === draw.c === */
 	void	draw_column(game_s *game, ray_s *ray, int column_index	);
 	void    my_mlx_pixel_put(img_s *data, int x, int y, int color);
-	int	define_index(game_s *game, int nb, int index);
-	int	utils_color(game_s *game, ray_s *ray, int nb, int y_start);
 
     /* === mini_map.c === */
     void    print_minimap(game_s *game, ray_s *ray);
-	void	write_pixel_minimap(game_s *game, int start_x, int start_y, int curr_color);
 
     /***=== BONUS FILES ===***/
     /* === move_bonus.c === */
-    static inline void	rotate_player(game_s *game);
+    void	rotate_player(game_s *game, int is_mouse);
 
     /* === hook_utils_bonus.c === */
     bool is_movement(game_s *game);
-	static int	close_win(game_s *game, int key_code);
+    int	close_win(game_s *game, int key_code);
     int	change_mouse_pos(game_s *game, int x, int y);
 
 #endif

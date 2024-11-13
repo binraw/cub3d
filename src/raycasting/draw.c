@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:42 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:00:44 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:55:40 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static inline void	draw_sky_floor(game_s *game, int column_index, \
 static inline int	get_color(game_s *game, ray_s *ray, int y_start)
 {
 	if (ray->colision_side == 1 && ray->dir_x < 0)
-		return (utils_color(game, ray, 2, y_start));
-	else if (ray->colision_side == 1)
 		return (utils_color(game, ray, 3, y_start));
+	else if (ray->colision_side == 1)
+		return (utils_color(game, ray, 2, y_start));
 	else if (ray->dir_y < 0)
 		return (utils_color(game, ray, 1, y_start));
 	else
