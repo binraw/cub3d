@@ -220,5 +220,6 @@
     /* === mini_map.c === */
     void    print_minimap(game_s *game, ray_s *ray);
 	void	write_pixel_minimap(game_s *game, int start_x, int start_y, int curr_color);
+	void	destroy_bad_line(game_s *game, char	*buffer);
 
 #endif

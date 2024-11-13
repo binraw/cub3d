@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:24 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:48:31 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:24:17 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,11 @@ int	destroy_all(game_s *game)
 	free_console(game);
 	exit(EXIT_SUCCESS);
 	return (0);
+}
+
+void	destroy_bad_line(game_s *game, char	*buffer)
+{
+	if (game->map_data.map)
+		free_ptrtab(game->map_data.map);
+	free(buffer);
 }
