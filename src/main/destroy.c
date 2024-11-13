@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:24 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:01:25 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 11:48:31 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	destroy_all(game_s *game)
 		mlx_destroy_image(game->console.mlx_ptr, game->img_data[2].img_ptr);
 	if (game->img_data[3].img_ptr)
 		mlx_destroy_image(game->console.mlx_ptr, game->img_data[3].img_ptr);
+	if (game->img.img_ptr)
+		mlx_destroy_image(game->console.mlx_ptr, game->img.img_ptr);
 	free_map_data(game);
 	free_console(game);
 	exit(EXIT_SUCCESS);

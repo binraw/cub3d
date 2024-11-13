@@ -98,12 +98,6 @@
 		int	ceiling_c;
 	}	draw_s;
 
-	/*
-		* img_data[0] == IMG_NORTH
-		* img_data[1] == IMG_SOUTH
-		* img_data[2] == IMG_WEST
-		* img_data[3] == IMG_EAST
-	*/
     typedef struct game_s
     {
 		console_s	console;
@@ -154,12 +148,6 @@
     #define M_TILE_S    10
 
 /* === PROTOTYPES === */
-
-	/* === Temporary function === */
-	// void	print_struct(game_s *game);
-	// void	print_player(game_s *game);
-	// void	print_ray(ray_s *ray);
-	// void    print_constante(game_s *game);
 
 	/* === main.c === */
 	int		ft_perror(char *msg);
