@@ -215,5 +215,6 @@
     bool	is_movement(game_s *game);
     int		close_win(game_s *game, int key_code);
     int		change_mouse_pos(game_s *game, int x, int y);
+    void	destroy_bad_line(game_s *game, char	*buffer);
 
 #endif

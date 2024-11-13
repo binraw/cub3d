@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 09:27:54 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:29:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	get_map(game_s *game, const int fd)
 		if (!buffer)
 			break ;
 		if (line_analysis(game, &tab_size, buffer))
-			return (free(buffer), 1);
+			return (destroy_bad_line(game, buffer), 1);
 		free(buffer);
 	}
 	if (tab_size == 0)
