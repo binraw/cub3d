@@ -1,5 +1,5 @@
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 static inline void	print_case(game_s *game, int color)
 {

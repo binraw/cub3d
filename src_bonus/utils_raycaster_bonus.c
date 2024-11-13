@@ -1,6 +1,6 @@
 
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 static inline void	init_step(ray_s *ray, game_s *game)
 {

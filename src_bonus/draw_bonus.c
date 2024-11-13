@@ -1,6 +1,6 @@
 
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 void	my_mlx_pixel_put(img_s *data, int x, int y, int color)
 {

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_map.c                                        :+:      :+:    :+:   */
+/*   valid_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/02 12:45:04 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/13 09:28:57 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub.h>
+#include "cub_bonus.h"
 
 static int	check_column_loop(char **map, size_t heigth, size_t *x, size_t *y)
 {

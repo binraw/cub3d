@@ -1,4 +1,4 @@
-#include "../headers/cub.h"
+#include "cub_bonus.h"
 
 int	init_console(game_s *game)
 {

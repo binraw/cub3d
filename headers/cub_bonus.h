@@ -1,6 +1,6 @@
 
-#ifndef CUB_H
-# define CUB_H
+#ifndef CUB_BONUS_H
+# define CUB_BONUS_H
 
     /* === INCLUDES === */
 
@@ -216,11 +216,11 @@
 
     /***=== BONUS FILES ===***/
     /* === move_bonus.c === */
-    static inline void	rotate_player(game_s *game);
+    void	rotate_player(game_s *game, int is_mouse);
 
     /* === hook_utils_bonus.c === */
     bool is_movement(game_s *game);
-	static int	close_win(game_s *game, int key_code);
+    int	close_win(game_s *game, int key_code);
     int	change_mouse_pos(game_s *game, int x, int y);
 
 #endif

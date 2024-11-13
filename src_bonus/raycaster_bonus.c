@@ -1,4 +1,4 @@
-#include "cub.h"
+#include "cub_bonus.h"
 
 static inline bool	hit_wall(game_s *game, ray_s *ray)
 {
