@@ -51,11 +51,11 @@ SRC_BONUS	=	$(DIR_B_SRC)main_bonus.c $(DIR_B_SRC)free_memory_bonus.c \
 				\
 				$(DIR_B_SRC)parsing_bonus.c $(DIR_B_SRC)parsing_utils_bonus.c \
 				$(DIR_B_SRC)init_map_bonus.c $(DIR_B_SRC)init_texture_bonus.c \
-				$(DIR_B_SRC)valid_map_bonus.c \
+				$(DIR_B_SRC)valid_map_bonus.c $(DIR_B_SRC)destroy_bonus.c \
 				\
 				$(DIR_B_SRC)raycaster_bonus.c $(DIR_B_SRC)utils_raycaster_bonus.c \
-				$(DIR_B_SRC)texture_bonus.c  $(DIR_B_SRC)draw_bonus.c \
-				$(DIR_B_SRC)move_bonus.c \
+				$(DIR_B_SRC)texture_bonus.c  $(DIR_B_SRC)draw_bonus.c $(DIR_B_SRC)draw_utils_bonus.c \
+				$(DIR_B_SRC)move_bonus.c $(DIR_B_SRC)init_utils_texture.c \
 				$(DIR_B_SRC)mini_map_bonus.c
 
 ### === OBJECTS === ###

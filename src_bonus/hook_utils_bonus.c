@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook_utils_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 10:56:31 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/13 10:57:21 by rtruvelo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub_bonus.h"
 
@@ -19,12 +30,13 @@ int	change_mouse_pos(game_s *game, int x, int y)
 		x = WIN_W - 20;
 		mlx_mouse_move(MLX_PTR, WIN_PTR, x, y);
 	}
-    return (x);
+	return (x);
 }
-bool is_movement(game_s *game)
+
+bool	is_movement(game_s *game)
 {
-    return (game->plyr_data.move_up || game->plyr_data.move_down || \
-            game->plyr_data.move_left || game->plyr_data.move_right || \
-            game->plyr_data.rotate_l || game->plyr_data.rotate_r || \
-            game->plyr_data.rotate_m);
+	return (game->plyr_data.move_up || game->plyr_data.move_down || \
+			game->plyr_data.move_left || game->plyr_data.move_right || \
+			game->plyr_data.rotate_l || game->plyr_data.rotate_r || \
+			game->plyr_data.rotate_m);
 }

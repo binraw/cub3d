@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 09:28:30 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 11:12:22 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,22 @@ static int	init_parsing(char *filepath, game_s *game, const int fd)
 static void	fill_player_data(game_s *game, char orientation)
 {
 	if (orientation == 'N')
-	{
-		game->plyr_data.angle = ANGLE_N;
-		game->plyr_data.dir_x = 0;
-		game->plyr_data.dir_y = -1;
-	}
+		init_data_angle(game, ANGLE_N, 0, -1);
 	else if (orientation == 'S')
-	{
-		game->plyr_data.angle = ANGLE_S;
-		game->plyr_data.dir_x = 0;
-		game->plyr_data.dir_y = 1;
-	}
+		init_data_angle(game, ANGLE_S, 0, 1);
 	else if (orientation == 'E')
-	{
-		game->plyr_data.angle = ANGLE_E;
-		game->plyr_data.dir_x = 1;
-		game->plyr_data.dir_y = 0;
-	}
+		init_data_angle(game, ANGLE_E, 1, 0);
 	else
-	{
-		game->plyr_data.angle = ANGLE_W;
-		game->plyr_data.dir_x = -1;
-		game->plyr_data.dir_y = 0;
-	}
+		init_data_angle(game, ANGLE_W, -1, 0);
 	game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
 	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
+}
+
+static void	init_data_angle(game_s *game, float angle, int x, int y)
+{
+	game->plyr_data.angle = angle;
+	game->plyr_data.dir_x = x;
+	game->plyr_data.dir_y = y;
 }
 
 static int	get_plyr_pos(game_s *game)
@@ -78,8 +69,8 @@ static int	get_plyr_pos(game_s *game)
 			if (is_player(game->map_data.map[y][x]))
 			{
 				fill_player_data(game, game->map_data.map[y][x]);
-				game->plyr_data.pos_x = (double) (x * TILE_S + (TILE_S >> 1));
-				game->plyr_data.pos_y = (double) (y * TILE_S + (TILE_S >> 1));
+				game->plyr_data.pos_x = (double)(x * TILE_S + (TILE_S >> 1));
+				game->plyr_data.pos_y = (double)(y * TILE_S + (TILE_S >> 1));
 				return (0);
 			}
 			x++;
@@ -105,7 +96,7 @@ int	parsing(game_s *game, char *filepath)
 	close(fd);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
-    if (get_plyr_pos(game))
-    	return (free_map_data(game), 1);
+	if (get_plyr_pos(game))
+		return (free_map_data(game), 1);
 	return (0);
 }

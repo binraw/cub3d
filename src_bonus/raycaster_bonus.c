@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycaster_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 11:12:48 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/13 11:13:32 by rtruvelo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub_bonus.h"
 
 static inline bool	hit_wall(game_s *game, ray_s *ray)
 {
-    return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
+	return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
 			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
 			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
 }
@@ -60,20 +72,20 @@ static inline int	raycaster(game_s *game)
 	return (0);
 }
 
-int loop_hook(game_s *game)
+int	loop_hook(game_s *game)
 {
-    if (game->plyr_data.write == 0)
-    {
-        raycaster(game);
-        game->plyr_data.write = 1;
-    }
-    if (is_movement(game))
-    {
-        if (update_movement(game) == 1)
-            return (0);
-        raycaster(game);
-    }
-    if (game->plyr_data.rotate_m)
-        game->plyr_data.rotate_m = 0;
-    return (0);
+	if (game->plyr_data.write == 0)
+	{
+		raycaster(game);
+		game->plyr_data.write = 1;
+	}
+	if (is_movement(game))
+	{
+		if (update_movement(game) == 1)
+			return (0);
+		raycaster(game);
+	}
+	if (game->plyr_data.rotate_m)
+		game->plyr_data.rotate_m = 0;
+	return (0);
 }
