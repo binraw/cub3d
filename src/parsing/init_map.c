@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:44:30 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:03:53 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	valid_file_content(char *buffer)
 	return (0);
 }
 
-static int	format_line(char **line, size_t *length)
+int	format_line(char **line, size_t *length)
 {
 	int	i;
 
@@ -47,7 +47,7 @@ static int	format_line(char **line, size_t *length)
 		i++;
 	}
 	i -= 1;
-	if (i > *length)
+	if (length != NULL && i > *length)
 		*length = i;
 	return (0);
 }

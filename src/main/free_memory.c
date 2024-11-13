@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_memory.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 08:57:54 by fberthou          #+#    #+#             */
+/*   Updated: 2024/11/13 08:57:57 by fberthou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub.h"
 
@@ -10,24 +20,6 @@ void	free_ptrtab(char **tab)
 	if (!tab)
 		return ;
 	while (tab[i])
-	{
-		if (tab[i])
-			free(tab[i]);
-		i++;
-	}
-	if (tab)
-		free(tab);
-	return ;
-}
-
-void	free_ptrtab_map(char **tab, size_t len)
-{
-	size_t	i;
-
-	i = 0;
-	if (!tab)
-		return ;
-	while (i < len)
 	{
 		if (tab[i])
 			free(tab[i]);
@@ -54,7 +46,7 @@ void	free_textures(game_s *game)
 void	free_map_data(game_s *game)
 {
 	free_textures(game);
-	free_ptrtab_map(game->map_data.map, game->map_data.heigth);
+	free_ptrtab(game->map_data.map);
 }
 
 void	free_console(game_s *game)
@@ -67,16 +59,16 @@ void	free_console(game_s *game)
 
 int	destroy_all(game_s *game)
 {
-	if (game->img_data[0].img_ptr)
-		mlx_destroy_image(game->console.mlx_ptr, game->img_data[0].img_ptr);
-	if (game->img_data[1].img_ptr)
-	mlx_destroy_image(game->console.mlx_ptr, game->img_data[1].img_ptr);
-	if (game->img_data[2].img_ptr)
-	mlx_destroy_image(game->console.mlx_ptr, game->img_data[2].img_ptr);
-	if (game->img_data[3].img_ptr)
-	mlx_destroy_image(game->console.mlx_ptr, game->img_data[3].img_ptr);
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (game->img_data[i].img_ptr)
+			mlx_destroy_image(MLX_PTR, game->img_data[i++].img_ptr);
+	}
+	mlx_destroy_image(MLX_PTR, game->img.img_ptr);
 	free_map_data(game);
 	free_console(game);
-	exit(EXIT_SUCCESS);
 	return (0);
 }

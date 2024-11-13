@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 08:29:24 by fberthou          #+#    #+#             */
+/*   Updated: 2024/11/13 08:29:28 by fberthou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub.h"
 
@@ -23,7 +33,7 @@ static inline int	move(game_s *game, double move_x, double move_y)
     return (1);
 }
 
-void	rotate_player(game_s *game, int is_mouse)
+void	rot_player(game_s *game, int is_mouse)
 {
     static const double    m_rot_speed = (ROT_SPEED * 0.8);
 
@@ -49,7 +59,7 @@ int update_movement(game_s *game)
 {
     if (game->plyr_data.rotate_l || game->plyr_data.rotate_r || \
                                         game->plyr_data.rotate_m)
-        rotate_player(game, 0);
+        rot_player(game, 0);
     if (game->plyr_data.move_up)
         return (move(game, cos(game->plyr_data.angle) * MOV_SPEED, \
                             sin(game->plyr_data.angle) * MOV_SPEED));

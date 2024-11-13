@@ -56,12 +56,12 @@ static int	mouse_hook(int x, int y, game_s *game)
     if (x < old_x)
     {
 	    game->plyr_data.rotate_m = 1;
-		rotate_player(game, 1);
+		rot_player(game, 1);
     }
 	else if (x > old_x)
     {
 	    game->plyr_data.rotate_m = 2;
-		rotate_player(game, 2);
+		rot_player(game, 2);
     }
 	old_x = x;
 	return (0);

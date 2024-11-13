@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/06 08:08:18 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:09:13 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,6 @@ static int	fill_colors(char *buffer, int *colors)
 	return (free_ptrtab(tmp), 0);
 }
 
-size_t	ft_strlen_texture(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0' && str[i] != '\n')
-	{
-		i++;
-	}
-	return (i);
-}
-
 static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 {
 	size_t	i;
@@ -88,9 +74,10 @@ static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 	i = 2;
 	if (*buff_t != NULL)
 		return (ft_perror("One direction field is duplicated\n"));
+	format_line(&buff_f, NULL);
 	while (buff_f[i] && (buff_f[i] == ' ' || buff_f[i] == '\t'))
 		i++;
-	*buff_t = ft_substr(buff_f, i, ft_strlen_texture(buff_f) - i);
+	*buff_t = ft_substr(buff_f, i, ft_strlen(buff_f) - i);
 	if (!*buff_t)
 		return (ft_perror("crash malloc in fill_direction\n"));
 	game->texture.all_text += 1;
@@ -141,9 +128,9 @@ int	get_textures(game_s *game, const int fd)
 		}
 		free(buffer);
 	}
-    game->draw.ceiling_c = (game->texture.c_color[0] << 16) | \
-                (game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
-    game->draw.floor_c = (game->texture.f_color[0] << 16) | \
-                (game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
+	game->draw.ceiling_c = (game->texture.c_color[0] << 16) | \
+				(game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
+	game->draw.floor_c = (game->texture.f_color[0] << 16) | \
+				(game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
 	return (0);
 }
