@@ -167,6 +167,7 @@
 	/* === init_console.c === */
 	int		init_console(game_s *game);
 	void	hook_management(game_s *game);
+    int	init_console_mlx(game_s *game);
 
 	/* === free_memory.c === */
 	void	free_console(game_s *game);
@@ -185,6 +186,7 @@
 	bool	is_player(char c);
 	char	**duplicate_map(char **src, size_t nb_ptr);
 	int		alloc_tab(game_s *game, bool first_alloc);
+    static void	init_data_angle(game_s *game, float angle, int x, int y);
 
 	/* === init_map.c === */
 	int		get_map(game_s *game, int fd);
@@ -197,12 +199,15 @@
 
 	/* === texture.c === */
 	int    load_texture(game_s *game);
-
+    size_t	ft_strlen_texture(const char *str);
+    
 	/* === raycaster.c === */
 	int		loop_hook(game_s *game);
 
 	/* === utils_raycaster.c === */
 	void	init_ray(ray_s *ray, game_s *game, int nb_ray);
+    int	define_index(game_s *game, int nb, int index);
+    int	utils_color(game_s *game, ray_s *ray, int nb, int y_start);
 
 	/* === move.c === */
 	int		update_movement(game_s *game);
@@ -216,7 +221,7 @@
 
     /***=== BONUS FILES ===***/
     /* === move_bonus.c === */
-    void	rot_player(game_s *game, int is_mouse);
+    void	rotate_player(game_s *game, int is_mouse);
 
     /* === hook_utils_bonus.c === */
     bool	is_movement(game_s *game);

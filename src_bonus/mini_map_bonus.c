@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_map_bonus.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 11:05:41 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/13 11:06:48 by rtruvelo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub_bonus.h"
 
@@ -49,10 +60,10 @@ static inline int	color_choice(game_s *game, int x, int y, const int *ply_x_y)
 
 void	print_minimap(game_s *game, ray_s *ray)
 {
-    static const int    m_tile_s = (M_TILE_S >> 1);
-	int			x;
-	int			y;
-	const int	ply_x_y[2] = {(int) game->plyr_data.pos_x / TILE_S, \
+	static const int	m_tile_s = (M_TILE_S >> 1);
+	int					x;
+	int					y;
+	const int			ply_x_y[2] = {(int) game->plyr_data.pos_x / TILE_S, \
 							(int) game->plyr_data.pos_y / TILE_S};
 
 	x = ply_x_y[0] - m_tile_s;

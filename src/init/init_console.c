@@ -3,16 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   init_console.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 08:30:57 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 08:42:40 by fberthou         ###   ########.fr       */
+/*   Created: 2024/11/12 08:01:30 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/13 11:21:12 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../headers/cub.h"
 
 int	init_console(game_s *game)
+{
+	memset(&game->img, 0, sizeof(img_s));
+	game->img.img_ptr = mlx_new_image(game->console.mlx_ptr, WIN_W, WIN_H);
+	if (!game->img.img_ptr)
+	{
+		fprintf(stderr, "Erreur lors de la création de l'image\n");
+		return (-1);
+	}
+	game->img.data = mlx_get_data_addr(game->img.img_ptr, &game->img.bpp,
+			&game->img.s_line, &game->img.endian);
+	if (!game->img.data)
+	{
+		fprintf(stderr, "Erreur lors de la création du buffer\n");
+		return (-1);
+	}
+	return (0);
+}
+
+int	init_console_mlx(game_s *game)
 {
 	if (WIN_H == 0 || WIN_W == 0)
 		return (ft_perror("Window width or heigth is set to 0\n"));
@@ -25,17 +44,6 @@ int	init_console(game_s *game)
 	{
 		mlx_destroy_display(game->console.mlx_ptr);
 		return (free(game->console.mlx_ptr), ft_perror("win alloc failed\n"));
-	}
-	memset(&game->img, 0, sizeof(img_s));
-	game->img.img_ptr = mlx_new_image(game->console.mlx_ptr, WIN_W, WIN_H);
-	if (!game->img.img_ptr)
-		return (free_console(game), ft_perror("Alloc new image\n"));
-	game->img.data = mlx_get_data_addr(game->img.img_ptr, &game->img.bpp, \
-										&game->img.s_line, &game->img.endian);
-	if (!game->img.data)
-	{
-		mlx_destroy_image(MLX_PTR, game->img.img_ptr);
-		return (free_console(game), ft_perror("Get image data\n"));
 	}
 	return (0);
 }

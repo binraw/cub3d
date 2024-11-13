@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 08:29:45 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 08:30:44 by fberthou         ###   ########.fr       */
+/*   Created: 2024/11/12 08:01:37 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/11/13 11:21:22 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	key_down(int code, game_s *game)
 void	hook_management(game_s *game)
 {
 	mlx_hook(game->console.win_ptr, DestroyNotify, StructureNotifyMask, \
-															close_win, game);
+														close_win, game);
 	mlx_hook(game->console.win_ptr, KeyPress, KeyPressMask, key_down, game);
 	mlx_hook(game->console.win_ptr, KeyRelease, KeyReleaseMask, key_up, game);
 	return ;

@@ -1,7 +1,7 @@
 NO ./assets/guy.xpm
-SO ./assets/guy.xpm
-WE ./assets/guy.xpm
-EA ./assets/guy.xpm
+SO ./assets/bluestone.xpm
+WE ./assets/wall1.xpm
+EA ./assets/wall2.xpm
 
 F 0,153,76
 
@@ -12,7 +12,7 @@ C 0,255,255
 10000000001
 10000000001
 10000000001
-10000N00001
+10000W00001
 10000000001
 10000000001
 10000000001
