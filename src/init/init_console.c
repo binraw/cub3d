@@ -6,15 +6,15 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:30 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:21:12 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:58:26 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub.h"
 
-int	init_console(game_s *game)
+int	init_console(t_game *game)
 {
-	memset(&game->img, 0, sizeof(img_s));
+	memset(&game->img, 0, sizeof(t_img_data));
 	game->img.img_ptr = mlx_new_image(game->console.mlx_ptr, WIN_W, WIN_H);
 	if (!game->img.img_ptr)
 	{
@@ -31,7 +31,7 @@ int	init_console(game_s *game)
 	return (0);
 }
 
-int	init_console_mlx(game_s *game)
+int	init_console_mlx(t_game *game)
 {
 	if (WIN_H == 0 || WIN_W == 0)
 		return (ft_perror("Window width or heigth is set to 0\n"));

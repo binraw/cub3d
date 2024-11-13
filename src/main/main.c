@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:15 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:01:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_perror(char *msg)
 
 int	main(int argc, char **argv)
 {
-	game_s	game;
+	t_game	game;
 
 	(void)argc;
 	if (argc != 2)

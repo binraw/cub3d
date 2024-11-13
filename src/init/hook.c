@@ -6,19 +6,19 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:37 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:21:22 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static int	close_win(game_s *game, int key_code)
+static int	close_win(t_game *game, int key_code)
 {
 	(void) key_code;
 	return (mlx_loop_end(game->console.mlx_ptr));
 }
 
-static int	key_up(int code, game_s *game)
+static int	key_up(int code, t_game *game)
 {
 	if (code == XK_Escape)
 		return (mlx_loop_end(game->console.mlx_ptr));
@@ -37,7 +37,7 @@ static int	key_up(int code, game_s *game)
 	return (0);
 }
 
-static int	key_down(int code, game_s *game)
+static int	key_down(int code, t_game *game)
 {
 	if (code == XK_Escape)
 		return (mlx_loop_end(game->console.mlx_ptr));
@@ -56,7 +56,7 @@ static int	key_down(int code, game_s *game)
 	return (0);
 }
 
-void	hook_management(game_s *game)
+void	hook_management(t_game *game)
 {
 	mlx_hook(game->console.win_ptr, DestroyNotify, StructureNotifyMask, \
 														close_win, game);

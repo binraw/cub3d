@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:05:41 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:06:48 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-static inline void	print_case(game_s *game, int color)
+static inline void	print_case(t_game *game, int color)
 {
 	static int	y;
 	static int	x;
@@ -41,7 +41,7 @@ static inline void	print_case(game_s *game, int color)
 		x = 0;
 }
 
-static inline int	color_choice(game_s *game, int x, int y, const int *ply_x_y)
+static inline int	color_choice(t_game *game, int x, int y, const int *ply_x_y)
 {
 	const size_t	height = game->map_data.heigth;
 	const size_t	width = game->map_data.width;
@@ -58,7 +58,7 @@ static inline int	color_choice(game_s *game, int x, int y, const int *ply_x_y)
 		return (game->draw.floor_c >> 2);
 }
 
-void	print_minimap(game_s *game, ray_s *ray)
+void	print_minimap(t_game *game, t_ray *ray)
 {
 	static const int	m_tile_s = (M_TILE_S >> 1);
 	int					x;

@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:03 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:00:46 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int	utils_color(game_s *game, ray_s *ray, int nb, int y_start)
+int	utils_color(t_game *game, t_ray *ray, int nb, int y_start)
 {
 	float	hit_x_y[2];
 	int		txtr_x_y[2];
@@ -40,7 +40,7 @@ int	utils_color(game_s *game, ray_s *ray, int nb, int y_start)
 	return (*(int *)(game->img_data[nb].data + index));
 }
 
-int	define_index(game_s *game, int nb, int index)
+int	define_index(t_game *game, int nb, int index)
 {
 	if (index < 0)
 		index = 0;

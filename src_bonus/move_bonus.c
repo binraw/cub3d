@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:07:59 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:24:28 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-static inline int	move(game_s *game, double move_x, double move_y)
+static inline int	move(t_game *game, double move_x, double move_y)
 {
 	int		map_grid_y;
 	int		map_grid_x;
@@ -33,7 +33,7 @@ static inline int	move(game_s *game, double move_x, double move_y)
 	return (1);
 }
 
-void	rotate_player(game_s *game, int is_mouse)
+void	rotate_player(t_game *game, int is_mouse)
 {
 	static const double	m_rot_speed = (ROT_SPEED * 0.8);
 
@@ -55,7 +55,7 @@ void	rotate_player(game_s *game, int is_mouse)
 	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 }
 
-int	update_movement(game_s *game)
+int	update_movement(t_game *game)
 {
 	if (game->plyr_data.rotate_l || game->plyr_data.rotate_r || \
 										game->plyr_data.rotate_m)

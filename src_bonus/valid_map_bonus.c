@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 09:28:57 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static int	check_lines(char **map, size_t heigth)
 	return (0);
 }
 
-int	check_map_validity(game_s *game)
+int	check_map_validity(t_game *game)
 {
 	if (check_lines(game->map_data.map, game->map_data.heigth))
 		return (1);

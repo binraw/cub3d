@@ -21,7 +21,7 @@
     {
 		void	*mlx_ptr;
 		void	*win_ptr;
-    } console_s;
+    } t_console;
 
 	typedef struct texture
 	{
@@ -32,7 +32,7 @@
 		int		f_color[3];
 		int		c_color[3];
 		int     all_text;
-	} texture_s ;
+	} t_texture ;
 
 	typedef struct ray
 	{
@@ -49,7 +49,7 @@
 		double	side_y;
 		double	wall_dist;
 		bool	colision_side;
-	} ray_s;
+	} t_ray;
 
     typedef struct player
     {
@@ -69,14 +69,14 @@
 		bool	rotate_r;
 		bool	rotate_l;
         int     rotate_m;
-    } player_s;
+    } t_player;
 
 	typedef struct map
 	{
         char	**map;
 		size_t	width;
 		size_t	heigth;
-	} map_s;
+	} t_map;
 
 	typedef struct img
 	{
@@ -87,7 +87,7 @@
 		int		bpp;
 		int		s_line;
 		int		endian;
-	}	img_s;
+	}	t_img;
 
 	typedef struct draw
 	{
@@ -96,19 +96,19 @@
 		int	wall_b;
 		int	floor_c;
 		int	ceiling_c;
-	}	draw_s;
+	}	t_draw;
 
-    typedef struct game_s
+    typedef struct t_game
     {
-		console_s	console;
-		texture_s	texture;
-		map_s		map_data;
-		player_s	plyr_data;
-		draw_s		draw;
-		ray_s		ray_data;
-		img_s		img_data[4];
-		img_s		img;
-    } game_s;
+		t_console	console;
+		t_texture	texture;
+		t_map		map_data;
+		t_player	plyr_data;
+		t_draw		draw;
+		t_ray		ray_data;
+		t_img		img_data[4];
+		t_img		img;
+    } t_game;
 
 /* ==== CONSTANTES ==== */
 
@@ -153,68 +153,68 @@
 	int		ft_perror(char *msg);
 
 	/* === init_console.c === */
-	int		init_console(game_s *game);
-	void	hook_management(game_s *game);
-    int	init_console_mlx(game_s *game);
+	int		init_console(t_game *game);
+	void	hook_management(t_game *game);
+    int	init_console_mlx(t_game *game);
 
 	/* === free_memory.c === */
-	void	free_console(game_s *game);
-	void	free_textures(game_s *game);
+	void	free_console(t_game *game);
+	void	free_textures(t_game *game);
 	void	free_ptrtab(char **tab);
 	void	free_ptrtab_map(char **tab, size_t len);
-	void	free_map_data(game_s *game);
-	int		destroy_all(game_s *game);
+	void	free_map_data(t_game *game);
+	int		destroy_all(t_game *game);
 
 	/* === parsing.c === */
-	int		parsing(game_s *game, char *filepath);
+	int		parsing(t_game *game, char *filepath);
 
 	/* === parsing_utils.c === */
 	bool	is_valid_char(char c);
 	bool	is_empty_line(char *buffer);
 	bool	is_player(char c);
 	char	**duplicate_map(char **src, size_t nb_ptr);
-	int		alloc_tab(game_s *game, bool first_alloc);
-    static void	init_data_angle(game_s *game, float angle, int x, int y);
+	int		alloc_tab(t_game *game, bool first_alloc);
+    static void	init_data_angle(t_game *game, float angle, int x, int y);
 
 	/* === init_map.c === */
-	int		get_map(game_s *game, int fd);
+	int		get_map(t_game *game, int fd);
 
 	/* === valid_map.c === */
-	int		check_map_validity(game_s *game);
+	int		check_map_validity(t_game *game);
 
 	/* === init_texture.c === */
-	int		get_textures(game_s *game, int fd);
+	int		get_textures(t_game *game, int fd);
 
 	/* === texture.c === */
-	int    load_texture(game_s *game);
+	int    load_texture(t_game *game);
     size_t	ft_strlen_texture(const char *str);
     
 	/* === raycaster.c === */
-	int		loop_hook(game_s *game);
+	int		loop_hook(t_game *game);
 
 	/* === utils_raycaster.c === */
-	void	init_ray(ray_s *ray, game_s *game, int nb_ray);
-    int	define_index(game_s *game, int nb, int index);
-    int	utils_color(game_s *game, ray_s *ray, int nb, int y_start);
+	void	init_ray(t_ray *ray, t_game *game, int nb_ray);
+    int	define_index(t_game *game, int nb, int index);
+    int	utils_color(t_game *game, t_ray *ray, int nb, int y_start);
 
 	/* === move.c === */
-	int		update_movement(game_s *game);
+	int		update_movement(t_game *game);
 
 	/* === draw.c === */
-	void	draw_column(game_s *game, ray_s *ray, int column_index	);
-	void    my_mlx_pixel_put(img_s *data, int x, int y, int color);
+	void	draw_column(t_game *game, t_ray *ray, int column_index	);
+	void    my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
     /* === mini_map.c === */
-    void    print_minimap(game_s *game, ray_s *ray);
+    void    print_minimap(t_game *game, t_ray *ray);
 
     /***=== BONUS FILES ===***/
     /* === move_bonus.c === */
-    void	rotate_player(game_s *game, int is_mouse);
+    void	rotate_player(t_game *game, int is_mouse);
 
     /* === hook_utils_bonus.c === */
-    bool	is_movement(game_s *game);
-    int		close_win(game_s *game, int key_code);
-    int		change_mouse_pos(game_s *game, int x, int y);
-    void	destroy_bad_line(game_s *game, char	*buffer);
+    bool	is_movement(t_game *game);
+    int		close_win(t_game *game, int key_code);
+    int		change_mouse_pos(t_game *game, int x, int y);
+    void	destroy_bad_line(t_game *game, char	*buffer);
 
 #endif

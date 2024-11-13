@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:24 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:24:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	free_console(game_s *game)
+void	free_console(t_game *game)
 {
 	mlx_destroy_window(game->console.mlx_ptr, game->console.win_ptr);
 	mlx_destroy_display(game->console.mlx_ptr);
@@ -20,7 +20,7 @@ void	free_console(game_s *game)
 	return ;
 }
 
-int	destroy_all(game_s *game)
+int	destroy_all(t_game *game)
 {
 	if (game->img_data[0].img_ptr)
 		mlx_destroy_image(game->console.mlx_ptr, game->img_data[0].img_ptr);
@@ -38,7 +38,7 @@ int	destroy_all(game_s *game)
 	return (0);
 }
 
-void	destroy_bad_line(game_s *game, char	*buffer)
+void	destroy_bad_line(t_game *game, char	*buffer)
 {
 	if (game->map_data.map)
 		free_ptrtab(game->map_data.map);

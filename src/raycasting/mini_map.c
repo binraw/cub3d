@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:37 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:00:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
+void	print_case(t_game *game, bool is_floor, int start_x, int start_y)
 {
 	int	curr_color;
 	int	pos_x;
@@ -29,7 +29,7 @@ void	print_case(game_s *game, bool is_floor, int start_x, int start_y)
 	write_pixel_minimap(game, start_x, start_y, curr_color);
 }
 
-void	write_pixel_minimap(game_s *game, int start_x,
+void	write_pixel_minimap(t_game *game, int start_x,
 		int start_y, int curr_color)
 {
 	const int	cell_w = (WIN_W / 7) / game->map_data.width;
@@ -52,7 +52,7 @@ void	write_pixel_minimap(game_s *game, int start_x,
 	}
 }
 
-void	print_minimap(game_s *game, ray_s *ray)
+void	print_minimap(t_game *game, t_ray *ray)
 {
 	size_t	y;
 	size_t	x;

@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:13:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:14:43 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-static int	init_texture_no(game_s *game)
+static int	init_texture_no(t_game *game)
 {
 	game->img_data[0].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
 							game->texture.text_no, &game->img_data[0].width, \
@@ -27,7 +27,7 @@ static int	init_texture_no(game_s *game)
 	return (0);
 }
 
-static int	init_texture_so(game_s *game)
+static int	init_t_textureo(t_game *game)
 {
 	game->img_data[1].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
 							game->texture.text_so, &game->img_data[1].width, \
@@ -42,7 +42,7 @@ static int	init_texture_so(game_s *game)
 	return (0);
 }
 
-static int	init_texture_we(game_s *game)
+static int	init_texture_we(t_game *game)
 {
 	game->img_data[2].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
 							game->texture.text_we, &game->img_data[2].width, \
@@ -57,7 +57,7 @@ static int	init_texture_we(game_s *game)
 	return (0);
 }
 
-static int	init_texture_ea(game_s *game)
+static int	init_texture_ea(t_game *game)
 {
 	game->img_data[3].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
 							game->texture.text_ea, &game->img_data[3].width, \
@@ -72,9 +72,9 @@ static int	init_texture_ea(game_s *game)
 	return (0);
 }
 
-int	load_texture(game_s *game)
+int	load_texture(t_game *game)
 {
-	if (init_texture_no(game) || init_texture_so(game) || \
+	if (init_texture_no(game) || init_t_textureo(game) || \
 		init_texture_we(game) || init_texture_ea(game))
 	{
 		destroy_all(game);

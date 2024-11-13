@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 13:29:25 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	format_line(char **line, size_t *length)
 	return (0);
 }
 
-static int	format_map(game_s *game)
+static int	format_map(t_game *game)
 {
 	char	*tmp;
 	char	*temp;
@@ -81,7 +81,7 @@ static int	format_map(game_s *game)
 	return (0);
 }
 
-static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
+static int	line_analysis(t_game *game, size_t *tab_size, char *buffer)
 {
 	static bool	flag;
 	const bool	empty = is_empty_line(buffer);
@@ -102,7 +102,7 @@ static int	line_analysis(game_s *game, size_t *tab_size, char *buffer)
 	return (0);
 }
 
-int	get_map(game_s *game, const int fd)
+int	get_map(t_game *game, const int fd)
 {
 	char		*buffer;
 	size_t		tab_size;

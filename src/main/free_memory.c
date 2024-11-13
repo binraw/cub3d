@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:20 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:21:36 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_ptrtab(char **tab)
 	return ;
 }
 
-void	free_textures(game_s *game)
+void	free_textures(t_game *game)
 {
 	if (game->texture.text_no != NULL)
 		free(game->texture.text_no);
@@ -43,7 +43,7 @@ void	free_textures(game_s *game)
 	return ;
 }
 
-void	free_map_data(game_s *game)
+void	free_map_data(t_game *game)
 {
 	free_textures(game);
 	free_ptrtab(game->map_data.map);

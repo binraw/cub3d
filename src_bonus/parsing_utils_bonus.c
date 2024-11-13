@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:35 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 09:28:36 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**duplicate_map(char **src, size_t nb_ptr)
 	return (tmp);
 }
 
-int	alloc_tab(game_s *game, bool first_alloc)
+int	alloc_tab(t_game *game, bool first_alloc)
 {
 	char	**tmp;
 

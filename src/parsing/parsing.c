@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/12 07:34:34 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static int	init_parsing(char *filepath, game_s *game, const int fd)
+static int	init_parsing(char *filepath, t_game *game, const int fd)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	init_parsing(char *filepath, game_s *game, const int fd)
 	if (filepath[i] != 'b' || filepath[i - 1] != 'u' || \
 		filepath[i - 2] != 'c' || filepath[i - 3] != '.')
 		return (close(fd), ft_perror("Bad file extension\n"));
-	ft_memset(game, 0, sizeof(game_s));
+	ft_memset(game, 0, sizeof(t_game));
 	ft_memset(game->texture.c_color, -1, 3 * sizeof(int));
 	ft_memset(game->texture.f_color, -1, 3 * sizeof(int));
 	game->plyr_data.pos_x = -1;
@@ -34,7 +34,7 @@ static int	init_parsing(char *filepath, game_s *game, const int fd)
 	return (0);
 }
 
-static void	fill_player_data(game_s *game, char orientation)
+static void	fill_player_data(t_game *game, char orientation)
 {
 	if (orientation == 'N')
 		init_data_angle(game, ANGLE_N, 0, -1);
@@ -48,14 +48,14 @@ static void	fill_player_data(game_s *game, char orientation)
 	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
 }
 
-static void	init_data_angle(game_s *game, float angle, int x, int y)
+static void	init_data_angle(t_game *game, float angle, int x, int y)
 {
 	game->plyr_data.angle = angle;
 	game->plyr_data.dir_x = x;
 	game->plyr_data.dir_y = y;
 }
 
-static int	get_plyr_pos(game_s *game)
+static int	get_plyr_pos(t_game *game)
 {
 	size_t	x;
 	size_t	y;
@@ -83,7 +83,7 @@ static int	get_plyr_pos(game_s *game)
 	return (0);
 }
 
-int	parsing(game_s *game, char *filepath)
+int	parsing(t_game *game, char *filepath)
 {
 	const int	fd = open(filepath, O_RDONLY);
 

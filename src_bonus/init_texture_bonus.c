@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 11:04:16 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	fill_colors(char *buffer, int *colors)
 	return (free_ptrtab(tmp), 0);
 }
 
-static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
+static int	fill_direction(char *buff_f, char **buff_t, t_game *game)
 {
 	size_t	i;
 	int		fd;
@@ -83,7 +83,7 @@ static int	fill_direction(char *buff_f, char **buff_t, game_s *game)
 	return (0);
 }
 
-static int	line_analysis(game_s *game, char *buffer)
+static int	line_analysis(t_game *game, char *buffer)
 {
 	if (buffer[0] == 'N' && buffer[1] == 'O')
 		return (fill_direction(buffer, &game->texture.text_no, game));
@@ -106,7 +106,7 @@ static int	line_analysis(game_s *game, char *buffer)
 	return (0);
 }
 
-int	get_textures(game_s *game, const int fd)
+int	get_textures(t_game *game, const int fd)
 {
 	char	*buffer;
 

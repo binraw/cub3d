@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:09 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 09:34:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static inline void	init_step(ray_s *ray, game_s *game)
+static inline void	init_step(t_ray *ray, t_game *game)
 {
 	if (ray->dir_x < 0)
 	{
@@ -40,7 +40,7 @@ static inline void	init_step(ray_s *ray, game_s *game)
 	}
 }
 
-void	init_ray(ray_s *ray, game_s *game, int nb_ray)
+void	init_ray(t_ray *ray, t_game *game, int nb_ray)
 {
 	static const double	increment = ANGLE_FOV / WIN_W;
 

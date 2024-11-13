@@ -6,18 +6,18 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:16:27 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 10:19:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:58:11 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-void	my_mlx_pixel_put(img_s *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_img_data *data, int x, int y, int color)
 {
 	((int *)data->data)[y * (data->s_line >> 2) + x] = color;
 }
 
-static inline void	draw_sky_floor(game_s *game, int column_index, \
+static inline void	t_drawky_floor(t_game *game, int column_index, \
 											int wall_top, int wall_bottom)
 {
 	int	y;
@@ -38,7 +38,7 @@ static inline void	draw_sky_floor(game_s *game, int column_index, \
 	}
 }
 
-static inline int	get_color(game_s *game, ray_s *ray, int y_start)
+static inline int	get_color(t_game *game, t_ray *ray, int y_start)
 {
 	if (ray->colision_side == 1 && ray->dir_x < 0)
 		return (utils_color(game, ray, 3, y_start));
@@ -51,7 +51,7 @@ static inline int	get_color(game_s *game, ray_s *ray, int y_start)
 	return (0);
 }
 
-void	draw_column(game_s *game, ray_s *ray, int col_index)
+void	draw_column(t_game *game, t_ray *ray, int col_index)
 {
 	static const int	mid_win = WIN_H >> 1;
 	int					y_start;
@@ -72,5 +72,5 @@ void	draw_column(game_s *game, ray_s *ray, int col_index)
 		}
 		y_start++;
 	}
-	draw_sky_floor(game, col_index, game->draw.wall_t, game->draw.wall_b);
+	t_drawky_floor(game, col_index, game->draw.wall_t, game->draw.wall_b);
 }

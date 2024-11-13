@@ -6,19 +6,19 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:56:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 10:57:21 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-int	close_win(game_s *game, int key_code)
+int	close_win(t_game *game, int key_code)
 {
 	(void) key_code;
 	return (mlx_loop_end(game->console.mlx_ptr));
 }
 
-int	change_mouse_pos(game_s *game, int x, int y)
+int	change_mouse_pos(t_game *game, int x, int y)
 {
 	if (x > WIN_W - 20)
 	{
@@ -33,7 +33,7 @@ int	change_mouse_pos(game_s *game, int x, int y)
 	return (x);
 }
 
-bool	is_movement(game_s *game)
+bool	is_movement(t_game *game)
 {
 	return (game->plyr_data.move_up || game->plyr_data.move_down || \
 			game->plyr_data.move_left || game->plyr_data.move_right || \

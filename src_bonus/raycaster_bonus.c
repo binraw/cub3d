@@ -6,20 +6,20 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:12:48 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:13:32 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-static inline bool	hit_wall(game_s *game, ray_s *ray)
+static inline bool	hit_wall(t_game *game, t_ray *ray)
 {
 	return (ray->pos_x <= 0 || ray->pos_x >= game->map_data.width || \
 			ray->pos_y <= 0 || ray->pos_y >= game->map_data.heigth || \
 			game->map_data.map[ray->pos_y][ray->pos_x] == '1');
 }
 
-static inline void	init_wall_dist(game_s *game, ray_s *ray)
+static inline void	init_wall_dist(t_game *game, t_ray *ray)
 {
 	if (ray->colision_side == 1)
 	{
@@ -33,7 +33,7 @@ static inline void	init_wall_dist(game_s *game, ray_s *ray)
 	}
 }
 
-static inline void	dda(game_s *game, ray_s *ray)
+static inline void	dda(t_game *game, t_ray *ray)
 {
 	while (hit_wall(game, ray) == false)
 	{
@@ -52,10 +52,10 @@ static inline void	dda(game_s *game, ray_s *ray)
 	}
 }
 
-static inline int	raycaster(game_s *game)
+static inline int	raycaster(t_game *game)
 {
 	size_t	i;
-	ray_s	ray;
+	t_ray	ray;
 
 	i = 0;
 	while (i < WIN_W)
@@ -72,7 +72,7 @@ static inline int	raycaster(game_s *game)
 	return (0);
 }
 
-int	loop_hook(game_s *game)
+int	loop_hook(t_game *game)
 {
 	if (game->plyr_data.write == 0)
 	{

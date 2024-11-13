@@ -6,13 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:24:41 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 11:22:07 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-static int	key_up(int code, game_s *game)
+static int	key_up(int code, t_game *game)
 {
 	if (code == XK_Escape)
 		return (mlx_loop_end(game->console.mlx_ptr));
@@ -31,7 +31,7 @@ static int	key_up(int code, game_s *game)
 	return (0);
 }
 
-static int	key_down(int code, game_s *game)
+static int	key_down(int code, t_game *game)
 {
 	if (code == XK_Escape)
 		return (mlx_loop_end(game->console.mlx_ptr));
@@ -50,7 +50,7 @@ static int	key_down(int code, game_s *game)
 	return (0);
 }
 
-static int	mouse_hook(int x, int y, game_s *game)
+static int	mouse_hook(int x, int y, t_game *game)
 {
 	static int	old_x;
 	static int	count;
@@ -78,7 +78,7 @@ static int	mouse_hook(int x, int y, game_s *game)
 	return (0);
 }
 
-void	hook_management(game_s *game)
+void	hook_management(t_game *game)
 {
 	mlx_hook(game->console.win_ptr, DestroyNotify, StructureNotifyMask, \
 														close_win, game);
