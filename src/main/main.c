@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:15 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 16:12:24 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/14 10:25:26 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	main(int argc, char **argv)
 		return (free_map_data(&game), EXIT_FAILURE);
 	if (init_console(&game))
 		return (free_map_data(&game), EXIT_FAILURE);
-	load_texture(&game);
+	if (load_texture(&game))
+		return (1);
 	hook_management(&game);
 	mlx_loop_hook(game.console.mlx_ptr, loop_hook, &game);
 	mlx_loop(game.console.mlx_ptr);

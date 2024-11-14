@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:17 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/14 10:26:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	init_texture_no(t_game *game)
 	return (0);
 }
 
-static int	init_t_textureo(t_game *game)
+static int	init_texture_so(t_game *game)
 {
 	game->img_data[1].img_ptr = mlx_xpm_file_to_image(game->console.mlx_ptr, \
 							game->texture.text_so, &game->img_data[1].width, \
@@ -74,7 +74,7 @@ static int	init_texture_ea(t_game *game)
 
 int	load_texture(t_game *game)
 {
-	if (init_texture_no(game) || init_t_textureo(game) || \
+	if (init_texture_no(game) || init_texture_so(game) || \
 		init_texture_we(game) || init_texture_ea(game))
 	{
 		destroy_all(game);
