@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:59 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/14 09:47:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/14 10:02:36 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,17 @@ int check_line_validity(char **map, size_t x_start, size_t x_end, size_t y)
 	while (x_start <= x_end)
 	{
 		if (map[y][x_start] == ' ' || map[y][x_start] == '\t')
-			return (1);
+			return (check_value_around(map, x_start, y));
 		x_start++;
 	}
+	return (0);
+}
+
+int check_value_around(char **map, size_t x, size_t y)
+{
+	if (map[y][x - 1] != '1')
+		return (1);
+	if (map[y][x + 1] != '1')
+		return (1);
 	return (0);
 }
