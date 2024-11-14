@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 16:22:55 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/14 09:47:34 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	check_columns(char **map, size_t heigth)
 
 static int	check_line_loop(char **map, size_t heigth, size_t *x, size_t *y)
 {
-	while (map[*y][*x] == ' ')
+	while (map[*y][*x] == ' ' || map[*y][*x] == '\t')
 	{
 		if (*y > 0 && map[*y - 1][*x] == '0')
 			return (1);
@@ -77,8 +77,10 @@ static int	check_line_loop(char **map, size_t heigth, size_t *x, size_t *y)
 	}
 	if (map[*y][*x] != '1')
 		return (1);
+	if (check_line_validity(map, *x, ft_strlen(map[*y]) - 1, *y))
+		return (1);
 	*x = ft_strlen(map[*y]) - 1;
-	while (*x != 0 && map[*y][*x] == ' ')
+	while (*x != 0 && (map[*y][*x] == ' ' || map[*y][*x] == '\t'))
 	{
 		if (*y > 0 && map[*y - 1][*x] == '0')
 			return (1);

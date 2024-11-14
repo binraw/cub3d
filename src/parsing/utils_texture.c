@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:00:59 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/12 08:01:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/14 09:47:26 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,17 @@ size_t	ft_strlen_texture(const char *str)
 		i++;
 	}
 	return (i);
+}
+
+int check_line_validity(char **map, size_t x_start, size_t x_end, size_t y)
+{
+	while (map[y][x_end] == ' ' || map[y][x_end] == '\t')
+		x_end--;
+	while (x_start <= x_end)
+	{
+		if (map[y][x_start] == ' ' || map[y][x_start] == '\t')
+			return (1);
+		x_start++;
+	}
+	return (0);
 }

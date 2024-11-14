@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:05:05 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 16:31:21 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/14 09:51:00 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,5 +170,6 @@ bool	is_movement(t_game *game);
 int		close_win(t_game *game, int key_code);
 int		change_mouse_pos(t_game *game, int x, int y);
 void	destroy_bad_line(t_game *game, char	*buffer);
+int		check_line_validity(char **map, size_t x_start, size_t x_end, size_t y);
 
 #endif
