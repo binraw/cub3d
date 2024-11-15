@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/15 17:20:20 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/15 17:57:33 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ void	print_minimap(t_game *game, t_ray *ray);
 void	write_pixel_minimap(t_game *game, int start_x,
 			int start_y, int curr_color);
 void	destroy_bad_line(t_game *game, char	*buffer);
-// int		check_line_validity(char **map, size_t x_start, size_t x_end, size_t y);
-int     check_txtr(t_game *game);
+int		check_txtr(t_game *game);
 
 #endif
