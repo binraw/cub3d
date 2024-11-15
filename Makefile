@@ -28,7 +28,7 @@ DIR_B_SRC	= src_bonus/
 # ==== COMPILATION TOOLS ==== #
 LIB_FLAG	= -I$(DIR_LIBFT)hdr -I$(DIR_MLX)
 MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lm
-CFLAGS		= -I$(HDR_DIR) $(LIB_FLAG) #-Wall -Wextra -Werror
+CFLAGS		= -I$(HDR_DIR) $(LIB_FLAG) -Wall -Wextra -Werror
 
 ### === SOURCES FILES === ###
 SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c $(DIR_MAIN)destroy.c \
