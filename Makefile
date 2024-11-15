@@ -12,61 +12,51 @@ MD		= @mkdir -p
 #	### *** LIBRAIRIES PATH *** ###
 DIR_MLX		= ./minilibx-linux/
 DIR_LIBFT	= ./libft/
-#	### *** HEADER PATH *** ###
-HDR_DIR		= headers/
 #	### *** SOURCES PATH *** ###
+HDR_DIR		= headers/
 DIR_SRC		= src/
-DIR_MAIN	= $(DIR_SRC)main/
-DIR_INIT	= $(DIR_SRC)init/
-DIR_PARS	= $(DIR_SRC)parsing/
-DIR_RAY		= $(DIR_SRC)raycasting/
+DIR_SHARED	= $(DIR_SRC)shared/
+DIR_MAND	= $(DIR_SRC)mandatory/
+DIR_BONUS	= $(DIR_SRC)bonus/
 DIR_OBJ		= .object/
 DIR_OBJ_B	= .object_b/
-#	### *** SOURCES BONUS PATH *** ###
-DIR_B_SRC	= src_bonus/
 
 # ==== COMPILATION TOOLS ==== #
 LIB_FLAG	= -I$(DIR_LIBFT)hdr -I$(DIR_MLX)
 MLX_FLAGS	= -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lm
 CFLAGS		= -I$(HDR_DIR) $(LIB_FLAG) -Wall -Wextra -Werror
 
-### === SOURCES FILES === ###
-SRCS_FILE		=	$(DIR_MAIN)main.c $(DIR_MAIN)free_memory.c $(DIR_MAIN)destroy.c \
-					\
-					$(DIR_INIT)init_console.c $(DIR_INIT)hook.c \
-					\
-					$(DIR_PARS)parsing.c $(DIR_PARS)parsing_utils.c \
-					$(DIR_PARS)init_map.c $(DIR_PARS)init_texture.c \
-					$(DIR_PARS)valid_map.c \
-					\
-					$(DIR_RAY)raycaster.c $(DIR_RAY)utils_raycaster.c \
-					$(DIR_RAY)texture.c  $(DIR_RAY)draw.c $(DIR_RAY)utils_draw.c\
-					$(DIR_RAY)move.c \
+### === SHARED PART === ###
+SHARED_FILE		=	$(DIR_SHARED)main.c $(DIR_SHARED)free_memory.c $(DIR_SHARED)destroy.c \
+					$(DIR_SHARED)init_console.c $(DIR_SHARED)parsing.c \
+					$(DIR_SHARED)parsing_utils.c $(DIR_SHARED)init_map.c \
+					$(DIR_SHARED)init_texture.c $(DIR_SHARED)valid_map.c \
+					$(DIR_SHARED)utils_raycaster.c $(DIR_SHARED)texture.c \
+					$(DIR_SHARED)draw.c $(DIR_SHARED)utils_draw.c \
+					$(DIR_SHARED)init_texture_utils.c
 
-### === BONUS FILES === ###
-SRC_BONUS	=	$(DIR_B_SRC)main_bonus.c $(DIR_B_SRC)free_memory_bonus.c \
-				\
-				$(DIR_B_SRC)init_console_bonus.c $(DIR_B_SRC)hook_bonus.c \
-				$(DIR_B_SRC)hook_utils_bonus.c \
-				\
-				$(DIR_B_SRC)parsing_bonus.c $(DIR_B_SRC)parsing_utils_bonus.c \
-				$(DIR_B_SRC)init_map_bonus.c $(DIR_B_SRC)init_texture_bonus.c \
-				$(DIR_B_SRC)valid_map_bonus.c $(DIR_B_SRC)destroy_bonus.c \
-				\
-				$(DIR_B_SRC)raycaster_bonus.c $(DIR_B_SRC)utils_raycaster_bonus.c \
-				$(DIR_B_SRC)texture_bonus.c  $(DIR_B_SRC)draw_bonus.c $(DIR_B_SRC)draw_utils_bonus.c \
-				$(DIR_B_SRC)move_bonus.c $(DIR_B_SRC)init_utils_texture.c \
-				$(DIR_B_SRC)mini_map_bonus.c
+### === MANDATORY PART === ###
+SRCS_FILE		=	$(DIR_MAND)hook.c $(DIR_MAND)raycaster.c $(DIR_MAND)move.c
+
+### === BONUS PART === ###
+SRC_BONUS		=	$(DIR_BONUS)hook_bonus.c $(DIR_BONUS)hook_utils_bonus.c \
+					$(DIR_BONUS)raycaster_bonus.c $(DIR_BONUS)move_bonus.c \
+					$(DIR_BONUS)mini_map_bonus.c
 
 ### === OBJECTS === ###
-OBJS		= $(SRCS_FILE:$(DIR_SRC)%.c=$(DIR_OBJ)%.o)
-BONUS_OBJ	= $(SRC_BONUS:$(DIR_B_SRC)%.c=$(DIR_OBJ_B)%.o)
+
+OBJS			=	$(SRCS_FILE:$(DIR_MAND)%.c=$(DIR_OBJ)%.o) \
+					$(SHARED_FILE:$(DIR_SHARED)%.c=$(DIR_OBJ)%.o)
+
+BONUS_OBJ		= 	$(SRC_BONUS:$(DIR_BONUS)%.c=$(DIR_OBJ_B)%.o) \
+					$(SHARED_FILE:$(DIR_SHARED)%.c=$(DIR_OBJ_B)%.o)
 
 ### === COMPILATION RULES === ###
 default:	all
 all:		$(MLX) $(LIBFT) $(NAME)
 bonus:		$(MLX) $(LIBFT) $(B_NAME)
 
+### === LINKER === ###
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) -o $@ $^ -L$(DIR_MLX) $(MLX_FLAGS)
 	@echo "**** CUBD3D READY ****"
@@ -75,16 +65,29 @@ $(B_NAME): $(BONUS_OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) -o $(B_NAME) $^ -L$(DIR_MLX) $(MLX_FLAGS)
 	@echo "**** CUBD3D_BONUS READY ****"
 
-$(DIR_OBJ)%.o: $(DIR_SRC)%.c $(HDR_DIR)cub.h Makefile $(LIBFT)
+### === COMPILATION MANDATORY PART === ###
+$(DIR_OBJ)%.o: $(DIR_SHARED)%.c $(HDR_DIR)cub.h Makefile $(LIBFT)
 	@echo "Compiling $< to $@"
 	$(MD) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(DIR_OBJ_B)%.o: $(DIR_B_SRC)%.c $(HDR_DIR)cub_bonus.h Makefile $(LIBFT)
+$(DIR_OBJ)%.o: $(DIR_MAND)%.c $(HDR_DIR)cub.h Makefile $(LIBFT)
+	@echo "Compiling $< to $@"
+	$(MD) $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+### === COMPILATION BONUS PART === ###
+$(DIR_OBJ_B)%.o: $(DIR_SHARED)%.c $(HDR_DIR)cub_bonus.h Makefile $(LIBFT)
+	@echo "Compiling shared $< for bonus to $@"
+	$(MD) $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(DIR_OBJ_B)%.o: $(DIR_BONUS)%.c $(HDR_DIR)cub_bonus.h Makefile $(LIBFT)
 	@echo "Compiling bonus $< to $@"
 	$(MD) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+### === COMPILATION LIBRAIRIES === ###
 $(MLX): FORCE
 	$(MAKE) -C $(DIR_MLX) all
 
@@ -114,4 +117,4 @@ fclean_bonus: clean_bonus
 
 re_bonus: fclean_bonus bonus
 
-.PHONY: all clean fclean re clean_bonus fclean_bonus re_bonus FORCE
+.PHONY: all clean fclean re bonus clean_bonus fclean_bonus re_bonus FORCE

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_console.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:30 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:58:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:49:00 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub.h"
+#include "cub.h"
 
 int	init_console(t_game *game)
 {

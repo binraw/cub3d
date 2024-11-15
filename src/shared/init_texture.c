@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 16:13:58 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/15 17:28:11 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	fill_colors(char *buffer, int *colors, int tab_size)
 	int		i;
 
 	i = 1;
-	tab_size = 0;
 	while (buffer[i] && buffer[i] == ' ')
 		i++;
 	tmp = ft_split(&buffer[i], ',');
@@ -99,14 +98,12 @@ static int	line_analysis(t_game *game, char *buffer)
 	else if (buffer[0] == 'F')
 	{
 		game->texture.all_text += 1;
-		return (fill_colors(buffer, game->texture.f_color, \
-										game->map_data.heigth));
+		return (fill_colors(buffer, game->texture.f_color, 0));
 	}
 	else if (buffer[0] == 'C')
 	{
 		game->texture.all_text += 1;
-		return (fill_colors(buffer, game->texture.c_color, \
-										game->map_data.heigth));
+		return (fill_colors(buffer, game->texture.c_color, 0));
 	}
 	return (0);
 }
@@ -132,9 +129,5 @@ int	get_textures(t_game *game, const int fd)
 		}
 		free(buffer);
 	}
-	game->draw.ceiling_c = (game->texture.c_color[0] << 16) | \
-				(game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
-	game->draw.floor_c = (game->texture.f_color[0] << 16) | \
-				(game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
-	return (0);
+	return (check_txtr(game));
 }

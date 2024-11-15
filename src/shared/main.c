@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:15 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/14 10:25:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:48:59 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub.h"
+#include "cub.h"
 
 int	ft_perror(char *msg)
 {

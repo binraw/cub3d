@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 16:18:12 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/15 17:44:58 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static int	init_parsing(char *filepath, t_game *game, const int fd)
 	i = 0;
 	if (fd < 3)
 		return (ft_perror("Cannot open file, check the path and the name\n"));
-	while (filepath[i])
-		i++;
+	i = ft_strlen(filepath);
 	if (i-- < 5)
 		return (close(fd), ft_perror("Invalid filename\n"));
 	if (filepath[i] != 'b' || filepath[i - 1] != 'u' || \

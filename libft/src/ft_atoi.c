@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:19:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2023/11/17 15:42:40 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:35:17 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	ft_atoi(const char *str)
 		sign = -1;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
+	if (str[i] < '0' || str[i] > '9')
+		return (-1);
 	while (str[i] != '\0' && str[i] >= 48 && str[i] <= 57)
 	{
 		resultcpy = result;
