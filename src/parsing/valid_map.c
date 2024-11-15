@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/14 09:47:34 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/15 09:50:47 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,25 +93,35 @@ static int	check_line_loop(char **map, size_t heigth, size_t *x, size_t *y)
 
 static int	check_lines(char **map, size_t heigth)
 {
-	size_t	x;
-	size_t	y;
+	size_t			x;
+	size_t			y;
+    const size_t 	line_len = ft_strlen(map[0]);
 
 	y = 0;
 	x = 0;
 	while (map[y])
 	{
-		if (check_line_loop(map, heigth, &x, &y))
-		{
-			ft_perror("Map is not close in a line ");
-			printf("(around [%zu][%zu])\n", y, x);
-			return (1);
-		}
-		if (map[y][x] == '0')
-		{
-			ft_perror("Map is not close in a line ");
-			printf("(around [%zu][%zu])\n", y, x);
-			return (1);
-		}
+        while (map[y][x])
+        {
+			if (map[y][x] == ' ' || map[y][x] == '\t')
+			{
+				if ((y == 0 || y == heigth - 1) && map[y][x] == '0')
+				{
+					ft_perror("Map is not close in a line ");
+					printf("(around [%zu][%zu])\n", y, x);
+					return (1);
+				}
+				if (y > 0 && map[y - 1][x] == '0')
+					return (ft_perror("1"));
+				if (x > 0 && map[y][x - 1] == '0')
+					return (ft_perror("2"));
+				if (y < heigth - 1 && map[y + 1][x] == '0')
+					return (ft_perror("3"));
+				if (x < line_len && map[y][x + 1] == '0')
+					return (ft_perror("4"));
+			}
+			x++;
+        }
 		x = 0;
 		y++;
 	}
