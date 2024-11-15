@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/14 10:56:58 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:39:33 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ void	free_map(char **tab, size_t len);
 void	free_map_data(t_game *game);
 int		destroy_all(t_game *game);
 int		parsing(t_game *game, char *filepath);
-size_t	ft_strlen_texture(const char *str);
 bool	is_valid_char(char c);
 bool	is_empty_line(char *buffer);
 bool	is_player(char c);
