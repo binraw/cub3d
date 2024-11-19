@@ -1,4 +1,4 @@
-NO ./assets/bluestone.xpm
+NO ./textures/exit.xpm
 SO ./assets/guy.xpm
 WE ./assets/wall2.xpm
 EA ./assets/wall3.xpm
