@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/19 09:36:11 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:27:07 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void	my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
 int		define_index(t_game *game, int nb, int index);
 int		utils_color(t_game *game, t_ray *ray, int nb, int y_start);
 void	print_minimap(t_game *game, t_ray *ray);
+size_t	skip_spaces(char *buffer);
 void	write_pixel_minimap(t_game *game, int start_x,
 			int start_y, int curr_color);
 void	destroy_bad_line(t_game *game, char	*buffer);

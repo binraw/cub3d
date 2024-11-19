@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/19 09:47:03 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:27:25 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static int	line_analysis(t_game *game, char *buffer)
 		game->texture.all_text += 1;
 		return (fill_colors(buffer, game->texture.c_color, 0));
 	}
+	else if (is_empty_line(buffer) == false)
+		return (ft_perror("Textures and map description are mixed\n"), 1);
 	return (0);
 }
 
@@ -118,9 +120,7 @@ int	get_textures(t_game *game, const int fd)
 		buffer = get_next_line(fd);
 		if (!buffer)
 			break ;
-		if (is_empty_line(buffer) == false && game->texture.all_text < 6)
-			return (free(buffer), ft_perror(E_FILE_FORMAT));
-		if (line_analysis(game, buffer))
+		if (line_analysis(game, &buffer[skip_spaces(buffer)]))
 			return (free(buffer), 1);
 		if (game->texture.all_text == 6)
 		{

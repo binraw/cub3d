@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:05:05 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/19 09:36:06 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:26:55 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ bool	is_movement(t_game *game);
 int		close_win(t_game *game, int key_code);
 int		change_mouse_pos(t_game *game, int x, int y);
 void	destroy_bad_line(t_game *game, char	*buffer);
+size_t	skip_spaces(char *buffer);
 int		check_line_validity(char **map, size_t x_start, size_t x_end, size_t y);
 int		define_texture_x(t_game *game, t_ray *ray, int nb);
 int		check_extension_xpm(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:35 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/15 15:19:17 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/19 09:45:17 by fberthou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ bool	is_empty_line(char *buffer)
 	size_t	i;
 
 	i = 0;
-	if (buffer[1] == 'O' || buffer[1] == 'A' || buffer[1] == 'E' || \
-		buffer[0] == 'F' || buffer[0] == 'C')
-		return (true);
 	while (buffer[i])
 	{
-		if (buffer[i] != 9 && buffer[i] != 32 && buffer[i] != '\n')
+		if (buffer[i] != '\t' && buffer[i] != ' ' && buffer[i] != '\n')
 			return (false);
 		i++;
 	}

@@ -1,8 +1,8 @@
-NO textures/test/north.xpm
-SO textures/test/south.xpm
-WE textures/test/west.xpm
+NO ./textures/test/north.xpm
+SO ./textures/test/south.xpm
+WE ./textures/test/west.xpm
 
-EA textures/test/east.xpm
+EA ./textures/test/east.xpm
 
 
 C 125, 230, 4
