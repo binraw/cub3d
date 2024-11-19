@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/19 09:02:56 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/19 09:36:11 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,5 +170,6 @@ void	write_pixel_minimap(t_game *game, int start_x,
 void	destroy_bad_line(t_game *game, char	*buffer);
 int		check_txtr(t_game *game);
 int		define_texture_x(t_game *game, t_ray *ray, int nb);
+int		check_extension_xpm(char *str);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/15 17:28:11 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/19 09:47:03 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,10 @@ int	get_textures(t_game *game, const int fd)
 		}
 		free(buffer);
 	}
+	if (check_extension_xpm(game->texture.text_no)
+		|| check_extension_xpm(game->texture.text_so)
+		|| check_extension_xpm(game->texture.text_ea)
+		|| check_extension_xpm(game->texture.text_we))
+		return (1);
 	return (check_txtr(game));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:13:51 by florian           #+#    #+#             */
-/*   Updated: 2024/11/15 17:37:53 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/19 09:47:38 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,19 @@ int	check_txtr(t_game *game)
 				(game->texture.c_color[1] << 8) | (game->texture.c_color[2]);
 	game->draw.floor_c = (game->texture.f_color[0] << 16) | \
 				(game->texture.f_color[1] << 8) | (game->texture.f_color[2]);
+	return (0);
+}
+
+int	check_extension_xpm(char *str)
+{
+	size_t	i;
+
+	i = ft_strlen(str);
+	if (i < 4)
+		return (1);
+	i--;
+	if (str[i] != 'm' || str[i - 1] != 'p'
+		|| str[i - 2] != 'x' || str[i - 3] != '.')
+		return (1);
 	return (0);
 }
