@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:05:05 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/14 09:51:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/19 09:03:09 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,5 +171,6 @@ int		close_win(t_game *game, int key_code);
 int		change_mouse_pos(t_game *game, int x, int y);
 void	destroy_bad_line(t_game *game, char	*buffer);
 int		check_line_validity(char **map, size_t x_start, size_t x_end, size_t y);
+int		define_texture_x(t_game *game, t_ray *ray, int nb);
 
 #endif

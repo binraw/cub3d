@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/15 17:57:33 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/19 09:02:56 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,6 @@ void	write_pixel_minimap(t_game *game, int start_x,
 			int start_y, int curr_color);
 void	destroy_bad_line(t_game *game, char	*buffer);
 int		check_txtr(t_game *game);
+int		define_texture_x(t_game *game, t_ray *ray, int nb);
 
 #endif
