@@ -6,11 +6,18 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/15 17:44:58 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/20 11:00:13 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+static void	init_data_angle(t_game *game, float angle, int x, int y)
+{
+	game->plyr_data.angle = angle;
+	game->plyr_data.dir_x = x;
+	game->plyr_data.dir_y = y;
+}
 
 static int	init_parsing(char *filepath, t_game *game, const int fd)
 {
@@ -45,13 +52,6 @@ static void	fill_player_data(t_game *game, char orientation)
 		init_data_angle(game, ANGLE_W, -1, 0);
 	game->plyr_data.plane_x = -game->plyr_data.dir_y * tan(FOV_2);
 	game->plyr_data.plane_y = game->plyr_data.dir_x * tan(FOV_2);
-}
-
-void	init_data_angle(t_game *game, float angle, int x, int y)
-{
-	game->plyr_data.angle = angle;
-	game->plyr_data.dir_x = x;
-	game->plyr_data.dir_y = y;
 }
 
 static int	get_plyr_pos(t_game *game)

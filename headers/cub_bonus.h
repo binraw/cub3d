@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:05:05 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/19 11:26:55 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/20 08:37:14 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ bool	is_empty_line(char *buffer);
 bool	is_player(char c);
 char	**duplicate_map(char **src, size_t nb_ptr);
 int		alloc_tab(t_game *game, bool first_alloc);
-void	init_data_angle(t_game *game, float angle, int x, int y);
 int		get_map(t_game *game, int fd);
 int		check_map_validity(t_game *game);
 int		get_textures(t_game *game, int fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/19 11:30:48 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:04:44 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int	get_textures(t_game *game, const int fd)
 		}
 		free(buffer);
 	}
+	if (game->texture.all_text != 6)
+		return (ft_perror("Invalid texture and/or color description\n"));
 	if (check_extension_xpm(game->texture.text_no)
 		|| check_extension_xpm(game->texture.text_so)
 		|| check_extension_xpm(game->texture.text_ea)

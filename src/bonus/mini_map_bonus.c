@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:05:41 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 16:29:11 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/20 11:25:12 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static inline int	color_choice(t_game *game, int x, int y, const int *ply_x_y)
 		return (game->draw.floor_c >> 1);
 	else if (y >= 0 && y < height && x >= 0 && \
 								x < width && game->map_data.map[y][x] == '1')
-		return (game->draw.ceiling_c >> 1);
+		return (game->draw.ceiling_c >> 2);
 	else
 		return (game->draw.floor_c >> 2);
 }

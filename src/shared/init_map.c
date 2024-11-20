@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/13 16:21:44 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/20 10:36:17 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ int	get_map(t_game *game, const int fd)
 		free(buffer);
 	}
 	if (tab_size == 0)
-		return (free_map(game->map_data.map, tab_size), ft_perror("Empty\n"));
-	else if (tab_size < 3)
-		return (ft_perror("Invalid map description\n"));
+		return (free_map(game->map_data.map, tab_size), ft_perror(E_EMPTY));
+	if (tab_size < 3)
+		return (free_map(game->map_data.map, tab_size), ft_perror(E_MAP_DESC));
 	game->map_data.heigth = tab_size;
 	return (format_map(game));
 }

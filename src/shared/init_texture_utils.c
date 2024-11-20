@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:13:51 by florian           #+#    #+#             */
-/*   Updated: 2024/11/19 09:47:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:49:28 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int	check_extension_xpm(char *str)
 
 	i = ft_strlen(str);
 	if (i < 4)
-		return (1);
+		return (ft_perror("Bad texture file extension\n"), 1);
 	i--;
 	if (str[i] != 'm' || str[i - 1] != 'p'
 		|| str[i - 2] != 'x' || str[i - 3] != '.')
-		return (1);
+		return (ft_perror("Bad texture file extension\n"), 1);
 	return (0);
 }

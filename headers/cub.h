@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/19 11:27:07 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:58:23 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ typedef struct t_game
 # define E_MULTIPLAY    "Multiple player definition is forbidden\n"
 # define E_INVALID_CHAR "Invalid char in the map\n"
 # define E_EMPTYLINE    "Empty line in the map description is forbidden\n"
+# define E_EMPTY		"Map description is missing\n"
+# define E_MAP_DESC     "Invalid map description\n"
 # define RED        0Xc70404
 # define WIN_W		700
 # define WIN_H		700
@@ -136,7 +138,6 @@ typedef struct t_game
 # define TILE_S		64
 # define M_TILE_S    10
 
-void	init_data_angle(t_game *game, float angle, int x, int y);
 int		ft_perror(char *msg);
 int		init_console(t_game *game);
 void	hook_management(t_game *game);

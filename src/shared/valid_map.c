@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fberthou <fberthou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:55 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/19 11:58:38 by fberthou         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:03:55 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,27 @@
 
 static int	valid_char(char c)
 {
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
+	return (c == ' ' || c == '\t');
 }
 
-static int	check_condition(char **map, size_t x, size_t y, size_t heigth)
+static int	check_condition(t_game *game, size_t x, size_t y)
 {
 	static size_t	line_len;
+	static size_t	heigth;
+	static char		**map;
 
 	if (!line_len)
+	{
+		map = game->map_data.map;
+		heigth = game->map_data.heigth;
 		line_len = ft_strlen(map[0]);
-	return (((y == 0 || y == heigth - 1) && valid_char(map[y][x])) || \
-			(y > 0 && valid_char(map[y - 1][x])) || \
-			(x > 0 && valid_char(map[y][x - 1])) || \
-			(y < heigth - 1 && valid_char(map[y + 1][x])) || \
-			(x < line_len && valid_char(map[y][x + 1])));
+	}
+	if (y == 0 || y == heigth - 1 || x == 0 || x == line_len - 1)
+		return (1);
+	if (valid_char(map[y - 1][x]) || valid_char(map[y + 1][x]) || \
+		valid_char(map[y][x - 1]) || valid_char(map[y][x + 1]))
+		return (1);
+	return (0);
 }
 
 int	check_map_validity(t_game *game)
@@ -39,11 +46,10 @@ int	check_map_validity(t_game *game)
 	{
 		while (game->map_data.map[y][x])
 		{
-			if (game->map_data.map[y][x] == ' ' || \
-				game->map_data.map[y][x] == '\t')
+			if (game->map_data.map[y][x] == '0' || \
+				is_player(game->map_data.map[y][x]))
 			{
-				if (check_condition(game->map_data.map, x, y, \
-									game->map_data.heigth))
+				if (check_condition(game, x, y))
 				{
 					ft_perror("Map is not close in a line ");
 					printf("(at [%zu][%zu])\n", y, x);
