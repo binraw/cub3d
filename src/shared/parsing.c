@@ -92,7 +92,8 @@ int	parsing(t_game *game, char *filepath)
 		return (free_textures(game), close(fd), 1);
 	if (get_map(game, fd))
 		return (close(fd), free_textures(game), 1);
-	close(fd);
+	if (close(fd) == -1)
+		return(free_textures(game), 1);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
 	if (get_plyr_pos(game))
