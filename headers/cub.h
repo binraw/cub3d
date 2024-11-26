@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:38:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/20 10:58:23 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/26 20:50:00 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <math.h>
 
 typedef struct console
@@ -133,10 +134,10 @@ typedef struct t_game
 # define ANGLE_W	M_PI
 # define ANGLE_FOV	1.047197551
 # define FOV_2		0.5235987756
-# define ROT_SPEED	0.03
-# define MOV_SPEED	3
+# define ROT_SPEED	0.007
+# define MOV_SPEED	1.05
 # define TILE_S		64
-# define M_TILE_S    10
+# define M_TILE_S   10
 
 int		ft_perror(char *msg);
 int		init_console(t_game *game);

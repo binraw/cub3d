@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/26 16:28:36 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/26 20:39:29 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_parsing(char *filepath, t_game *game, const int fd)
 
 	i = 0;
 	if (fd < 3)
-		return (ft_perror("Cannot open file, check the path and the name\n"));
+		return (perror("Cannot open file\n"), -1);
 	i = ft_strlen(filepath);
 	if (i-- < 5)
 		return (close(fd), ft_perror("Invalid filename\n"));
@@ -93,8 +93,12 @@ int	parsing(t_game *game, char *filepath)
 	if (get_map(game, fd))
 		return (close(fd), free_textures(game), 1);
 	if (close(fd) == -1)
-		return (free_textures(game), \
-				free_map(game->map_data.map, game->map_data.heigth), 1);
+	{
+		free_map(game->map_data.map, game->map_data.heigth);
+		free_textures(game);
+		perror("Function close crash in parsing ");
+		return (-1);
+	}
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
 	if (get_plyr_pos(game))

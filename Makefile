@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
-#    Updated: 2024/11/26 18:11:08 by florian          ###   ########.fr        #
+#    Updated: 2024/11/26 20:02:41 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ NAME	= cub3D
 B_NAME	= cub3D_bonus
 
 #------------------------# ==== STATIC LIBRAIRIES ==== #-----------------------#
-LIBFT	= $(DIR_LIBFT)libft.a
-MLX		= $(DIR_MLX)libmlx_Linux.a
+LIBFT		= $(DIR_LIBFT)libft.a
+MLX_LINUX	= $(DIR_MLX)libmlx_Linux.a
 
 #-------------------------# ==== SHELL COMANDS ==== #--------------------------#
 RM		= rm -Rf
@@ -56,15 +56,16 @@ DIR_DEP_B	= $(DIR_TEMP).dep_b/
 #------------------------------------------------------------------------------#
 ######################## DEFINE COMPILATION ARGUMENTS ##########################
 #----------------------# ==== LIBRARIES AND HEADERS ==== #---------------------#
-LIBS_INC	= $(LIBFT) $(MLX) -lXext -lX11 -lm
-HEADERS_INC	= -I$(HDR_DIR) -I$(DIR_MLX) -I$(DIR_LIBFT)hdr -I/usr/include/X11
+LIBS_INC	= $(LIBFT) $(MLX_LINUX) -lXext -lX11 -lm
+HEADERS_INC	= -I$(HDR_DIR) -I$(DIR_MLX) -I$(DIR_LIBFT)hdr
 
 #-----------------------# ==== COMPILATION FLAGS ==== #------------------------#
 MODE		?= release
+
 ifeq ($(MODE), debug)
 CFLAGS		= -g3
 else ifeq ($(MODE), release)
-CFLAGS		= -Wall -Wextra -Werror -o3
+CFLAGS		= -Wall -Wextra -Werror -O3
 endif
 
 DEPFLAGS	= -MM -MT $*.c -MF
@@ -87,21 +88,18 @@ SRC_BONUS		=	hook_bonus.c hook_utils_bonus.c raycaster_bonus.c \
 #------------------------# ==== TEMPORARY FILES ==== #-------------------------#
 OBJS			=	$(MANDATORY_FILES:%.c=$(DIR_OBJ)%.o) \
 					$(SHARED_FILE:%.c=$(DIR_OBJ)%.o)
-DEPS			=	$(OBJS:%.o=$(DIR_DEP)%.d)
 
 BONUS_OBJ		= 	$(SRC_BONUS:%.c=$(DIR_OBJ_B)%.o) \
 					$(SHARED_FILE:%.c=$(DIR_OBJ_B)%.o)
-DEPS_B			= 	$(BONUS_OBJ:%.o=$(DIR_DEP_B)%.d)
 
 
 #==============================================================================#
 #                            COMPILATION MANDATORY                             #
 #==============================================================================#
-defaul	: all
-all		: $(MLX) $(LIBFT) $(NAME)
+default	: all
+all		: $(MLX_LINUX) $(LIBFT) $(NAME)
 debug	:
-	$(MAKE) MODE=debug -C $(DIR_LIBFT)
-	$(MAKE) MODE=debug
+	$(MAKE) -j re_debug
 
 #--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
 $(DIR_OBJ)%.o: $(DIR_SHARED)%.c $(HDR_MAND) Makefile
@@ -123,35 +121,36 @@ $(NAME): $(OBJS) $(LIBS_INC)
 #==============================================================================#
 #                              COMPILATION BONUS                               #
 #==============================================================================#
-bonus	: $(MLX) $(LIBFT) $(B_NAME)
+bonus	: $(MLX_LINUX) $(LIBFT) $(B_NAME)
+debug_bonus :
+	$(MAKE) -j re_debug_bonus
 
 #--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
 $(DIR_OBJ_B)%.o: $(DIR_SHARED)%.c $(HDR_BONUS) Makefile
-	$(MD) $(dir $@)  $(DIR_DEP)
-	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
+	$(MD) $(dir $@)  $(DIR_DEP_B)
+	@$(CC) $(DEPFLAGS) $(DIR_DEP_B)$*.d $(HEADERS_INC) $<
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
 
 $(DIR_OBJ_B)%.o: $(DIR_BONUS)%.c $(HDR_BONUS) Makefile
-	$(MD) $(dir $@)  $(DIR_DEP)s
-	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
+	$(MD) $(dir $@)  $(DIR_DEP_B)
+	@$(CC) $(DEPFLAGS) $(DIR_DEP_B)$*.d $(HEADERS_INC) $<
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
 
 #-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
 $(B_NAME): $(BONUS_OBJ) $(LIBS_INC)
-	@echo "$(GREEN)--------------  compilation completed  ---------------$(RESET)"
+	@echo "$(GREEN)-------------- compilation completed ---------------$(RESET)"
 	$(CC) $(CFLAGS) -o $@ $^
 	@echo "$(GREEN)************* your $(B_NAME) is READY **************$(RESET)"
 
 #------------------------------------------------------------------------------#
 ########################## LIBRARY MAKEFILE CALL ###############################
 #------------------------------------------------------------------------------#
-$(MLX): FORCE
-	$(MAKE) -C $(DIR_MLX) all
+$(MLX_LINUX): FORCE
+	@$(MAKE) -C $(DIR_MLX) -j all
+	@echo "$(GREEN)------------- MLX compilation routine terminated ---------------$(RESET)"
 
 $(LIBFT): FORCE
-	$(MAKE) -C $(DIR_LIBFT) all
-
--include $(DEPS)
+	$(MAKE) -C $(DIR_LIBFT) -j all
 
 FORCE:
 
@@ -171,15 +170,12 @@ fclean:
 	@echo "$(YELLOW)--- removed $(NAME) and temporary files ---$(RESET)"
 
 re:
-	$(MAKE) fclean
-	$(MAKE) all
+	$(MAKE) -j fclean
+	$(MAKE) -j all
 
 re_debug:
-	$(MAKE) -C $(DIR_LIBFT) fclean
-	$(MAKE) -C $(DIR_MLX) clean
-	@$(RM) $(NAME) $(DIR_TEMP)
-	@echo "$(YELLOW)--- removed $(NAME) and temporary files ---$(RESET)"
-	$(MAKE) debug
+	$(MAKE) -j fclean
+	$(MAKE) -j MODE=debug
 
 fclean_bonus:
 	$(MAKE) -C $(DIR_LIBFT) fclean
@@ -187,8 +183,12 @@ fclean_bonus:
 	@$(RM) $(B_NAME) $(DIR_TEMP)
 	@echo "$(YELLOW)--- removed $(B_NAME) and temporary files ---$(RESET)"
 
-re_bonus:
-	$(MAKE) fclean_bonus
-	$(MAKE) bonus
+re_debug_bonus:
+	$(MAKE) -j fclean_bonus
+	$(MAKE) -j bonus MODE=debug
 
-.PHONY: all clean fclean re re_debug bonus fclean_bonus re_bonus FORCE
+re_bonus:
+	$(MAKE) -j fclean_bonus
+	$(MAKE) -j bonus
+
+.PHONY: default all clean fclean re re_debug bonus fclean_bonus re_bonus re_debug_bonus FORCE

@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:30 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/15 16:49:00 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/26 21:05:07 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	init_console(t_game *game)
 	game->img.img_ptr = mlx_new_image(game->console.mlx_ptr, WIN_W, WIN_H);
 	if (!game->img.img_ptr)
 	{
-		fprintf(stderr, "Erreur lors de la création de l'image\n");
+		ft_putstr_fd("init_console, crash mlx_new_image\n", 2);
 		return (-1);
 	}
 	game->img.data = mlx_get_data_addr(game->img.img_ptr, &game->img.bpp,
 			&game->img.s_line, &game->img.endian);
 	if (!game->img.data)
 	{
-		fprintf(stderr, "Erreur lors de la création du buffer\n");
+		ft_putstr_fd("init_console, crash mlx_get_data\n", 2);
 		return (-1);
 	}
 	return (0);

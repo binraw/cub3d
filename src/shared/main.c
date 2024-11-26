@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:15 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/15 16:48:59 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/26 20:30:16 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_perror(char *msg)
 {
-	write(2, "Error\n", 7);
+	if (write(2, "Error\n", 7) == -1)
+		return (perror("Crash write\n"), -1);
 	if (!msg)
 		return (1);
 	return ((int) write(2, msg, ft_strlen(msg)));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:12:00 by rtruvelo          #+#    #+#             */
-/*   Updated: 2023/11/16 14:37:02 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:28:48 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	int	number;
+	char	number;
 
 	if (n == -2147483648)
 		write(fd, "-2147483648", 11);
@@ -32,7 +32,7 @@ void	ft_putnbr_fd(int n, int fd)
 		}
 		else
 		{
-			number = '0' + n;
+			number = (char) '0' + n;
 			write(fd, &number, 1);
 		}
 	}
