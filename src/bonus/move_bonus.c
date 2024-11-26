@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:07:59 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/26 16:28:25 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/26 16:43:08 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static inline int	move(t_game *game, double move_x, double move_y)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->plyr_data.pos_x + move_x * 1.2;
-	new_y = game->plyr_data.pos_y + move_y * 1.2;
+	new_x = game->plyr_data.pos_x + move_x * 1.7;
+	new_y = game->plyr_data.pos_y + move_y * 1.7;
 	map_grid_x = (int) floor((double)new_x / TILE_S);
 	map_grid_y = (int) floor((double)new_y / TILE_S);
 	if (game->map_data.map[map_grid_y][map_grid_x] != '1' && \

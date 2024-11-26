@@ -1,7 +1,0 @@
-NO ./textures/exit.xpm
-SO ./textures/chest.xpm
-WE ./textures/slime.xpm
-EA ./textures/wall.xpm
-
-C 125,230,4
-F 124,23,14
