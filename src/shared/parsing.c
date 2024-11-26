@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:02:42 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/20 11:00:13 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/26 16:28:36 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	parsing(t_game *game, char *filepath)
 	if (get_map(game, fd))
 		return (close(fd), free_textures(game), 1);
 	if (close(fd) == -1)
-		return(free_textures(game), 1);
+		return (free_textures(game), \
+				free_map(game->map_data.map, game->map_data.heigth), 1);
 	if (check_map_validity(game))
 		return (free_map_data(game), 1);
 	if (get_plyr_pos(game))

@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
-#    Updated: 2024/11/26 16:03:43 by florian          ###   ########.fr        #
+#    Updated: 2024/11/26 16:20:01 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -161,12 +161,14 @@ FORCE:
 clean:
 	$(MAKE) -C $(DIR_LIBFT) clean
 	$(MAKE) -C $(DIR_MLX) clean
-	$(RM) $(DIR_TEMP)
+	@$(RM) $(DIR_TEMP)
+	@echo "$(YELLOW)--- removed temporary files ---$(RESET)"
 
 fclean:
 	$(MAKE) -C $(DIR_LIBFT) fclean
 	$(MAKE) -C $(DIR_MLX) clean
-	$(RM) $(NAME) $(DIR_TEMP)
+	@$(RM) $(NAME) $(DIR_TEMP)
+	@echo "$(YELLOW)--- removed $(NAME) and temporary files ---$(RESET)"
 
 re:
 	$(MAKE) fclean
@@ -179,7 +181,8 @@ re_debug:
 fclean_bonus:
 	$(MAKE) -C $(DIR_LIBFT) fclean
 	$(MAKE) -C $(DIR_MLX) clean
-	$(RM) $(B_NAME) $(DIR_TEMP)
+	@$(RM) $(B_NAME) $(DIR_TEMP)
+	@echo "$(YELLOW)--- removed $(B_NAME) and temporary files ---$(RESET)"
 
 re_bonus:
 	$(MAKE) fclean_bonus
