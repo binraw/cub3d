@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
-#    Updated: 2024/11/26 16:20:01 by florian          ###   ########.fr        #
+#    Updated: 2024/11/26 17:35:21 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ GREEN		= \033[32m
 YELLOW		= \033[33m
 RESET		= \033[0m
 
-#------------------------# ==== EXECUTABLES NAME ==== #------------------------#
+#------------------------# ==== EXECUTABLE NAMES ==== #------------------------#
 NAME	= cub3D
 B_NAME	= cub3D_bonus
 
-#-----------------------# ==== STATICS LIBRAIRIES ==== #-----------------------#
+#------------------------# ==== STATIC LIBRAIRIES ==== #-----------------------#
 LIBFT	= $(DIR_LIBFT)libft.a
 MLX		= $(DIR_MLX)libmlx_Linux.a
 
@@ -31,12 +31,12 @@ RM		= rm -Rf
 MD		= @mkdir -p
 
 #------------------------------------------------------------------------------#
-########################## DEFINE DIRECTORIES PATHS ############################
-#------------------------# ==== DIR LIBRAIRIES ==== #--------------------------#
+########################## DEFINE DIRECTORY PATHS ##############################
+#---------------------# ==== LIBRARY DIRECTORIES ==== #------------------------#
 DIR_MLX		= ./minilibx-linux/
 DIR_LIBFT	= ./libft/
 
-#-----------------------# ==== DIR SOURCE CODE ==== #--------------------------#
+#-----------------------# ==== SOURCE CODE DIRECTORIES ==== #------------------#
 DIR_SRC		= src/
 DIR_SHARED	= $(DIR_SRC)shared/
 DIR_MAND	= $(DIR_SRC)mandatory/
@@ -46,7 +46,7 @@ HDR_DIR		= headers/
 HDR_MAND	= $(HDR_DIR)cub.h
 HDR_BONUS	= $(HDR_DIR)cub_bonus.h
 
-#---------------------# ==== DIR TEMPORARY FILES ==== #------------------------#
+#---------------------# ==== TEMPORARY FILES DIRECTORIES ==== #----------------#
 DIR_TEMP	= .tmp/
 DIR_OBJ		= $(DIR_TEMP).object/
 DIR_OBJ_B	= $(DIR_TEMP).object_b/
@@ -55,7 +55,7 @@ DIR_DEP_B	= $(DIR_TEMP).dep_b/
 
 #------------------------------------------------------------------------------#
 ######################## DEFINE COMPILATION ARGUMENTS ##########################
-#----------------------# ==== INC LIBS && HEADERS ==== #-----------------------#
+#----------------------# ==== LIBRARIES AND HEADERS ==== #---------------------#
 LIBS_INC	= $(LIBFT) $(MLX) -lXext -lX11 -lm
 HEADERS_INC	= -I$(HDR_DIR) -I$(DIR_MLX) -I$(DIR_LIBFT)hdr -I/usr/include/X11
 
@@ -70,7 +70,7 @@ endif
 DEPFLAGS	= -MM -MT $(OBJ_DIR)/$*.c -MF
 
 #------------------------------------------------------------------------------#
-############################ DEFINE FILES VARIABLES ############################
+############################ DEFINE FILE VARIABLES #############################
 #-------------------------# ==== SHARED FILES ==== #---------------------------#
 SHARED_FILE		=	main.c free_memory.c destroy.c init_console.c parsing.c \
 					parsing_utils.c init_map.c init_texture.c valid_map.c \
@@ -114,7 +114,7 @@ $(DIR_OBJ)%.o: $(DIR_MAND)%.c $(HDR_MAND) Makefile
 	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
 
-#-------------------# ==== LINKING && BUILING PROG ==== #----------------------#
+#-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
 $(NAME): $(OBJS) $(LIBS_INC)
 	@echo "$(GREEN)------------ compilation completed -------------$(RESET)"
 	$(CC) $(CFLAGS) -o $@ $^
@@ -136,14 +136,14 @@ $(DIR_OBJ_B)%.o: $(DIR_BONUS)%.c $(HDR_BONUS) Makefile
 	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
 
-#-------------------# ==== LINKING && BUILING PROG ==== #----------------------#
+#-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
 $(B_NAME): $(BONUS_OBJ) $(LIBS_INC)
 	@echo "$(GREEN)--------------  compilation completed  ---------------$(RESET)"
 	$(CC) $(CFLAGS) -o $@ $^
 	@echo "$(GREEN)************* your $(B_NAME) is READY **************$(RESET)"
 
 #------------------------------------------------------------------------------#
-########################## LIBRAIRIES MAKEFILE CALL ############################
+########################## LIBRARY MAKEFILE CALL ###############################
 #------------------------------------------------------------------------------#
 $(MLX): FORCE
 	$(MAKE) -C $(DIR_MLX) all
@@ -175,7 +175,10 @@ re:
 	$(MAKE) all
 
 re_debug:
-	$(MAKE) fclean
+	$(MAKE) -C $(DIR_LIBFT) fclean
+	$(MAKE) -C $(DIR_MLX) clean
+	@$(RM) $(NAME) $(DIR_TEMP)
+	@echo "$(YELLOW)--- removed $(NAME) and temporary files ---$(RESET)"
 	$(MAKE) debug
 
 fclean_bonus:
