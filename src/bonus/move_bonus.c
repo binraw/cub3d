@@ -57,20 +57,21 @@ void	rotate_player(t_game *game, int is_mouse)
 
 int	update_movement(t_game *game)
 {
+	
+	if (game->plyr_data.move_up)
+		move(game, cos(game->plyr_data.angle) * MOV_SPEED, \
+							sin(game->plyr_data.angle) * MOV_SPEED);
+	if (game->plyr_data.move_down)
+		move(game, -cos(game->plyr_data.angle) * MOV_SPEED, \
+							-sin(game->plyr_data.angle) * MOV_SPEED);
+	if (game->plyr_data.move_left)
+		move(game, sin(game->plyr_data.angle) * MOV_SPEED, \
+							-cos(game->plyr_data.angle) * MOV_SPEED);
+	if (game->plyr_data.move_right)
+		move(game, -sin(game->plyr_data.angle) * MOV_SPEED, \
+							cos(game->plyr_data.angle) * MOV_SPEED);
 	if (game->plyr_data.rotate_l || game->plyr_data.rotate_r || \
 										game->plyr_data.rotate_m)
 		rotate_player(game, 0);
-	if (game->plyr_data.move_up)
-		return (move(game, cos(game->plyr_data.angle) * MOV_SPEED, \
-							sin(game->plyr_data.angle) * MOV_SPEED));
-	if (game->plyr_data.move_down)
-		return (move(game, -cos(game->plyr_data.angle) * MOV_SPEED, \
-							-sin(game->plyr_data.angle) * MOV_SPEED));
-	if (game->plyr_data.move_left)
-		return (move(game, sin(game->plyr_data.angle) * MOV_SPEED, \
-							-cos(game->plyr_data.angle) * MOV_SPEED));
-	if (game->plyr_data.move_right)
-		return (move(game, -sin(game->plyr_data.angle) * MOV_SPEED, \
-							cos(game->plyr_data.angle) * MOV_SPEED));
 	return (0);
 }
