@@ -1,121 +1,188 @@
-# ==== PROG/LIB NAME ==== #
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
+#    Updated: 2024/11/26 16:03:43 by florian          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#==============================================================================#
+#                              SETTING VARIABLES                               #
+#==============================================================================#
+
+GREEN		= \033[32m
+YELLOW		= \033[33m
+RESET		= \033[0m
+
+#------------------------# ==== EXECUTABLES NAME ==== #------------------------#
 NAME	= cub3D
 B_NAME	= cub3D_bonus
+
+#-----------------------# ==== STATICS LIBRAIRIES ==== #-----------------------#
 LIBFT	= $(DIR_LIBFT)libft.a
 MLX		= $(DIR_MLX)libmlx_Linux.a
 
-# ==== SHELL COMANDS ==== #
+#-------------------------# ==== SHELL COMANDS ==== #--------------------------#
 RM		= rm -Rf
 MD		= @mkdir -p
 
-# ==== DIRECTORIES PATHS ==== #
-#	### *** LIBRAIRIES PATH *** ###
+#------------------------------------------------------------------------------#
+########################## DEFINE DIRECTORIES PATHS ############################
+#------------------------# ==== DIR LIBRAIRIES ==== #--------------------------#
 DIR_MLX		= ./minilibx-linux/
 DIR_LIBFT	= ./libft/
-#	### *** SOURCES PATH *** ###
-HDR_DIR		= headers/
+
+#-----------------------# ==== DIR SOURCE CODE ==== #--------------------------#
 DIR_SRC		= src/
 DIR_SHARED	= $(DIR_SRC)shared/
 DIR_MAND	= $(DIR_SRC)mandatory/
 DIR_BONUS	= $(DIR_SRC)bonus/
-DIR_OBJ		= .object/
-DIR_OBJ_B	= .object_b/
 
-# ==== COMPILATION TOOLS ==== #
-LIB_FLAG	=	-I$(DIR_LIBFT)hdr -I$(DIR_MLX)
-MLX_FLAGS	=	-lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lm
-INC_FLAG	=	-I$(HDR_DIR) $(LIB_FLAG)
-CFLAGS		?=	-g#-Wall -Wextra -Werror
+HDR_DIR		= headers/
+HDR_MAND	= $(HDR_DIR)cub.h
+HDR_BONUS	= $(HDR_DIR)cub_bonus.h
 
-### === SHARED PART === ###
-SHARED_FILE		=	$(DIR_SHARED)main.c $(DIR_SHARED)free_memory.c $(DIR_SHARED)destroy.c \
-					$(DIR_SHARED)init_console.c $(DIR_SHARED)parsing.c \
-					$(DIR_SHARED)parsing_utils.c $(DIR_SHARED)init_map.c \
-					$(DIR_SHARED)init_texture.c $(DIR_SHARED)valid_map.c \
-					$(DIR_SHARED)utils_raycaster.c $(DIR_SHARED)texture.c \
-					$(DIR_SHARED)draw.c $(DIR_SHARED)utils_draw.c \
-					$(DIR_SHARED)init_texture_utils.c $(DIR_SHARED)utils.c
+#---------------------# ==== DIR TEMPORARY FILES ==== #------------------------#
+DIR_TEMP	= .tmp/
+DIR_OBJ		= $(DIR_TEMP).object/
+DIR_OBJ_B	= $(DIR_TEMP).object_b/
+DIR_DEP		= $(DIR_TEMP).dep/
+DIR_DEP_B	= $(DIR_TEMP).dep_b/
 
-### === MANDATORY PART === ###
-SRCS_FILE		=	$(DIR_MAND)hook.c $(DIR_MAND)raycaster.c $(DIR_MAND)move.c
+#------------------------------------------------------------------------------#
+######################## DEFINE COMPILATION ARGUMENTS ##########################
+#----------------------# ==== INC LIBS && HEADERS ==== #-----------------------#
+LIBS_INC	= $(LIBFT) $(MLX) -lXext -lX11 -lm
+HEADERS_INC	= -I$(HDR_DIR) -I$(DIR_MLX) -I$(DIR_LIBFT)hdr -I/usr/include/X11
 
-### === BONUS PART === ###
-SRC_BONUS		=	$(DIR_BONUS)hook_bonus.c $(DIR_BONUS)hook_utils_bonus.c \
-					$(DIR_BONUS)raycaster_bonus.c $(DIR_BONUS)move_bonus.c \
-					$(DIR_BONUS)mini_map_bonus.c
+#-----------------------# ==== COMPILATION FLAGS ==== #------------------------#
+MODE		?= release
+ifeq ($(MODE), debug)
+CFLAGS		= -g3
+else ifeq ($(MODE), release)
+CFLAGS		= -Wall -Wextra -Werror -o3
+endif
 
-### === OBJECTS === ###
+DEPFLAGS	= -MM -MT $(OBJ_DIR)/$*.c -MF
 
-OBJS			=	$(SRCS_FILE:$(DIR_MAND)%.c=$(DIR_OBJ)%.o) \
-					$(SHARED_FILE:$(DIR_SHARED)%.c=$(DIR_OBJ)%.o)
+#------------------------------------------------------------------------------#
+############################ DEFINE FILES VARIABLES ############################
+#-------------------------# ==== SHARED FILES ==== #---------------------------#
+SHARED_FILE		=	main.c free_memory.c destroy.c init_console.c parsing.c \
+					parsing_utils.c init_map.c init_texture.c valid_map.c \
+					utils_raycaster.c texture.c draw.c utils_draw.c \
+					init_texture_utils.c utils.c
 
-BONUS_OBJ		= 	$(SRC_BONUS:$(DIR_BONUS)%.c=$(DIR_OBJ_B)%.o) \
-					$(SHARED_FILE:$(DIR_SHARED)%.c=$(DIR_OBJ_B)%.o)
+#------------------------# ==== MANDATORY FILES ==== #-------------------------#
+MANDATORY_FILES	=	hook.c raycaster.c move.c
 
-### === COMPILATION RULES === ###
-default:	all
-all:		$(MLX) $(LIBFT) $(NAME)
-bonus:		$(MLX) $(LIBFT) $(B_NAME)
+#--------------------------# ==== BONUS FILES ==== #---------------------------#
+SRC_BONUS		=	hook_bonus.c hook_utils_bonus.c raycaster_bonus.c \
+					move_bonus.c mini_map_bonus.c
 
-### === LINKER === ###
-$(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(INC_FLAG) -o $@ $^ -L$(DIR_MLX) $(MLX_FLAGS)
-	@echo "**** CUBD3D READY ****"
+#------------------------# ==== TEMPORARY FILES ==== #-------------------------#
+OBJS			=	$(MANDATORY_FILES:%.c=$(DIR_OBJ)%.o) \
+					$(SHARED_FILE:%.c=$(DIR_OBJ)%.o)
+DEPS			=	$(OBJS:%.o=$(DIR_DEP)%.d)
 
-$(B_NAME): $(BONUS_OBJ) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(INC_FLAG) -o $(B_NAME) $^ -L$(DIR_MLX) $(MLX_FLAGS)
-	@echo "**** CUBD3D_BONUS READY ****"
+BONUS_OBJ		= 	$(SRC_BONUS:%.c=$(DIR_OBJ_B)%.o) \
+					$(SHARED_FILE:%.c=$(DIR_OBJ_B)%.o)
+DEPS_B			= 	$(BONUS_OBJ:%.o=$(DIR_DEP_B)%.d)
 
-### === COMPILATION MANDATORY PART === ###
-$(DIR_OBJ)%.o: $(DIR_SHARED)%.c $(HDR_DIR)cub.h Makefile $(LIBFT)
-	@echo "Compiling $< to $@"
-	$(MD) $(dir $@)
-	$(CC) $(CFLAGS) $(INC_FLAG) -c $< -o $@
 
-$(DIR_OBJ)%.o: $(DIR_MAND)%.c $(HDR_DIR)cub.h Makefile $(LIBFT)
-	@echo "Compiling $< to $@"
-	$(MD) $(dir $@)
-	$(CC) $(CFLAGS) $(INC_FLAG) -c $< -o $@
+#==============================================================================#
+#                            COMPILATION MANDATORY                             #
+#==============================================================================#
+defaul	: all
+all		: $(MLX) $(LIBFT) $(NAME)
+debug	:
+	$(MAKE) MODE=debug -C $(DIR_LIBFT)
+	$(MAKE) MODE=debug
 
-### === COMPILATION BONUS PART === ###
-$(DIR_OBJ_B)%.o: $(DIR_SHARED)%.c $(HDR_DIR)cub_bonus.h Makefile $(LIBFT)
-	@echo "Compiling shared $< for bonus to $@"
-	$(MD) $(dir $@)
-	$(CC) $(CFLAGS) $(INC_FLAG) -c $< -o $@
+#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
+$(DIR_OBJ)%.o: $(DIR_SHARED)%.c $(HDR_MAND) Makefile
+	@mkdir -p $(dir $@) $(DIR_DEP)
+	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
 
-$(DIR_OBJ_B)%.o: $(DIR_BONUS)%.c $(HDR_DIR)cub_bonus.h Makefile $(LIBFT)
-	@echo "Compiling bonus $< to $@"
-	$(MD) $(dir $@)
-	$(CC) $(CFLAGS) $(INC_FLAG) -c $< -o $@
+$(DIR_OBJ)%.o: $(DIR_MAND)%.c $(HDR_MAND) Makefile
+	@mkdir -p $(dir $@) $(DIR_DEP)
+	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
 
-### === COMPILATION LIBRAIRIES === ###
+#-------------------# ==== LINKING && BUILING PROG ==== #----------------------#
+$(NAME): $(OBJS) $(LIBS_INC)
+	@echo "$(GREEN)------------ compilation completed -------------$(RESET)"
+	$(CC) $(CFLAGS) -o $@ $^
+	@echo "$(GREEN)************* your $(NAME) is READY **************$(RESET)"
+
+#==============================================================================#
+#                              COMPILATION BONUS                               #
+#==============================================================================#
+bonus	: $(MLX) $(LIBFT) $(B_NAME)
+
+#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
+$(DIR_OBJ_B)%.o: $(DIR_SHARED)%.c $(HDR_BONUS) Makefile
+	$(MD) $(dir $@)  $(DIR_DEP)
+	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
+
+$(DIR_OBJ_B)%.o: $(DIR_BONUS)%.c $(HDR_BONUS) Makefile
+	$(MD) $(dir $@)  $(DIR_DEP)s
+	@$(CC) $(DEPFLAGS) $(DIR_DEP)$*.d $(HEADERS_INC) $<
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
+
+#-------------------# ==== LINKING && BUILING PROG ==== #----------------------#
+$(B_NAME): $(BONUS_OBJ) $(LIBS_INC)
+	@echo "$(GREEN)--------------  compilation completed  ---------------$(RESET)"
+	$(CC) $(CFLAGS) -o $@ $^
+	@echo "$(GREEN)************* your $(B_NAME) is READY **************$(RESET)"
+
+#------------------------------------------------------------------------------#
+########################## LIBRAIRIES MAKEFILE CALL ############################
+#------------------------------------------------------------------------------#
 $(MLX): FORCE
 	$(MAKE) -C $(DIR_MLX) all
 
 $(LIBFT): FORCE
-	$(MAKE) -C ./libft all
+	$(MAKE) -C $(DIR_LIBFT) all
 
-FORCE :
+-include $(DEPS)
 
-### === CLEANING RULES === ###
+FORCE:
+
+#------------------------------------------------------------------------------#
+############################### CLEANING RULES #################################
+#------------------------------------------------------------------------------#
 clean:
-	$(MAKE) -C ./libft clean
-	$(RM) $(DIR_OBJ)
+	$(MAKE) -C $(DIR_LIBFT) clean
+	$(MAKE) -C $(DIR_MLX) clean
+	$(RM) $(DIR_TEMP)
 
-fclean: clean
-	$(MAKE) -C ./libft fclean
-	$(RM) $(NAME)
+fclean:
+	$(MAKE) -C $(DIR_LIBFT) fclean
+	$(MAKE) -C $(DIR_MLX) clean
+	$(RM) $(NAME) $(DIR_TEMP)
 
-re: fclean all
+re:
+	$(MAKE) fclean
+	$(MAKE) all
 
-clean_bonus:
-	$(MAKE) -C ./libft clean
-	$(RM) $(DIR_OBJ_B)
+re_debug:
+	$(MAKE) fclean
+	$(MAKE) debug
 
-fclean_bonus: clean_bonus
-	$(MAKE) -C ./libft fclean
-	$(RM) $(B_NAME)
+fclean_bonus:
+	$(MAKE) -C $(DIR_LIBFT) fclean
+	$(MAKE) -C $(DIR_MLX) clean
+	$(RM) $(B_NAME) $(DIR_TEMP)
 
-re_bonus: fclean_bonus bonus
+re_bonus:
+	$(MAKE) fclean_bonus
+	$(MAKE) bonus
 
-.PHONY: all clean fclean re bonus clean_bonus fclean_bonus re_bonus FORCE
+.PHONY: all clean fclean re re_debug bonus fclean_bonus re_bonus FORCE

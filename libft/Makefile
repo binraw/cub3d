@@ -1,75 +1,81 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/11/26 07:56:54 by florian           #+#    #+#              #
+#    Updated: 2024/11/26 15:21:02 by florian          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-NAME = libft.a
+GREEN		= \033[32m
+YELLOW		= \033[33m
+RESET		= \033[0m
+
+LIB			= libft.a
 
 SRC_DIR		= ./src
 HDR_DIR		= ./hdr
+INC			= -I$(HDR_DIR)
 BUILD_DIR	= .build
+OBJ_DIR		= $(BUILD_DIR)/.obj
+DEP_DIR		= $(BUILD_DIR)/.dep
 
-CFLAGS = -Wall -Wextra -Werror -I$(HDR_DIR) -g
+MODE		?= release
+ifeq ($(MODE), debug)
+CFLAGS	= -g3
+else ifeq ($(MODE), release)
+CFLAGS	= -Wall -Wextra -Werror -o3
+endif
+DEPFLAGS	= -MM -MT $(OBJ_DIR)/$*.c -MF
 
-SRC =		ft_atoi.c \
-			ft_bzero.c \
-			ft_calloc.c \
-			ft_isalnum.c \
-			ft_isalpha.c \
-			ft_isascii.c \
-			ft_isdigit.c \
-			ft_isprint.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_memcpy.c \
-			ft_memmove.c \
-			ft_memset.c \
-			ft_putchar_fd.c \
-			ft_putendl_fd.c \
-			ft_putnbr_fd.c \
-			ft_putstr_fd.c \
-			ft_realloc.c \
-			ft_strchr.c \
-			ft_strdup.c \
-			ft_striteri.c \
-			ft_strjoin.c \
-			ft_strlcat.c \
-			ft_strlcpy.c \
-			ft_strlen.c \
-			ft_strmapi.c \
-			ft_strncmp.c \
-			ft_strnstr.c \
-			ft_strrchr.c \
-			ft_strtrim.c \
-			ft_substr.c \
-			ft_tolower.c \
-			ft_toupper.c \
-			ft_itoa.c \
-			ft_split.c \
-			get_next_line.c\
-			get_next_line_utils.c
+HEADERS		= $(addprefix $(HDR_DIR)/, libft.h get_next_line.h)
 
-OBJ		= $(SRC:%.c=$(BUILD_DIR)/%.o)
+SRC 		=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
+				ft_isascii.c ft_isdigit.c ft_isprint.c ft_memchr.c ft_memcmp.c \
+				ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c \
+				ft_putnbr_fd.c ft_putstr_fd.c ft_realloc.c ft_strchr.c ft_strdup.c \
+				ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c \
+				ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c \
+				ft_substr.c ft_tolower.c ft_toupper.c ft_itoa.c ft_split.c \
+				get_next_line.c get_next_line_utils.c
+
+OBJ		= $(SRC:%.c=$(OBJ_DIR)/%.o)
+DEP		= $(OBJ:%.o=$(DEP_DIR)/%.d)
 
 # --- CALL --- #
-default : all
-all : $(NAME)
+default	: all
+all		: $(OBJ) $(LIB)
+debug:
+	$(MAKE) $(MODE)=debug
 
 # --- ARCHIVE --- #
-$(NAME) : $(OBJ)
-	@ar -rcs $@ $^
-	@echo "-- generated archive --"
+$(LIB) : $(OBJ)
+	@echo "$(GREEN)--- compilation completed ---$(RESET)"
+	ar -rcs $@ $^
+	@echo "$(GREEN)"--- generated archive $(LIB) ---" $(RESET)"
 
 # --- OBJECTS --- #
-$(BUILD_DIR)/%.o : $(SRC_DIR)/%.c Makefile $(HDR_DIR)
-	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c Makefile $(HEADERS)
+	@mkdir -p $(BUILD_DIR) $(OBJ_DIR) $(DEP_DIR)
+	@$(CC) $(DEPFLAGS) $(DEP_DIR)/$*.d $(INC) $<
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+-include $(DEP)
 
 # --- CLEAN MANAGEMENT --- #
 clean :
 	@rm -rf $(BUILD_DIR)
+	@echo "$(YELLOW)--- removed temporary files ---$(RESET)"
 
-fclean : clean
-	@rm -f $(NAME)
-	@echo "-- removed archived --"
+fclean :
+	@rm -rf $(BUILD_DIR) $(LIB)
+	@echo "$(YELLOW)--- removed $(LIB) and temporary files ---$(RESET)"
 
-re : fclean all
+re :
+	$(MAKE) fclean
+	$(MAKE) all
 
-.PHONY :
-	all clean fclean re
+.PHONY: all clean fclean re

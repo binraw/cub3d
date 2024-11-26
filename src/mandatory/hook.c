@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 08:01:37 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/13 13:55:29 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:57:20 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+#include "fake.h"
 
 static int	close_win(t_game *game, int key_code)
 {
