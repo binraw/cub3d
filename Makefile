@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
-#    Updated: 2024/11/26 17:35:21 by florian          ###   ########.fr        #
+#    Updated: 2024/11/26 18:11:08 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ else ifeq ($(MODE), release)
 CFLAGS		= -Wall -Wextra -Werror -o3
 endif
 
-DEPFLAGS	= -MM -MT $(OBJ_DIR)/$*.c -MF
+DEPFLAGS	= -MM -MT $*.c -MF
 
 #------------------------------------------------------------------------------#
 ############################ DEFINE FILE VARIABLES #############################
