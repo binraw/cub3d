@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
-#    Updated: 2024/11/27 21:15:13 by florian          ###   ########.fr        #
+#    Updated: 2024/11/27 21:55:26 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ MD		= @mkdir -p
 
 #------------------------------------------------------------------------------#
 ########################## DEFINE DIRECTORY PATHS ##############################
+#------------------------------------------------------------------------------#
+
 #---------------------# ==== LIBRARY DIRECTORIES ==== #------------------------#
 DIR_MLX		= ./minilibx-linux
 DIR_LIBFT	= ./libft
@@ -54,6 +56,8 @@ DIR_DEP_B	= $(DIR_TEMP)/.dep_b
 
 #------------------------------------------------------------------------------#
 ######################## DEFINE COMPILATION ARGUMENTS ##########################
+#------------------------------------------------------------------------------#
+
 #----------------------# ==== LIBRARIES AND HEADERS ==== #---------------------#
 LIBS_INC	= $(LIBFT) $(MLX_LINUX) -lXext -lX11 -lm
 HEADERS_INC	= -I$(HDR_DIR) -I$(DIR_MLX) -I$(DIR_LIBFT)/hdr
@@ -72,6 +76,8 @@ DEPFLAGS_B	= -MMD -MT $(DIR_OBJ_B)/$*.o -MF $(DIR_DEP_B)/$*.d
 
 #------------------------------------------------------------------------------#
 ############################ DEFINE FILE VARIABLES #############################
+#------------------------------------------------------------------------------#
+
 #-------------------------# ==== SHARED FILES ==== #---------------------------#
 SHARED_FILE		=	main.c free_memory.c destroy.c init_console.c parsing.c \
 					parsing_utils.c init_map.c init_texture.c valid_map.c \
@@ -86,16 +92,17 @@ SRC_BONUS		=	hook_bonus.c hook_utils_bonus.c raycaster_bonus.c \
 					move_bonus.c mini_map_bonus.c
 
 #------------------------# ==== TEMPORARY FILES ==== #-------------------------#
-OBJS			=	$(MANDATORY_FILES:%.c=$(DIR_OBJ)/%.o) \
-					$(SHARED_FILE:%.c=$(DIR_OBJ)/%.o)
-DEP				=	$(MANDATORY_FILES:%.c=$(DIR_DEP)/%.d) \
+SHARED_OBJ		=	$(SHARED_FILE:%.c=$(DIR_OBJ)/%.o)
+
+MANDATORY_OBJ	=	$(MANDATORY_FILES:%.c=$(DIR_OBJ)/%.o)
+
+BONUS_OBJ		= 	$(SRC_BONUS:%.c=$(DIR_OBJ_B)/%.o)
+
+DEP_MANDATORY	=	$(MANDATORY_FILES:%.c=$(DIR_DEP)/%.d) \
 					$(SHARED_FILE:%.c=$(DIR_DEP)/%.d)
 
-BONUS_OBJ		= 	$(SRC_BONUS:%.c=$(DIR_OBJ_B)/%.o) \
-					$(SHARED_FILE:%.c=$(DIR_OBJ_B)/%.o)
-DEP_B			=	$(SRC_BONUS:%.c=$(DIR_DEP_B)/%.d) \
+DEP_BONUS		=	$(SRC_BONUS:%.c=$(DIR_DEP_B)/%.d) \
 					$(SHARED_FILE:%.c=$(DIR_DEP_B)/%.d)
-
 
 #==============================================================================#
 #                            COMPILATION MANDATORY                             #
@@ -113,26 +120,19 @@ debug:
 	@echo "$(GREEN)************* $(NAME) is in debug mode *************$(RESET)"
 	@echo
 
-#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
-$(DIR_OBJ)/%.o: $(DIR_SHARED)/%.c Makefile
-	@mkdir -p $(dir $@) $(DIR_DEP)
-	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	@$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
-	@rm -f *.o
-
-$(DIR_OBJ)/%.o: $(DIR_MAND)/%.c Makefile
-	@mkdir -p $(dir $@) $(DIR_DEP)
-	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	@$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
-	@rm -f *.o
-
 #-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
-$(NAME): $(OBJS) $(LIBS_INC)
+$(NAME): $(MANDATORY_OBJ) $(SHARED_OBJ) $(LIBS_INC)
 	@echo "$(GREEN)------------ compilation completed -------------$(RESET)"
 	$(CC) -o $@ $^
 	@echo "$(GREEN)----------- linking & building completed -----------$(RESET)"
 
--include $(DEP)
+#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
+$(DIR_OBJ)/%.o: $(DIR_MAND)/%.c Makefile
+	@mkdir -p $(dir $@) $(DIR_DEP)
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
+	@$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $< && rm -f *.o
+
+-include $(DEP_MANDATORY)
 
 #==============================================================================#
 #                              COMPILATION BONUS                               #
@@ -145,29 +145,34 @@ bonus: $(MLX_LINUX) $(LIBFT) $(NAME_B)
 debug_bonus:
 	$(MAKE) bonus MODE=debug
 	@echo
-	@echo "$(GREEN)************* $(NAME) is in debug mode *************$(RESET)"
+	@echo "$(GREEN)************ $(NAME_B) is in debug mode ************$(RESET)"
 	@echo
 
-#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
-$(DIR_OBJ_B)/%.o: $(DIR_SHARED)/%.c Makefile
-	$(MD) $(dir $@) $(DIR_DEP_B)
-	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	@$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $<
-	@rm -f *.o
-
-$(DIR_OBJ_B)/%.o: $(DIR_BONUS)/%.c Makefile
-	$(MD) $(dir $@)  $(DIR_DEP_B)
-	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	@$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $<
-	@rm -f *.o
-
 #-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
-$(NAME_B): $(BONUS_OBJ) $(LIBS_INC)
+$(NAME_B): $(BONUS_OBJ) $(SHARED_OBJ) $(LIBS_INC)
 	@echo "$(GREEN)-------------- compilation completed ---------------$(RESET)"
 	$(CC) -o $@ $^
 	@echo "$(GREEN)----------- linking & building completed -----------$(RESET)"
 
--include $(DEP_B)
+#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
+$(DIR_OBJ_B)/%.o: $(DIR_BONUS)/%.c Makefile
+	$(MD) $(dir $@)  $(DIR_DEP_B)
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
+	@$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $< && rm -f *.o
+
+-include $(DEP_BONUS)
+
+#==============================================================================#
+#                          COMPILATION SHARED FILES                            #
+#==============================================================================#
+
+#--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
+$(DIR_OBJ)/%.o: $(DIR_SHARED)/%.c Makefile
+	@mkdir -p $(dir $@) $(DIR_DEP)
+	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
+	@$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
+	@rm -f *.o
+
 #------------------------------------------------------------------------------#
 ########################## LIBRARY MAKEFILE CALL ###############################
 #------------------------------------------------------------------------------#
@@ -227,7 +232,7 @@ fclean_bonus:
 	@$(RM) $(NAME_B) $(DIR_TEMP)
 	@echo "$(YELLOW)--- removed $(NAME_B) and temporary files ---$(RESET)"
 
-fclean_all:
+clean_all:
 	$(MAKE) -C $(DIR_LIBFT) fclean & $(MAKE) -C $(DIR_MLX) clean
 	@$(RM) $(NAME) $(NAME_B) $(DIR_TEMP)
 	@echo "$(YELLOW)--- removed all executables and temporary files ---$(RESET)"
