@@ -6,11 +6,12 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:09:11 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/20 11:04:44 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/27 20:14:21 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+#include "get_next_line.h"
 
 static bool	not_dup_is_digit(char **buff, int *colors)
 {

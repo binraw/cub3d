@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 13:30:05 by florian           #+#    #+#              #
-#    Updated: 2024/11/27 19:44:36 by florian          ###   ########.fr        #
+#    Updated: 2024/11/27 21:15:13 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RESET		= \033[0m
 
 #------------------------# ==== EXECUTABLE NAMES ==== #------------------------#
 NAME	= cub3D
-B_NAME	= cub3D_bonus
+NAME_B	= cub3D_bonus
 
 #------------------------# ==== STATIC LIBRAIRIES ==== #-----------------------#
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -64,7 +64,7 @@ MODE		?= release
 ifeq ($(MODE), debug)
 	CFLAGS = -Wall -Wextra -g3
 else ifeq ($(MODE), release)
-	CFLAGS = -Wall -Wextra -Werror -O3
+	CFLAGS = -O3 -Wall -Wextra -Werror
 endif
 
 DEPFLAGS	= -MMD -MT $(DIR_OBJ)/$*.o -MF $(DIR_DEP)/$*.d
@@ -100,57 +100,72 @@ DEP_B			=	$(SRC_BONUS:%.c=$(DIR_DEP_B)/%.d) \
 #==============================================================================#
 #                            COMPILATION MANDATORY                             #
 #==============================================================================#
-default	: all
-all		: $(MLX_LINUX) $(LIBFT) $(NAME)
-debug	:
+default: all
+
+all: $(MLX_LINUX) $(LIBFT) $(NAME)
+	@echo
+	@echo "$(GREEN)***************** $(NAME) is READY *****************$(RESET)"
+	@echo
+
+debug:
 	$(MAKE) MODE=debug
+	@echo
+	@echo "$(GREEN)************* $(NAME) is in debug mode *************$(RESET)"
+	@echo
 
 #--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
 $(DIR_OBJ)/%.o: $(DIR_SHARED)/%.c Makefile
 	@mkdir -p $(dir $@) $(DIR_DEP)
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
+	@$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
 	@rm -f *.o
 
 $(DIR_OBJ)/%.o: $(DIR_MAND)/%.c Makefile
 	@mkdir -p $(dir $@) $(DIR_DEP)
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
+	@$(CC) $(DEPFLAGS) $(HEADERS_INC) -c $<
 	@rm -f *.o
 
 #-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
 $(NAME): $(OBJS) $(LIBS_INC)
 	@echo "$(GREEN)------------ compilation completed -------------$(RESET)"
 	$(CC) -o $@ $^
-	@echo "$(GREEN)************* your $(NAME) is READY **************$(RESET)"
+	@echo "$(GREEN)----------- linking & building completed -----------$(RESET)"
 
 -include $(DEP)
 
 #==============================================================================#
 #                              COMPILATION BONUS                               #
 #==============================================================================#
-bonus	: $(MLX_LINUX) $(LIBFT) $(B_NAME)
-debug_bonus :
+bonus: $(MLX_LINUX) $(LIBFT) $(NAME_B)
+	@echo
+	@echo "$(GREEN)**************** $(NAME_B) is READY ****************$(RESET)"
+	@echo
+
+debug_bonus:
 	$(MAKE) bonus MODE=debug
+	@echo
+	@echo "$(GREEN)************* $(NAME) is in debug mode *************$(RESET)"
+	@echo
 
 #--------------------# ==== COMPILATION OBJ - DEPS ==== #----------------------#
 $(DIR_OBJ_B)/%.o: $(DIR_SHARED)/%.c Makefile
 	$(MD) $(dir $@) $(DIR_DEP_B)
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $<
+	@$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $<
 	@rm -f *.o
 
 $(DIR_OBJ_B)/%.o: $(DIR_BONUS)/%.c Makefile
 	$(MD) $(dir $@)  $(DIR_DEP_B)
 	$(CC) $(CFLAGS) $(HEADERS_INC) -c $< -o $@
-	$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $<
+	@$(CC) $(DEPFLAGS_B) $(HEADERS_INC) -c $<
 	@rm -f *.o
 
 #-------------------# ==== LINKING & BUILDING PROGRAM ==== #-------------------#
-$(B_NAME): $(BONUS_OBJ) $(LIBS_INC)
+$(NAME_B): $(BONUS_OBJ) $(LIBS_INC)
 	@echo "$(GREEN)-------------- compilation completed ---------------$(RESET)"
 	$(CC) -o $@ $^
-	@echo "$(GREEN)************* your $(B_NAME) is READY **************$(RESET)"
+	@echo "$(GREEN)----------- linking & building completed -----------$(RESET)"
 
 -include $(DEP_B)
 #------------------------------------------------------------------------------#
@@ -166,41 +181,59 @@ ifeq ($(MODE), debug)
 else
 	$(MAKE) -C $(DIR_LIBFT) all
 endif
+	@echo "$(GREEN)------- LIBFT compilation routine terminated -------$(RESET)"
 
 FORCE:
+
+#------------------------------------------------------------------------------#
+############################# RECOMPILATION CALL ###############################
+#------------------------------------------------------------------------------#
+re:
+	$(MAKE) fclean
+	$(MAKE) -j all
+
+re_debug:
+	$(MAKE) fclean
+	$(MAKE) -j MODE=debug
+
+re_bonus:
+	$(MAKE) fclean_bonus
+	$(MAKE) -j bonus
+
+re_debug_bonus:
+	$(MAKE) fclean_bonus
+	$(MAKE) -j bonus MODE=debug
 
 #------------------------------------------------------------------------------#
 ############################### CLEANING RULES #################################
 #------------------------------------------------------------------------------#
 clean:
 	$(MAKE) -C $(DIR_LIBFT) clean & $(MAKE) -C $(DIR_MLX) clean
-	$(RM) $(DIR_TEMP)
-	@echo "$(YELLOW)--- removed temporary files ---$(RESET)"
+	@$(RM) $(DIR_OBJ) $(DIR_DEP)
+	@echo "$(YELLOW)--- removed $(NAME) temporary files ---$(RESET)"
 
 fclean:
 	$(MAKE) -C $(DIR_LIBFT) fclean & $(MAKE) -C $(DIR_MLX) clean
-	$(RM) $(NAME) $(DIR_TEMP)
+	@$(RM) $(NAME) $(DIR_TEMP)
 	@echo "$(YELLOW)--- removed $(NAME) and temporary files ---$(RESET)"
 
-re:
-	$(MAKE) fclean
-	$(MAKE) all
-
-re_debug:
-	$(MAKE) fclean
-	$(MAKE) MODE=debug
+clean_bonus:
+	$(MAKE) -C $(DIR_LIBFT) clean & $(MAKE) -C $(DIR_MLX) clean
+	@$(RM) $(DIR_OBJ_B) $(DIR_DEP_B)
+	@echo "$(YELLOW)--- removed $(NAME_B) temporary files ---$(RESET)"
 
 fclean_bonus:
 	$(MAKE) -C $(DIR_LIBFT) fclean & $(MAKE) -C $(DIR_MLX) clean
-	$(RM) $(B_NAME) $(DIR_TEMP)
-	@echo "$(YELLOW)--- removed $(B_NAME) and temporary files ---$(RESET)"
+	@$(RM) $(NAME_B) $(DIR_TEMP)
+	@echo "$(YELLOW)--- removed $(NAME_B) and temporary files ---$(RESET)"
 
-re_debug_bonus:
-	$(MAKE) fclean_bonus
-	$(MAKE) bonus MODE=debug
+fclean_all:
+	$(MAKE) -C $(DIR_LIBFT) fclean & $(MAKE) -C $(DIR_MLX) clean
+	@$(RM) $(NAME) $(NAME_B) $(DIR_TEMP)
+	@echo "$(YELLOW)--- removed all executables and temporary files ---$(RESET)"
 
-re_bonus:
-	$(MAKE) fclean_bonus
-	$(MAKE) bonus
 
-.PHONY: default all clean fclean re re_debug bonus fclean_bonus re_bonus re_debug_bonus FORCE
+.PHONY: default all debug re_debug \
+		bonus bonus_debug re_bonus \
+		clean fclean re fclean_bonus \
+		fclean_all re_debug_bonus

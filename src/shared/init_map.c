@@ -6,11 +6,12 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:08:50 by fberthou          #+#    #+#             */
-/*   Updated: 2024/11/20 10:36:17 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/27 20:14:40 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+#include "get_next_line.h"
 
 static int	valid_file_content(char *buffer)
 {
