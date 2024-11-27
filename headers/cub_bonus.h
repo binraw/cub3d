@@ -6,7 +6,7 @@
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:05:05 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/11/26 20:53:19 by florian          ###   ########.fr       */
+/*   Updated: 2024/11/27 16:34:47 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB_BONUS_H
 
 # include "libft.h"
-# include "get_next_line.h"
 # include "mlx.h"
 # include "mlx_int.h"
 # include <sys/stat.h>
