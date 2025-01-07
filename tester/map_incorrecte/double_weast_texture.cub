@@ -1,0 +1,13 @@
+NO ./textures/exit.xpm
+WE ./textures/slime.xpm
+EA ./textures/chest.xpm
+WE ./textures/wall.xpm
+
+C 125,       230, 50
+F 124,23,14
+
+1111
+1001
+1001
+1E01
+1111
